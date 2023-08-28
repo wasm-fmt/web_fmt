@@ -11,7 +11,6 @@ cp ./pkg/rome_fmt.js ./pkg/rome_fmt.js.bak
 
 git apply ./patch/rome_fmt.patch
 
-mv ./pkg/rome_fmt.d.ts ./pkg/_rome_fmt.d.ts
 cp -R ./extra/. ./pkg/
 
 ./scripts/package.mjs ./pkg/package.json

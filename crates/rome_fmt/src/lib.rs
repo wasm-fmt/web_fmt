@@ -16,11 +16,37 @@ extern "C" {
     pub type Config;
 }
 
+#[wasm_bindgen(typescript_custom_section)]
+const FORMAT: &'static str = r#"
+export type Filename =
+  | "index.js"
+  | "index.ts"
+  | "index.mjs"
+  | "index.cjs"
+  | "index.mts"
+  | "index.cts"
+  | "index.mjsx"
+  | "index.ctsx"
+  | "index.mtsx"
+  | "index.ctsx"
+  | "index.d.ts"
+  | "index.d.ts"
+  | "index.d.mts"
+  | "index.d.cts"
+  | "index.d.mtsx"
+  | "index.d.ctsx"
+  | (string & {});
+
+export function format(src: string, filename?: Filename, config?: Config): string;
+"#;
+
 #[wasm_bindgen(skip_typescript)]
-pub fn format(src: &str, filename: &str, config: &Config) -> Result<String, String> {
-    let config: &JsValue = config.as_ref();
-    let config: InnerConfig =
-        serde_wasm_bindgen::from_value(config.clone()).map_err(|op| op.to_string())?;
+pub fn format(src: &str, filename: &str, config: Option<Config>) -> Result<String, String> {
+    let config: InnerConfig = if let Some(config) = config {
+        serde_wasm_bindgen::from_value(config.clone()).map_err(|op| op.to_string())?
+    } else {
+        Default::default()
+    };
 
     let syntax = source_type_from_filename(filename);
 
@@ -50,9 +76,10 @@ fn source_type_from_filename(filename: &str) -> SourceType {
     };
 
     match ext {
-        "ts" | "mts" | "cts" => SourceType::ts(),
+        "ts" | "mts" => SourceType::ts(),
         "js" | "mjs" | "jsx" => SourceType::jsx(),
         "cjs" | "cjsx" => SourceType::jsx().with_module_kind(ModuleKind::Script),
+        "cts" | "ctsx" => SourceType::tsx().with_module_kind(ModuleKind::Script),
         _ => SourceType::tsx(),
     }
 }

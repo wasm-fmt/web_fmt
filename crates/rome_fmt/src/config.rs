@@ -20,7 +20,7 @@ export interface Config {
     semicolons?: "as-needed" | "always";
 }"#;
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Default)]
 #[serde(rename_all = "snake_case")]
 pub(crate) struct Config {
     /// The indent style.
