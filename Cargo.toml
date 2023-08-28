@@ -26,7 +26,7 @@ resolver = "2"
     rome_formatter    = { version = "0.0.1" }
     rome_js_formatter = { version = "0.0.2" }
     rome_js_parser    = { version = "0.0.1" }
-    rome_js_syntax    = { version = "0.0.1" }
+    rome_js_syntax    = { version = "0.0.2" }
     serde             = { version = "1.0" }
     serde_json        = { version = "1.0" }
     wasm-bindgen      = "0.2.87"
