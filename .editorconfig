@@ -1,0 +1,11 @@
+# Check http://editorconfig.org for more information
+# This is the main config file for this project:
+root = true
+
+[*]
+charset = utf-8
+indent_size = 4
+end_of_line = lf
+
+[*.{js,ts,mjs}]
+indent_style = tab

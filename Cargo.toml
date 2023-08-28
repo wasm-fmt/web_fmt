@@ -1,0 +1,36 @@
+[workspace]
+members  = ["crates/*"]
+resolver = "2"
+
+    [workspace.package]
+    authors = ["magic-akari <akari.ccino@gmail.com>"]
+    description = "JavaScript/TypeScript formatter powered by wasm ported from Rome"
+    edition = "2021"
+    homepage = "https://github.com/wasm-fmt/rome_fmt"
+    keywords = [
+        "wasm",
+        "JavaScript",
+        "TypeScript",
+        "JSX",
+        "TSX",
+        "formatter",
+        "Rome",
+    ]
+    license = "MIT"
+    readme = "README.md"
+    repository = "https://github.com/wasm-fmt/rome_fmt"
+    version = "0.0.0"
+
+
+    [workspace.dependencies]
+    rome_formatter    = { version = "0.0.1" }
+    rome_js_formatter = { version = "0.0.2" }
+    rome_js_parser    = { version = "0.0.1" }
+    rome_js_syntax    = { version = "0.0.1" }
+    serde             = { version = "1.0" }
+    serde_json        = { version = "1.0" }
+    wasm-bindgen      = "0.2.87"
+
+[profile.release]
+lto       = true
+opt-level = "s"

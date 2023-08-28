@@ -1,0 +1,33 @@
+diff --git a/crates/rome_fmt/pkg/rome_fmt.js b/crates/rome_fmt/pkg/rome_fmt.js
+index 1d29ee1..71c2a12 100644
+--- a/crates/rome_fmt/pkg/rome_fmt.js
++++ b/crates/rome_fmt/pkg/rome_fmt.js
+@@ -211,7 +211,7 @@ function addBorrowedObject(obj) {
+ * @param {Config} config
+ * @returns {string}
+ */
+-export function format(src, filename, config) {
++export function format(src, filename = "file.tsx", config = {}) {
+     let deferred4_0;
+     let deferred4_1;
+     try {
+@@ -512,8 +512,17 @@ async function __wbg_init(input) {
+     }
+     const imports = __wbg_get_imports();
+ 
+-    if (typeof input === 'string' || (typeof Request === 'function' && input instanceof Request) || (typeof URL === 'function' && input instanceof URL)) {
+-        input = fetch(input);
++    switch (true) {
++        case typeof input === 'string':
++            input = new URL(input, import.meta.url);
++        case input instanceof URL:
++            if (typeof __webpack_require__ !== 'function' && input.protocol === 'file:') {
++                const fs = await import('node:fs/promises');
++                input = fs.readFile(input);
++                break;
++            }
++        case typeof Request === 'function' && input instanceof Request:
++            input = fetch(input);
+     }
+ 
+     __wbg_init_memory(imports);

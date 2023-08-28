@@ -1,0 +1,78 @@
+name: Test
+
+on: [push, pull_request]
+
+env:
+    CARGO_INCREMENTAL: 0
+    CARGO_TERM_COLOR: "always"
+    DIFF: 0
+    RUST_LOG: "off"
+
+jobs:
+    cargo-fmt:
+        name: Cargo fmt
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: dtolnay/rust-toolchain@stable
+              with:
+                  components: rustfmt
+
+            - run: cargo fmt -- --check
+
+    cargo-clippy:
+        name: Cargo clippy
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: dtolnay/rust-toolchain@stable
+              with:
+                  components: clippy
+
+            - run: cargo clippy
+
+    cargo-test:
+        name: Cargo test
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: dtolnay/rust-toolchain@stable
+
+            - run: cargo check
+            - run: cargo test
+
+    wasm-test:
+        name: Wasm test
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: dtolnay/rust-toolchain@stable
+
+            - name: Install wasm-pack
+              run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+            - name: Build wasm
+              run: ./crates/rome_fmt/scripts/build.sh
+
+            - uses: actions/setup-node@v3
+              with:
+                  node-version-file: ".node-version"
+
+            - name: Node Test
+              run: node --test
+
+            - uses: denoland/setup-deno@v1
+              with:
+                  deno-version: v1.x
+
+            - name: Deno Test
+              run: deno test --allow-read
+
+            - name: Package
+              run: cd crates/rome_fmt/pkg && npm pack
+
+            - name: Upload
+              uses: actions/upload-artifact@v3
+              with:
+                  name: npm
+                  path: crates/rome_fmt/pkg/wasm-fmt-rome_fmt-*.tgz
