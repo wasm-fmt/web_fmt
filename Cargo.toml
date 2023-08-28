@@ -19,7 +19,7 @@ resolver = "2"
     license = "MIT"
     readme = "README.md"
     repository = "https://github.com/wasm-fmt/rome_fmt"
-    version = "0.0.0"
+    version = "0.0.1"
 
 
     [workspace.dependencies]
