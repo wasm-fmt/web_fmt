@@ -31,17 +31,23 @@ class Foo {
 
 	// two decorators without a newline
 	@dec
-	@dec property;
 	@dec
-	@dec method() {}
+	property;
 	@dec
-	@dec async method() {}
 	@dec
-	@dec *method() {}
+	method() {}
 	@dec
-	@dec get getter() {}
 	@dec
-	@dec set setter(val) {}
+	async method() {}
+	@dec
+	@dec
+	*method() {}
+	@dec
+	@dec
+	get getter() {}
+	@dec
+	@dec
+	set setter(val) {}
 }
 
 class Foo {
@@ -67,25 +73,31 @@ class Foo {
 	@dec /*before*/
 	/*after*/ method() {}
 	@dec /*before*/
-	/*after*/ async method() {}
+	async /*after*/ method() {}
 	@dec /*before*/
-	/*after*/ *method() {}
+	*/*after*/ method() {}
 	@dec /*before*/
-	/*after*/ get getter() {}
+	get /*after*/ getter() {}
 	@dec /*before*/
-	/*after*/ set setter(val) {}
+	set /*after*/ setter(val) {}
 
 	// two decorators without a newline
 	@dec /*before*/
-	/*middle*/ @dec /*after*/ property;
+	/*middle*/ @dec /*after*/
+	property;
 	@dec /*before*/
-	/*middle*/ @dec /*after*/ method() {}
+	/*middle*/ @dec /*after*/
+	method() {}
 	@dec /*before*/
-	/*middle*/ @dec /*after*/ async method() {}
+	/*middle*/ @dec /*after*/
+	async method() {}
 	@dec /*before*/
-	/*middle*/ @dec /*after*/ *method() {}
+	/*middle*/ @dec /*after*/
+	*method() {}
 	@dec /*before*/
-	/*middle*/ @dec /*after*/ get getter() {}
+	/*middle*/ @dec /*after*/
+	get getter() {}
 	@dec /*before*/
-	/*middle*/ @dec /*after*/ set setter(val) {}
+	/*middle*/ @dec /*after*/
+	set setter(val) {}
 }

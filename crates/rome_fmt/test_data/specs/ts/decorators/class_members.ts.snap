@@ -31,17 +31,23 @@ class Foo {
 
 	// two decorators without a newline
 	@dec
-	@dec public property;
 	@dec
-	@dec public method() {}
+	public property;
 	@dec
-	@dec public async method() {}
 	@dec
-	@dec public *method() {}
+	public method() {}
 	@dec
-	@dec public get getter() {}
 	@dec
-	@dec public set setter(val) {}
+	public async method() {}
+	@dec
+	@dec
+	public *method() {}
+	@dec
+	@dec
+	public get getter() {}
+	@dec
+	@dec
+	public set setter(val) {}
 }
 
 class Foo {
@@ -77,15 +83,21 @@ class Foo {
 
 	// two decorators without a newline
 	@dec /*before*/
-	/*middle*/ @dec /*after*/ public property;
+	/*middle*/ @dec /*after*/
+	public property;
 	@dec /*before*/
-	/*middle*/ @dec /*after*/ public method() {}
+	/*middle*/ @dec /*after*/
+	public method() {}
 	@dec /*before*/
-	/*middle*/ @dec /*after*/ public async method() {}
+	/*middle*/ @dec /*after*/
+	public async method() {}
 	@dec /*before*/
-	/*middle*/ @dec /*after*/ public *method() {}
+	/*middle*/ @dec /*after*/
+	public *method() {}
 	@dec /*before*/
-	/*middle*/ @dec /*after*/ public get getter() {}
+	/*middle*/ @dec /*after*/
+	public get getter() {}
 	@dec /*before*/
-	/*middle*/ @dec /*after*/ public set setter(val) {}
+	/*middle*/ @dec /*after*/
+	public set setter(val) {}
 }

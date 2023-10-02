@@ -1,2 +1,5 @@
-@dec1 @dec2 export default
-@dec3 @dec4 class Foo {}
+@dec1
+@dec2
+@dec3
+@dec4
+export default class Foo {}

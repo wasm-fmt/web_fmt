@@ -31,8 +31,8 @@ class Test2 {
 	 */
 
 	@test /* trailing multiline comment
-	 for decorator */ @anotherDecorator()
-
+	 for decorator */
+	@anotherDecorator()
 	// leading comment
 	prop: string;
 }
@@ -51,16 +51,14 @@ class Foo {
 }
 
 export class TestTextFileService {
-	constructor(
-		@ILifecycleService lifecycleService,
-	) {}
+	constructor(@ILifecycleService lifecycleService) {}
 }
 
 @commonEditorContribution
 export class TabCompletionController {}
 
 @Component({
-	selector: 'angular-component',
+	selector: "angular-component",
 })
 class AngularComponent {
 	@Input() myInput: string;
@@ -104,26 +102,14 @@ class Class4 {
 }
 
 class Class5 {
-	method(
-		@Decorator { prop1 }: Type,
-	) {}
+	method(@Decorator { prop1 }: Type) {}
 }
 
 class Class6 {
-	method(
-		@Decorator({}) { prop1 }: Type,
-	) {}
-	method(
-		@Decorator(
-			{}) { prop1 }: Type,
-	) {}
-	method(
-		@Decorator([]) { prop1 }: Type,
-	) {}
-	method(
-		@Decorator(
-			[]) { prop1 }: Type,
-	) {}
+	method(@Decorator({}) { prop1 }: Type) {}
+	method(@Decorator({}) { prop1 }: Type) {}
+	method(@Decorator([]) { prop1 }: Type) {}
+	method(@Decorator([]) { prop1 }: Type) {}
 }
 
 @d1
@@ -158,21 +144,24 @@ class Class3 {
 	constructor(
 		@d1 private x: number,
 		@d2(foo) private y: number,
-		@d3('foo') private z: number,
+		@d3("foo") private z: number,
 		@d4({
-			x: string
-		}) private a: string,
+			x: string,
+		})
+		private a: string,
 	) {}
 }
 
-@decorated class Foo {}
+@decorated
+class Foo {}
 
 class Bar {
 	@decorated method() {}
 }
 
 class MyContainerComponent {
-	@ContentChildren(MyComponent) components: QueryListSomeBigName<MyComponentThat>;
+	@ContentChildren(MyComponent)
+	components: QueryListSomeBigName<MyComponentThat>;
 }
 
 @sealed
@@ -232,7 +221,7 @@ class Class3 {
 		},
 		@d1 private readonly x: number,
 		@d2(foo) private y: number,
-		@d3('foo') private z: number,
+		@d3("foo") private z: number,
 	) {}
 }
 
@@ -250,8 +239,8 @@ class Foo {
 	method(
 		//leading own line
 		/*leading same line*/ @Decorator /*trailing*/
-	//leading own line between
-	/*leading same line between*/ @dec //trailing
+		//leading own line between
+		/*leading same line between*/ @dec //trailing
 		/*leading parameter*/
 		parameter,
 	) {}

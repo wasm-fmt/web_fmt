@@ -1,1 +1,2 @@
-@dec export default class Foo {}
+@dec
+export default class Foo {}
