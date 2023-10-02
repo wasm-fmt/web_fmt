@@ -14,10 +14,6 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3
-            - uses: dtolnay/rust-toolchain@stable
-              with:
-                  components: rustfmt
-
             - run: cargo fmt -- --check
 
     cargo-clippy:
@@ -25,10 +21,6 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3
-            - uses: dtolnay/rust-toolchain@stable
-              with:
-                  components: clippy
-
             - run: cargo clippy
 
     cargo-test:
@@ -36,8 +28,6 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3
-            - uses: dtolnay/rust-toolchain@stable
-
             - run: cargo check
             - run: cargo test
 
@@ -46,8 +36,6 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3
-            - uses: dtolnay/rust-toolchain@stable
-
             - name: Install wasm-pack
               run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
