@@ -1,4 +1,4 @@
-import init, { format } from "../pkg/rome_fmt.js";
+import init, { format } from "../pkg/biome_fmt.js";
 
 import { assertEquals } from "https://deno.land/std@0.200.0/assert/mod.ts";
 import { walk } from "https://deno.land/std@0.200.0/fs/walk.ts";
@@ -17,12 +17,12 @@ for await (const entry of walk(test_root, {
 	const input = Deno.readTextFileSync(entry.path);
 	const expected = Deno.readTextFileSync(entry.path + ".snap");
 
-	const actual = format(input, entry.name);
-
 	if (update) {
+		const actual = format(input, entry.name);
 		Deno.writeTextFileSync(entry.path + ".snap", actual);
 	} else {
 		const test_name = relative(test_root.pathname, entry.path);
+		const actual = format(input, entry.name);
 
 		Deno.test(test_name, () => {
 			assertEquals(actual, expected);

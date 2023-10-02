@@ -52,9 +52,12 @@ jobs:
             - uses: denoland/setup-deno@v1
               with:
                   deno-version: v1.x
-
             - name: Deno Test
               run: deno test --allow-read
+
+            - uses: oven-sh/setup-bun@v1
+            - name: Bun Test
+              run: bun test test_bun
 
             - name: Package
               run: cd crates/biome_fmt/pkg && npm pack
