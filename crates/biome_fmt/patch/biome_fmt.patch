@@ -1,8 +1,8 @@
-diff --git a/crates/rome_fmt/pkg/rome_fmt.js b/crates/rome_fmt/pkg/rome_fmt.js
-index 84a0ed6..46adb67 100644
---- a/crates/rome_fmt/pkg/rome_fmt.js
-+++ b/crates/rome_fmt/pkg/rome_fmt.js
-@@ -199,11 +199,11 @@ function debugString(val) {
+diff --git a/crates/biome_fmt/pkg/biome_fmt.js b/crates/biome_fmt/pkg/biome_fmt.js
+index 50397c4..a477bc0 100644
+--- a/crates/biome_fmt/pkg/biome_fmt.js
++++ b/crates/biome_fmt/pkg/biome_fmt.js
+@@ -190,11 +190,11 @@ function debugString(val) {
  }
  /**
  * @param {string} src
@@ -17,7 +17,7 @@ index 84a0ed6..46adb67 100644
      let deferred4_0;
      let deferred4_1;
      try {
-@@ -503,8 +503,17 @@ async function __wbg_init(input) {
+@@ -431,8 +431,17 @@ async function __wbg_init(input) {
      }
      const imports = __wbg_get_imports();
  

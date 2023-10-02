@@ -1,6 +1,6 @@
 {
     "deno.enable": true,
     "deno.enablePaths": [
-        "./crates/rome_fmt/test_deno"
+        "./crates/biome_fmt/test_deno"
     ]
 }

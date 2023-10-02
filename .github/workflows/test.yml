@@ -40,7 +40,7 @@ jobs:
               run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
             - name: Build wasm
-              run: ./crates/rome_fmt/scripts/build.sh
+              run: ./crates/biome_fmt/scripts/build.sh
 
             - uses: actions/setup-node@v3
               with:
@@ -57,10 +57,10 @@ jobs:
               run: deno test --allow-read
 
             - name: Package
-              run: cd crates/rome_fmt/pkg && npm pack
+              run: cd crates/biome_fmt/pkg && npm pack
 
             - name: Upload
               uses: actions/upload-artifact@v3
               with:
                   name: npm
-                  path: crates/rome_fmt/pkg/wasm-fmt-rome_fmt-*.tgz
+                  path: crates/biome_fmt/pkg/wasm-fmt-biome_fmt-*.tgz

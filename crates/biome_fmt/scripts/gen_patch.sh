@@ -1,4 +1,4 @@
-# assert current dir is crates/rome_fmt
+# assert current dir is crates/biome_fmt
 cd $(dirname $0)/..
 crates_dir=$(pwd)
 
@@ -10,11 +10,11 @@ tmp_dir=$(mktemp -d)
 cd $tmp_dir
 git init
 
-cp $crates_dir/pkg/rome_fmt.js.bak $tmp_dir/rome_fmt.js
+cp $crates_dir/pkg/biome_fmt.js.bak $tmp_dir/biome_fmt.js
 git add -f .
 git commit -m "init"
 
-cp $crates_dir/pkg/rome_fmt.js $tmp_dir/rome_fmt.js
+cp $crates_dir/pkg/biome_fmt.js $tmp_dir/biome_fmt.js
 git add -f .
 
 git diff \
@@ -24,6 +24,6 @@ git diff \
     --no-ext-diff \
     --src-prefix=a/$pkg_prefix \
     --dst-prefix=b/$pkg_prefix \
-    >$crates_dir/patch/rome_fmt.patch
+    >$crates_dir/patch/biome_fmt.patch
 
 rm -rf $tmp_dir

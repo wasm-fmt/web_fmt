@@ -16,11 +16,11 @@ pkg_json.publishConfig = {
 };
 pkg_json.exports = {
     ".": {
-        types: "./rome_fmt.d.ts",
-        default: "./rome_fmt.js",
+        types: "./biome_fmt.d.ts",
+        default: "./biome_fmt.js",
     },
     "./vite": {
-        types: "./rome_fmt.d.ts",
+        types: "./biome_fmt.d.ts",
         default: "./vite.js",
     },
     "./package.json": "./package.json",
