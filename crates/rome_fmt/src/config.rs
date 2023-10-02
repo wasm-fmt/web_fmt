@@ -1,18 +1,15 @@
-use std::borrow::Cow;
+use biome_formatter::{IndentStyle as BiomeIndentStyle, LineWidthFromIntError};
+use biome_js_formatter::context::JsFormatOptions;
+use biome_js_syntax::JsFileSource;
 
-use rome_formatter::{IndentStyle as RomeIndentStyle, LineWidthFromIntError};
-use rome_js_formatter::context::JsFormatOptions;
-use rome_js_syntax::SourceType;
-use serde::{
-    de::{Error, Unexpected},
-    Deserialize, Deserializer,
-};
+use serde::Deserialize;
 use wasm_bindgen::prelude::wasm_bindgen;
 
 #[wasm_bindgen(typescript_custom_section)]
 const TS_Config: &'static str = r#"
 export interface Config {
-    indent_style?: "tab" | number;
+    indent_style?: "tab" | "space";
+    indent_width?: number;
     line_width?: number;
     quote_style?: "single" | "double";
     quote_properties?: "as-needed" | "preserve";
@@ -25,6 +22,9 @@ export interface Config {
 pub(crate) struct Config {
     /// The indent style.
     indent_style: Option<IndentStyle>,
+
+    /// The indent width.
+    indent_width: Option<u8>,
 
     /// What's the max width of a line. Defaults to 80.
     line_width: Option<u16>,
@@ -42,11 +42,11 @@ pub(crate) struct Config {
     semicolons: Option<String>,
 
     #[serde(skip)]
-    source_type: Option<SourceType>,
+    source_type: Option<JsFileSource>,
 }
 
 impl Config {
-    pub fn with_source_type(mut self, source_type: SourceType) -> Self {
+    pub fn with_source_type(mut self, source_type: JsFileSource) -> Self {
         self.source_type = Some(source_type);
         self
     }
@@ -61,13 +61,12 @@ impl TryFrom<Config> for JsFormatOptions {
         let mut option = JsFormatOptions::new(source_type);
 
         if let Some(indent_style) = value.indent_style {
-            let indent_style = match indent_style {
-                IndentStyle::Tab => RomeIndentStyle::Tab,
-                IndentStyle::Space(size) => RomeIndentStyle::Space(size),
-            };
-
-            option = option.with_indent_style(indent_style);
+            option = option.with_indent_style(indent_style.into());
         };
+
+        if let Some(indent_width) = value.indent_width {
+            option = option.with_indent_width(indent_width.into());
+        }
 
         if let Some(line_width) = value.line_width {
             let line_width =
@@ -104,29 +103,18 @@ impl TryFrom<Config> for JsFormatOptions {
     }
 }
 
+#[derive(Clone, Copy, Deserialize)]
+#[serde(rename_all = "snake_case")]
 enum IndentStyle {
     Tab,
-    Space(u8),
+    Space,
 }
 
-impl<'de> Deserialize<'de> for IndentStyle {
-    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
-    where
-        D: Deserializer<'de>,
-    {
-        #[derive(Deserialize)]
-        #[serde(untagged)]
-        enum IndentStyle<'a> {
-            Tab(Cow<'a, str>),
-            Space(u8),
-        }
-
-        match IndentStyle::deserialize(deserializer)? {
-            IndentStyle::Space(n) => Ok(Self::Space(n)),
-            IndentStyle::Tab(c) if c == "tab" => Ok(Self::Tab),
-            IndentStyle::Tab(other) => {
-                Err(D::Error::invalid_value(Unexpected::Str(&other), &"<number> or `tab`"))
-            }
+impl From<IndentStyle> for BiomeIndentStyle {
+    fn from(value: IndentStyle) -> Self {
+        match value {
+            IndentStyle::Tab => Self::Tab,
+            IndentStyle::Space => Self::Space,
         }
     }
 }

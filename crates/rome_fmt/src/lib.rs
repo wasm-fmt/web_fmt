@@ -2,9 +2,9 @@ mod config;
 
 use std::path::Path;
 
-use rome_js_formatter::format_node;
-use rome_js_parser::parse;
-use rome_js_syntax::{ModuleKind, SourceType};
+use biome_js_formatter::format_node;
+use biome_js_parser::{parse, JsParserOptions};
+use biome_js_syntax::{JsFileSource, ModuleKind};
 
 use wasm_bindgen::prelude::*;
 
@@ -48,11 +48,12 @@ pub fn format(src: &str, filename: &str, config: Option<Config>) -> Result<Strin
         Default::default()
     };
 
-    let syntax = source_type_from_filename(filename);
+    let source_type = source_type_from_filename(filename);
 
-    let tree = parse(src, syntax);
+    let tree =
+        parse(src, source_type, JsParserOptions::default().with_parse_class_parameter_decorators());
 
-    let option = config.with_source_type(syntax).try_into()?;
+    let option = config.with_source_type(source_type).try_into()?;
 
     format_node(option, &tree.syntax())
         .map_err(|e| e.to_string())?
@@ -61,25 +62,25 @@ pub fn format(src: &str, filename: &str, config: Option<Config>) -> Result<Strin
         .map_err(|e| e.to_string())
 }
 
-fn source_type_from_filename(filename: &str) -> SourceType {
+fn source_type_from_filename(filename: &str) -> JsFileSource {
     if filename.ends_with(".d.ts")
         || filename.ends_with(".d.mts")
         || filename.ends_with(".d.cts")
         || filename.ends_with(".d.mtsx")
         || filename.ends_with(".d.ctsx")
     {
-        return SourceType::d_ts();
+        return JsFileSource::d_ts();
     }
 
     let Some(ext) = Path::new(filename).extension().and_then(|ext| ext.to_str()) else {
-        return SourceType::tsx();
+        return JsFileSource::tsx();
     };
 
     match ext {
-        "ts" | "mts" => SourceType::ts(),
-        "js" | "mjs" | "jsx" => SourceType::jsx(),
-        "cjs" | "cjsx" => SourceType::jsx().with_module_kind(ModuleKind::Script),
-        "cts" | "ctsx" => SourceType::tsx().with_module_kind(ModuleKind::Script),
-        _ => SourceType::tsx(),
+        "ts" | "mts" => JsFileSource::ts(),
+        "js" | "mjs" | "jsx" => JsFileSource::jsx(),
+        "cjs" | "cjsx" => JsFileSource::jsx().with_module_kind(ModuleKind::Script),
+        "cts" | "ctsx" => JsFileSource::tsx().with_module_kind(ModuleKind::Script),
+        _ => JsFileSource::tsx(),
     }
 }
