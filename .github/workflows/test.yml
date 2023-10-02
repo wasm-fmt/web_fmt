@@ -31,39 +31,70 @@ jobs:
             - run: cargo check
             - run: cargo test
 
-    wasm-test:
-        name: Wasm test
+    wasm-build:
+        name: Wasm build
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3
+
             - name: Install wasm-pack
               run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
             - name: Build wasm
               run: ./crates/biome_fmt/scripts/build.sh
 
-            - uses: actions/setup-node@v3
-              with:
-                  node-version-file: ".node-version"
-
-            - name: Node Test
-              run: node --test
-
-            - uses: denoland/setup-deno@v1
-              with:
-                  deno-version: v1.x
-            - name: Deno Test
-              run: deno test --allow-read
-
-            - uses: oven-sh/setup-bun@v1
-            - name: Bun Test
-              run: bun test test_bun
-
-            - name: Package
+            - name: npm pack
               run: cd crates/biome_fmt/pkg && npm pack
 
             - name: Upload
               uses: actions/upload-artifact@v3
               with:
-                  name: npm
-                  path: crates/biome_fmt/pkg/wasm-fmt-biome_fmt-*.tgz
+                  name: build
+                  path: crates/biome_fmt/pkg
+
+    node-test:
+        runs-on: ubuntu-latest
+        needs: wasm-build
+        steps:
+            - uses: actions/checkout@v3
+            - uses: actions/download-artifact@v3
+              with:
+                  name: build
+                  path: crates/biome_fmt/pkg/
+
+            - uses: actions/setup-node@v3
+              with:
+                  node-version-file: ".node-version"
+
+            - run: node --test
+
+    deno-test:
+        runs-on: ubuntu-latest
+        needs: wasm-build
+        steps:
+            - uses: actions/checkout@v3
+            - uses: actions/download-artifact@v3
+              with:
+                  name: build
+                  path: crates/biome_fmt/pkg/
+
+            - uses: denoland/setup-deno@v1
+              with:
+                  deno-version: v1.x
+
+            - run: deno test --allow-read
+
+    bun-test:
+        runs-on: ubuntu-latest
+        needs: wasm-build
+        steps:
+            - uses: actions/checkout@v3
+            - uses: actions/download-artifact@v3
+              with:
+                  name: build
+                  path: crates/biome_fmt/pkg/
+
+            - uses: oven-sh/setup-bun@v1
+              name: Install bun
+
+            - run: bun test test_bun
