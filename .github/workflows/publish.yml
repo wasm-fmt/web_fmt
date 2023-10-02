@@ -23,7 +23,7 @@ jobs:
               run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
             - name: Build wasm
-              run: ./crates/rome_fmt/scripts/build.sh
+              run: ./crates/biome_fmt/scripts/build.sh
 
             - uses: actions/setup-node@v3
               with:
@@ -31,7 +31,7 @@ jobs:
                   registry-url: "https://registry.npmjs.org"
 
             - run: |
-                  cd crates/rome_fmt/pkg
+                  cd crates/biome_fmt/pkg
                   npm publish --provenance
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -48,7 +48,7 @@ jobs:
               run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
             - name: Build wasm
-              run: ./crates/rome_fmt/scripts/build.sh
+              run: ./crates/biome_fmt/scripts/build.sh
 
             - uses: actions/setup-node@v3
               with:
@@ -56,7 +56,7 @@ jobs:
                   registry-url: "https://npm.pkg.github.com"
 
             - run: |
-                  cd crates/rome_fmt/pkg
+                  cd crates/biome_fmt/pkg
                   npm publish
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -75,13 +75,13 @@ jobs:
             - name: Build wasm
               run: |
                   # build for JS API
-                  ./crates/rome_fmt/scripts/build.sh
+                  ./crates/biome_fmt/scripts/build.sh
 
             - name: Package
-              run: cd crates/rome_fmt/pkg && npm pack
+              run: cd crates/biome_fmt/pkg && npm pack
 
             - name: Release
               uses: softprops/action-gh-release@c9b46fe7aad9f02afd89b12450b780f52dacfb2d
               with:
                   files: |
-                      crates/rome_fmt/pkg/wasm-fmt-rome_fmt-*.tgz
+                      crates/biome_fmt/pkg/wasm-fmt-biome_fmt-*.tgz
