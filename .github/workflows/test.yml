@@ -13,21 +13,21 @@ jobs:
         name: Cargo fmt
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v4
             - run: cargo fmt -- --check
 
     cargo-clippy:
         name: Cargo clippy
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v4
             - run: cargo clippy
 
     cargo-test:
         name: Cargo test
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v4
             - run: cargo check
             - run: cargo test
 
@@ -35,7 +35,7 @@ jobs:
         name: Wasm build
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v4
 
             - name: Install wasm-pack
               run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
@@ -56,7 +56,7 @@ jobs:
         runs-on: ubuntu-latest
         needs: wasm-build
         steps:
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v4
             - uses: actions/download-artifact@v3
               with:
                   name: build
@@ -72,7 +72,7 @@ jobs:
         runs-on: ubuntu-latest
         needs: wasm-build
         steps:
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v4
             - uses: actions/download-artifact@v3
               with:
                   name: build
@@ -88,7 +88,7 @@ jobs:
         runs-on: ubuntu-latest
         needs: wasm-build
         steps:
-            - uses: actions/checkout@v3
+            - uses: actions/checkout@v4
             - uses: actions/download-artifact@v3
               with:
                   name: build
