@@ -14,7 +14,7 @@ for await (const dirent of await fs.opendir(test_root, { recursive: true })) {
 		continue;
 	}
 
-	const input_path = dirent.path;
+	const input_path = path.join(dirent.path, dirent.name);
 	const ext = path.extname(input_path);
 
 	switch (ext) {
