@@ -25,7 +25,7 @@ jobs:
             - name: Build wasm
               run: ./crates/biome_fmt/scripts/build.sh
 
-            - uses: actions/setup-node@v3
+            - uses: actions/setup-node@v4
               with:
                   node-version-file: ".node-version"
                   registry-url: "https://registry.npmjs.org"
@@ -50,7 +50,7 @@ jobs:
             - name: Build wasm
               run: ./crates/biome_fmt/scripts/build.sh
 
-            - uses: actions/setup-node@v3
+            - uses: actions/setup-node@v4
               with:
                   node-version-file: ".node-version"
                   registry-url: "https://npm.pkg.github.com"
