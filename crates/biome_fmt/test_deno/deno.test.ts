@@ -22,9 +22,9 @@ for await (const entry of walk(test_root, {
 		Deno.writeTextFileSync(entry.path + ".snap", actual);
 	} else {
 		const test_name = relative(test_root.pathname, entry.path);
-		const actual = format(input, entry.name);
 
 		Deno.test(test_name, () => {
+			const actual = format(input, entry.name);
 			assertEquals(actual, expected);
 		});
 	}
