@@ -1,5 +1,5 @@
 diff --git a/crates/biome_fmt/pkg/biome_fmt.js b/crates/biome_fmt/pkg/biome_fmt.js
-index 50397c4..a477bc0 100644
+index f3ae47d..16b6de5 100644
 --- a/crates/biome_fmt/pkg/biome_fmt.js
 +++ b/crates/biome_fmt/pkg/biome_fmt.js
 @@ -190,11 +190,11 @@ function debugString(val) {
@@ -7,9 +7,8 @@ index 50397c4..a477bc0 100644
  /**
  * @param {string} src
 -* @param {string} filename
--* @param {Config | undefined} config
 +* @param {string | undefined} [filename]
-+* @param {Config | undefined} [config]
+ * @param {Config | undefined} [config]
  * @returns {string}
  */
 -export function format(src, filename, config) {
