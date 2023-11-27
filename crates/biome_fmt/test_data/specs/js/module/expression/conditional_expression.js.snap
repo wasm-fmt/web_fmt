@@ -14,5 +14,5 @@ somethingThatsAReallyLongPropName
 somethingThatsAReallyLongPropName
 	? somethingThatsAReallyLongPropName
 	: somethingThatsAReallyLongPropName
-	? somethingThatsAReallyLongPropName
-	: somethingThatsAReallyLongPropName;
+	  ? somethingThatsAReallyLongPropName
+	  : somethingThatsAReallyLongPropName;
