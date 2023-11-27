@@ -1,4 +1,4 @@
-use biome_formatter::{IndentStyle as BiomeIndentStyle, LineEnding, LineWidthFromIntError};
+use biome_formatter::{IndentStyle as BiomeIndentStyle, LineWidthFromIntError};
 use biome_js_formatter::context::JsFormatOptions;
 use biome_js_syntax::JsFileSource;
 
