@@ -15,13 +15,13 @@ for await (const entry of walk(test_root, {
 	exts: ["js", "jsx", "ts", "tsx"],
 })) {
 	const input = Deno.readTextFileSync(entry.path);
-	const expected = Deno.readTextFileSync(entry.path + ".snap");
 
 	if (update) {
 		const actual = format(input, entry.name);
 		Deno.writeTextFileSync(entry.path + ".snap", actual);
 	} else {
 		const test_name = relative(test_root.pathname, entry.path);
+		const expected = Deno.readTextFileSync(entry.path + ".snap");
 
 		Deno.test(test_name, () => {
 			const actual = format(input, entry.name);
