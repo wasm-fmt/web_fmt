@@ -57,7 +57,7 @@ jobs:
         needs: wasm-build
         steps:
             - uses: actions/checkout@v4
-            - uses: actions/download-artifact@v3
+            - uses: actions/download-artifact@v4
               with:
                   name: build
                   path: crates/biome_fmt/pkg/
@@ -73,7 +73,7 @@ jobs:
         needs: wasm-build
         steps:
             - uses: actions/checkout@v4
-            - uses: actions/download-artifact@v3
+            - uses: actions/download-artifact@v4
               with:
                   name: build
                   path: crates/biome_fmt/pkg/
@@ -89,7 +89,7 @@ jobs:
         needs: wasm-build
         steps:
             - uses: actions/checkout@v4
-            - uses: actions/download-artifact@v3
+            - uses: actions/download-artifact@v4
               with:
                   name: build
                   path: crates/biome_fmt/pkg/
