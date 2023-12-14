@@ -47,7 +47,7 @@ jobs:
               run: cd crates/biome_fmt/pkg && npm pack
 
             - name: Upload
-              uses: actions/upload-artifact@v3
+              uses: actions/upload-artifact@v4
               with:
                   name: build
                   path: crates/biome_fmt/pkg
