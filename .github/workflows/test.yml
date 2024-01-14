@@ -66,7 +66,7 @@ jobs:
               with:
                   node-version-file: ".node-version"
 
-            - run: node --test
+            - run: node --test crates/biome_fmt/test_node
 
     deno-test:
         runs-on: ubuntu-latest
