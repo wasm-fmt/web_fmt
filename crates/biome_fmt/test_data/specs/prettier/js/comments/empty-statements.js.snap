@@ -1,0 +1,11 @@
+a; /* a */ /* c */ // b
+
+foo; // first // second // third
+
+function x() {} // first // second
+
+a =
+	b + // 1 // 2
+	c + // 3 // 4
+	d /* 6 */ + // 5
+	e; // 7

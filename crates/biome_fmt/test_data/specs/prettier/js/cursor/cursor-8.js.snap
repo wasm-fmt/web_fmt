@@ -1,0 +1,4 @@
+func<|>tion
+banana();
+{
+}

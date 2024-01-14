@@ -1,0 +1,24 @@
+verylongidentifierthatwillwrap123123123123123(
+	// prettier-ignore
+	// Some other comment here
+	a.b.c,
+);
+
+call(
+	// comment
+	// prettier-ignore
+	a.b,
+);
+
+call(
+	// prettier-ignore
+	a(
+		/*
+this won't get formatted too,
+because the prettier-ignore comment is attached as MemberExpression leading comment
+*/
+		1,
+		2.0,
+		3,
+	).c,
+);
