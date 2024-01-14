@@ -82,7 +82,7 @@ jobs:
               with:
                   deno-version: v1.x
 
-            - run: deno test --allow-read
+            - run: deno test --allow-read crates/biome_fmt/test_deno
 
     bun-test:
         runs-on: ubuntu-latest

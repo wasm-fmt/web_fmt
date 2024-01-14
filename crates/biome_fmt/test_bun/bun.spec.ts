@@ -23,6 +23,10 @@ async function* walk(dir: string): AsyncGenerator<string> {
 const test_root = Bun.fileURLToPath(new URL("../test_data", import.meta.url));
 
 for await (const input_path of walk(test_root)) {
+	if (path.basename(input_path).startsWith(".")) {
+		continue;
+	}
+
 	const ext = path.extname(input_path);
 
 	switch (ext) {

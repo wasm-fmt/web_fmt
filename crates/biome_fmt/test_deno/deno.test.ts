@@ -14,6 +14,10 @@ for await (const entry of walk(test_root, {
 	includeDirs: false,
 	exts: ["js", "jsx", "ts", "tsx"],
 })) {
+	if (entry.name.startsWith(".")) {
+		continue;
+	}
+
 	const input = Deno.readTextFileSync(entry.path);
 
 	if (update) {

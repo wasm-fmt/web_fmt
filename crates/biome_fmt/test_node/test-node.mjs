@@ -14,6 +14,10 @@ for await (const dirent of await fs.opendir(test_root, { recursive: true })) {
 		continue;
 	}
 
+	if (dirent.name.startsWith(".")) {
+		continue;
+	}
+
 	const input_path = path.join(dirent.path, dirent.name);
 	const ext = path.extname(input_path);
 
