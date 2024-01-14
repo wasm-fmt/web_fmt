@@ -3,7 +3,10 @@ class B {
 }
 
 class A {
-	constructor(private readonly a: string, readonly b: string) {}
+	constructor(
+		private readonly a: string,
+		readonly b: string,
+	) {}
 }
 
 class C {
