@@ -1,7 +1,7 @@
 import { expect, test } from "bun:test";
 import fs from "node:fs/promises";
 import path from "node:path";
-import init, { format } from "../pkg/biome_fmt.js";
+import init, { format } from "../pkg";
 
 await init();
 

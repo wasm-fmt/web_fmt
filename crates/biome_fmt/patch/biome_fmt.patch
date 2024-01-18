@@ -1,5 +1,5 @@
 diff --git a/crates/biome_fmt/pkg/biome_fmt.js b/crates/biome_fmt/pkg/biome_fmt.js
-index 9346f58..0df4595 100644
+index 9346f58..821d708 100644
 --- a/crates/biome_fmt/pkg/biome_fmt.js
 +++ b/crates/biome_fmt/pkg/biome_fmt.js
 @@ -190,11 +190,11 @@ function debugString(val) {
@@ -16,23 +16,3 @@ index 9346f58..0df4595 100644
      let deferred4_0;
      let deferred4_1;
      try {
-@@ -431,8 +431,17 @@ async function __wbg_init(input) {
-     }
-     const imports = __wbg_get_imports();
- 
--    if (typeof input === 'string' || (typeof Request === 'function' && input instanceof Request) || (typeof URL === 'function' && input instanceof URL)) {
--        input = fetch(input);
-+    switch (true) {
-+        case typeof input === 'string':
-+            input = new URL(input, import.meta.url);
-+        case input instanceof URL:
-+            if (typeof __webpack_require__ !== 'function' && input.protocol === 'file:') {
-+                const fs = await import('node:fs/promises');
-+                input = fs.readFile(input);
-+                break;
-+            }
-+        case typeof Request === 'function' && input instanceof Request:
-+            input = fetch(input);
-     }
- 
-     __wbg_init_memory(imports);

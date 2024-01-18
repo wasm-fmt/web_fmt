@@ -12,19 +12,20 @@ delete pkg_json.files;
 pkg_json.main = pkg_json.module;
 pkg_json.type = "module";
 pkg_json.publishConfig = {
-    access: "public",
+	access: "public",
 };
 pkg_json.exports = {
-    ".": {
-        types: "./biome_fmt.d.ts",
-        default: "./biome_fmt.js",
-    },
-    "./vite": {
-        types: "./biome_fmt.d.ts",
-        default: "./vite.js",
-    },
-    "./package.json": "./package.json",
-    "./*": "./*",
+	".": {
+		types: "./biome_fmt.d.ts",
+		node: "./biome_fmt_node.js",
+		default: "./biome_fmt.js",
+	},
+	"./vite": {
+		types: "./biome_fmt.d.ts",
+		default: "./biome_fmt_vite.js",
+	},
+	"./package.json": "./package.json",
+	"./*": "./*",
 };
 
 fs.writeFileSync(pkg_path, JSON.stringify(pkg_json, null, 4));
