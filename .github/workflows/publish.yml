@@ -85,3 +85,4 @@ jobs:
               with:
                   files: |
                       crates/biome_fmt/pkg/wasm-fmt-biome_fmt-*.tgz
+                      crates/biome_fmt/pkg/biome_fmt_bg.wasm
