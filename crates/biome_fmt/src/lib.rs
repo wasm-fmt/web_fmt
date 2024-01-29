@@ -18,24 +18,11 @@ extern "C" {
 
 #[wasm_bindgen(typescript_custom_section)]
 const FORMAT: &'static str = r#"
-export type Filename =
-  | "index.js"
-  | "index.ts"
-  | "index.mjs"
-  | "index.cjs"
-  | "index.mts"
-  | "index.cts"
-  | "index.mjsx"
-  | "index.ctsx"
-  | "index.mtsx"
-  | "index.ctsx"
-  | "index.d.ts"
-  | "index.d.ts"
-  | "index.d.mts"
-  | "index.d.cts"
-  | "index.d.mtsx"
-  | "index.d.ctsx"
-  | (string & {});
+type Mod = "" | "m" | "c";
+type Lang = "j" | "t";
+type X = "" | "x";
+
+export type Filename = `index.${Mod}${"t" | "j"}s${X}` | `index.d.${Mod}ts${X}` | (string & {});
 
 export function format(src: string, filename?: Filename, config?: Config): string;
 "#;
