@@ -1,21 +1,23 @@
 mod config;
 
-use std::path::Path;
+pub use config::BiomeConfig;
+pub use config::IndentStyle;
 
 use biome_js_formatter::format_node;
 use biome_js_parser::{parse, JsParserOptions};
-use biome_js_syntax::{JsFileSource, ModuleKind};
+use biome_js_syntax::{JsFileSource, LanguageVariant, ModuleKind};
 
+#[cfg(feature = "wasm-bindgen")]
 use wasm_bindgen::prelude::*;
 
-use crate::config::Config as InnerConfig;
-
+#[cfg(feature = "wasm-bindgen")]
 #[wasm_bindgen]
 extern "C" {
     #[wasm_bindgen(typescript_type = "Config")]
     pub type Config;
 }
 
+#[cfg(feature = "wasm-bindgen")]
 #[wasm_bindgen(typescript_custom_section)]
 const FORMAT: &'static str = r#"
 type Mod = "" | "m" | "c";
@@ -27,14 +29,23 @@ export type Filename = `index.${Mod}${"t" | "j"}s${X}` | `index.d.${Mod}ts${X}` 
 export function format(src: string, filename?: Filename, config?: Config): string;
 "#;
 
+#[cfg(feature = "wasm-bindgen")]
 #[wasm_bindgen(skip_typescript)]
 pub fn format(src: &str, filename: &str, config: Option<Config>) -> Result<String, String> {
-    let config: InnerConfig = if let Some(config) = config {
-        serde_wasm_bindgen::from_value(config.clone()).map_err(|op| op.to_string())?
-    } else {
-        Default::default()
-    };
+    let config = config
+        .map(|x| serde_wasm_bindgen::from_value(x.clone()))
+        .transpose()
+        .map_err(|op| op.to_string())?
+        .unwrap_or_default();
 
+    format_script_with_config(src, filename, config)
+}
+
+pub fn format_script_with_config(
+    src: &str,
+    filename: &str,
+    config: BiomeConfig,
+) -> Result<String, String> {
     let source_type = source_type_from_filename(filename);
 
     let tree =
@@ -49,25 +60,70 @@ pub fn format(src: &str, filename: &str, config: Option<Config>) -> Result<Strin
         .map_err(|e| e.to_string())
 }
 
-fn source_type_from_filename(filename: &str) -> JsFileSource {
-    if filename.ends_with(".d.ts")
-        || filename.ends_with(".d.mts")
-        || filename.ends_with(".d.cts")
-        || filename.ends_with(".d.mtsx")
-        || filename.ends_with(".d.ctsx")
-    {
-        return JsFileSource::d_ts();
+pub(crate) fn source_type_from_filename(mut filename: &str) -> JsFileSource {
+    let mut err_flag = false;
+    let mut x_flag = false;
+    let mut t_flag = false;
+    let mut m_flag = None;
+    let mut d_flag = false;
+
+    'err: {
+        if let Some(s) = filename.strip_suffix(['x', 'X']) {
+            filename = s;
+            x_flag = true;
+        }
+
+        let Some(s) = filename.strip_suffix(['s', 'S']) else {
+            err_flag = true;
+            break 'err;
+        };
+        filename = s;
+
+        if let Some(s) = filename.strip_suffix(['t', 'T']) {
+            filename = s;
+            t_flag = true;
+        }
+
+        if let Some(s) = filename.strip_suffix(['m', 'M']) {
+            filename = s;
+            m_flag = Some(ModuleKind::Module);
+        } else if let Some(s) = filename.strip_suffix(['c', 'C']) {
+            filename = s;
+            m_flag = Some(ModuleKind::Script);
+        }
+
+        let Some(s) = filename.strip_suffix(['.']) else {
+            err_flag = true;
+            break 'err;
+        };
+        filename = s;
+
+        if filename.strip_suffix(['d', 'D']).and_then(|s| s.strip_suffix(['.'])).is_some() {
+            d_flag = true;
+        }
     }
 
-    let Some(ext) = Path::new(filename).extension().and_then(|ext| ext.to_str()) else {
+    if err_flag {
         return JsFileSource::tsx();
+    }
+
+    let source = if t_flag {
+        if d_flag {
+            JsFileSource::d_ts()
+        } else {
+            JsFileSource::ts()
+        }
+    } else {
+        JsFileSource::js_module()
+    };
+    let kind = m_flag.unwrap_or_default();
+    let variant = if x_flag || kind.is_module() {
+        LanguageVariant::Jsx
+    } else if m_flag.is_some() {
+        LanguageVariant::StandardRestricted
+    } else {
+        LanguageVariant::Standard
     };
 
-    match ext {
-        "ts" | "mts" => JsFileSource::ts(),
-        "js" | "mjs" | "jsx" => JsFileSource::jsx(),
-        "cjs" | "cjsx" => JsFileSource::jsx().with_module_kind(ModuleKind::Script),
-        "cts" | "ctsx" => JsFileSource::tsx().with_module_kind(ModuleKind::Script),
-        _ => JsFileSource::tsx(),
-    }
+    source.with_module_kind(kind).with_variant(variant)
 }

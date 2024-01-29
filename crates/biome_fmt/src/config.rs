@@ -3,8 +3,11 @@ use biome_js_formatter::context::JsFormatOptions;
 use biome_js_syntax::JsFileSource;
 
 use serde::Deserialize;
+
+#[cfg(feature = "wasm-bindgen")]
 use wasm_bindgen::prelude::wasm_bindgen;
 
+#[cfg(feature = "wasm-bindgen")]
 #[wasm_bindgen(typescript_custom_section)]
 const TS_Config: &'static str = r#"
 export interface Config {
@@ -22,9 +25,9 @@ export interface Config {
     bracket_same_line?: boolean;
 }"#;
 
-#[derive(Deserialize, Default)]
+#[derive(Deserialize, Default, Clone)]
 #[serde(rename_all = "snake_case")]
-pub(crate) struct Config {
+pub struct BiomeConfig {
     /// The indent style.
     indent_style: Option<IndentStyle>,
 
@@ -65,17 +68,44 @@ pub(crate) struct Config {
     source_type: Option<JsFileSource>,
 }
 
-impl Config {
+impl BiomeConfig {
     pub fn with_source_type(mut self, source_type: JsFileSource) -> Self {
         self.source_type = Some(source_type);
         self
     }
+
+    pub fn with_indent_style(mut self, indent_style: IndentStyle) -> Self {
+        self.indent_style = Some(indent_style);
+        self
+    }
+
+    pub fn with_indent_width(mut self, indent_width: u8) -> Self {
+        self.indent_width = Some(indent_width);
+        self
+    }
+
+    pub fn with_line_width(mut self, line_width: u16) -> Self {
+        self.line_width = Some(line_width);
+        self
+    }
+
+    pub fn indent_style(&self) -> Option<IndentStyle> {
+        self.indent_style
+    }
+
+    pub fn indent_width(&self) -> Option<u8> {
+        self.indent_width
+    }
+
+    pub fn line_width(&self) -> Option<u16> {
+        self.line_width
+    }
 }
 
-impl TryFrom<Config> for JsFormatOptions {
+impl TryFrom<BiomeConfig> for JsFormatOptions {
     type Error = String;
 
-    fn try_from(value: Config) -> Result<Self, Self::Error> {
+    fn try_from(value: BiomeConfig) -> Result<Self, Self::Error> {
         let source_type = value.source_type.expect("source_type is required");
 
         let mut option = JsFormatOptions::new(source_type);
@@ -151,7 +181,7 @@ impl TryFrom<Config> for JsFormatOptions {
 
 #[derive(Clone, Copy, Deserialize)]
 #[serde(rename_all = "snake_case")]
-enum IndentStyle {
+pub enum IndentStyle {
     Tab,
     Space,
 }

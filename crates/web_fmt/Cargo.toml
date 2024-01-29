@@ -1,29 +1,23 @@
 [package]
 authors.workspace    = true
-description          = "JavaScript/TypeScript formatter powered by wasm ported from Biome"
+description          = "a formatter for web development powered by wasm"
 edition.workspace    = true
 homepage.workspace   = true
 keywords.workspace   = true
 license.workspace    = true
-name                 = "biome_fmt"
+name                 = "web_fmt"
 publish              = true
 repository.workspace = true
 version.workspace    = true
 
-[features]
-default      = ["wasm-bindgen"]
-wasm-bindgen = []
-
 [dependencies]
-biome_formatter    = { version = "0.4.0" }
-biome_js_formatter = { version = "0.4.0" }
-biome_js_parser    = { version = "0.4.0" }
-biome_js_syntax    = { version = "0.4.0" }
+biome_fmt          = { workspace = true, default-features = false }
+malva              = { version = "0.1.4", features = ["config_serde"] }
+markup_fmt         = { version = "0.3.2", features = ["config_serde"] }
 serde              = { workspace = true, features = ["derive"] }
 serde-wasm-bindgen = { workspace = true }
 serde_json         = { workspace = true, features = ["preserve_order"] }
 wasm-bindgen       = { workspace = true }
-
 
 [lib]
 crate-type = ["cdylib", "rlib"]

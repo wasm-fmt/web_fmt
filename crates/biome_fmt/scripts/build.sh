@@ -3,7 +3,6 @@ crates_dir=$(pwd)
 
 cd ../..
 wasm-pack build --target=web --scope=wasm-fmt crates/biome_fmt
-cp README.md LICENSE crates/biome_fmt/pkg/
 
 cd $crates_dir
 # backup biome_fmt.js
