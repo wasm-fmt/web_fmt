@@ -37,31 +37,11 @@ const state = JSON.stringify({
 (bValue as boolean) ? 0 : -1;
 <boolean>bValue ? 0 : -1;
 
-const value1 =
-	thisIsAReallyReallyReallyReallyReallyLongIdentifier as SomeInterface;
-const value2 =
-	thisIsAnIdentifier as thisIsAReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyLongInterface;
-const value3 = thisIsAReallyLongIdentifier as
-	| SomeInterface
-	| SomeOtherInterface;
-const value4 = thisIsAReallyLongIdentifier as {
-	prop1: string;
-	prop2: number;
-	prop3: number;
-}[];
-const value5 =
-	thisIsAReallyReallyReallyReallyReallyReallyReallyReallyReallyLongIdentifier as [
-		string,
-		number,
-	];
+const value1 = thisIsAReallyReallyReallyReallyReallyLongIdentifier as SomeInterface;
+const value2 = thisIsAnIdentifier as thisIsAReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyLongInterface;
+const value3 = thisIsAReallyLongIdentifier as (SomeInterface | SomeOtherInterface);
+const value4 = thisIsAReallyLongIdentifier as { prop1: string, prop2: number, prop3: number }[];
+const value5 = thisIsAReallyReallyReallyReallyReallyReallyReallyReallyReallyLongIdentifier as [string, number];
 
-const iter1 = createIterator(
-	this.controller,
-	child,
-	this.tag as SyncFunctionComponent,
-);
-const iter2 = createIterator(
-	self.controller,
-	child,
-	self.tag as SyncFunctionComponent,
-);
+const iter1 = createIterator(this.controller, child, this.tag as SyncFunctionComponent);
+const iter2 = createIterator(self.controller, child, self.tag as SyncFunctionComponent);

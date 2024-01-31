@@ -44,8 +44,8 @@ const e = {
 const f = {
 	// These should be unquoted for quoteProps=as-needed.
 	NaN: null,
-	1: null,
-	1.5: null,
+	"1": null,
+	"1.5": null,
 	// These should never be unquoted. `1e+100` technically could (it’s the only
 	// one where `String(Number(key)) === key`), but we came to the conclusion
 	// that it is unexpected.

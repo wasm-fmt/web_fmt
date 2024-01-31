@@ -2,4 +2,6 @@
 class Decorated {}
 
 @(<ClassDecorator>bind)
-class Decorated {}
+class Decorated {
+
+}
