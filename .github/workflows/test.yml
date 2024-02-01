@@ -1,6 +1,11 @@
 name: Test
 
-on: [push, pull_request]
+on:
+    push:
+        branches:
+            - "*"
+    pull_request:
+        types: ["opened", "reopened", "synchronize"]
 
 env:
     CARGO_INCREMENTAL: 0
@@ -34,31 +39,31 @@ jobs:
     wasm-build:
         name: Wasm build
         runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                crate: ["biome_fmt", "web_fmt"]
         steps:
             - uses: actions/checkout@v4
 
             - name: Install wasm-pack
               run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
-            - name: Build wasm
+            - name: Build ${{matrix.crate}} wasm
               run: |
-                  ./crates/biome_fmt/scripts/build.sh
-                  ./crates/web_fmt/scripts/build.sh
+                  ./crates/${{ matrix.crate }}/scripts/build.sh
 
-            - name: Package biome_fmt
-              working-directory: crates/biome_fmt/pkg
+            - name: Package ${{matrix.crate}}
+              working-directory: crates/${{matrix.crate}}/pkg
               run: npm pack
 
-            - name: Package web_fmt
-              working-directory: crates/web_fmt/pkg
-              run: npm pack
-
-            - name: Upload
+            - name: Upload ${{matrix.crate}}
               uses: actions/upload-artifact@v4
               with:
+                  name: ${{matrix.crate}}
                   path: |
-                      crates/biome_fmt/pkg
-                      crates/web_fmt/pkg
+                      crates/${{matrix.crate}}/pkg
+                      # To keep the pkg directory structure
+                      crates/${{matrix.crate}}/README.md
 
     node-test:
         runs-on: ubuntu-latest
@@ -67,7 +72,7 @@ jobs:
             - uses: actions/checkout@v4
             - uses: actions/download-artifact@v4
               with:
-                  path: crates/
+                  path: crates
 
             - uses: actions/setup-node@v4
               with:
@@ -82,7 +87,7 @@ jobs:
             - uses: actions/checkout@v4
             - uses: actions/download-artifact@v4
               with:
-                  path: crates/
+                  path: crates
 
             - uses: denoland/setup-deno@v1
               with:
@@ -97,7 +102,7 @@ jobs:
             - uses: actions/checkout@v4
             - uses: actions/download-artifact@v4
               with:
-                  path: crates/
+                  path: crates
 
             - uses: oven-sh/setup-bun@v1
               name: Install bun
