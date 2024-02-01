@@ -1,14 +1,16 @@
 [package]
+description = "JavaScript/TypeScript formatter powered by wasm ported from Biome"
+keywords    = ["wasm", "formatter", "javascript", "typescript", "biome"]
+name        = "biome_fmt"
+
 authors.workspace    = true
-description          = "JavaScript/TypeScript formatter powered by wasm ported from Biome"
 edition.workspace    = true
 homepage.workspace   = true
-keywords.workspace   = true
 license.workspace    = true
-name                 = "biome_fmt"
 publish              = true
 repository.workspace = true
 version.workspace    = true
+
 
 [features]
 default      = ["wasm-bindgen"]

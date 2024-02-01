@@ -41,16 +41,24 @@ jobs:
               run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
             - name: Build wasm
-              run: ./crates/biome_fmt/scripts/build.sh
+              run: |
+                  ./crates/biome_fmt/scripts/build.sh
+                  ./crates/web_fmt/scripts/build.sh
 
-            - name: npm pack
-              run: cd crates/biome_fmt/pkg && npm pack
+            - name: Package biome_fmt
+              working-directory: crates/biome_fmt/pkg
+              run: npm pack
+
+            - name: Package web_fmt
+              working-directory: crates/web_fmt/pkg
+              run: npm pack
 
             - name: Upload
               uses: actions/upload-artifact@v4
               with:
-                  name: build
-                  path: crates/biome_fmt/pkg
+                  path: |
+                      crates/biome_fmt/pkg
+                      crates/web_fmt/pkg
 
     node-test:
         runs-on: ubuntu-latest
@@ -59,8 +67,7 @@ jobs:
             - uses: actions/checkout@v4
             - uses: actions/download-artifact@v4
               with:
-                  name: build
-                  path: crates/biome_fmt/pkg/
+                  path: crates/
 
             - uses: actions/setup-node@v4
               with:
@@ -75,8 +82,7 @@ jobs:
             - uses: actions/checkout@v4
             - uses: actions/download-artifact@v4
               with:
-                  name: build
-                  path: crates/biome_fmt/pkg/
+                  path: crates/
 
             - uses: denoland/setup-deno@v1
               with:
@@ -91,8 +97,7 @@ jobs:
             - uses: actions/checkout@v4
             - uses: actions/download-artifact@v4
               with:
-                  name: build
-                  path: crates/biome_fmt/pkg/
+                  path: crates/
 
             - uses: oven-sh/setup-bun@v1
               name: Install bun

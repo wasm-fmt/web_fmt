@@ -23,16 +23,24 @@ jobs:
               run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
             - name: Build wasm
-              run: ./crates/biome_fmt/scripts/build.sh
+              run: |
+                  ./crates/biome_fmt/scripts/build.sh
+                  ./crates/web_fmt/scripts/build.sh
 
             - uses: actions/setup-node@v4
               with:
                   node-version-file: ".node-version"
                   registry-url: "https://registry.npmjs.org"
 
-            - run: |
-                  cd crates/biome_fmt/pkg
-                  npm publish --provenance
+            - name: Publish biome_fmt
+              working-directory: crates/biome_fmt/pkg
+              run: npm publish --provenance
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+            - name: Publish web_fmt
+              working-directory: crates/web_fmt/pkg
+              run: npm publish --provenance
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
@@ -48,16 +56,24 @@ jobs:
               run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
             - name: Build wasm
-              run: ./crates/biome_fmt/scripts/build.sh
+              run: |
+                  ./crates/biome_fmt/scripts/build.sh
+                  ./crates/web_fmt/scripts/build.sh
 
             - uses: actions/setup-node@v4
               with:
                   node-version-file: ".node-version"
                   registry-url: "https://npm.pkg.github.com"
 
-            - run: |
-                  cd crates/biome_fmt/pkg
-                  npm publish
+            - name: Publish biome_fmt
+              working-directory: crates/biome_fmt/pkg
+              run: npm publish
+              env:
+                  NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+            - name: Publish web_fmt
+              working-directory: crates/web_fmt/pkg
+              run: npm publish
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -74,15 +90,20 @@ jobs:
 
             - name: Build wasm
               run: |
-                  # build for JS API
                   ./crates/biome_fmt/scripts/build.sh
+                  ./crates/web_fmt/scripts/build.sh
 
-            - name: Package
-              run: cd crates/biome_fmt/pkg && npm pack
+            - name: Package biome_fmt
+              working-directory: crates/biome_fmt/pkg
+              run: npm pack
+
+            - name: Package web_fmt
+              working-directory: crates/web_fmt/pkg
+              run: npm pack
 
             - name: Release
               uses: softprops/action-gh-release@c9b46fe7aad9f02afd89b12450b780f52dacfb2d
               with:
                   files: |
-                      crates/biome_fmt/pkg/wasm-fmt-biome_fmt-*.tgz
-                      crates/biome_fmt/pkg/biome_fmt_bg.wasm
+                      crates/*/pkg/*.tgz
+                      crates/*/pkg/*.wasm

@@ -1,11 +1,12 @@
 [package]
+description = "a formatter for web development powered by wasm"
+keywords    = ["wasm", "formatter", "html", "css", "javascript"]
+name        = "web_fmt"
+
 authors.workspace    = true
-description          = "a formatter for web development powered by wasm"
 edition.workspace    = true
 homepage.workspace   = true
-keywords.workspace   = true
 license.workspace    = true
-name                 = "web_fmt"
 publish              = true
 repository.workspace = true
 version.workspace    = true
