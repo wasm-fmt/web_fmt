@@ -48,6 +48,7 @@ jobs:
         strategy:
             matrix:
                 crate: ["biome_fmt", "web_fmt"]
+        needs: wasm-build
         steps:
             - uses: actions/checkout@v4
 
@@ -75,6 +76,7 @@ jobs:
         strategy:
             matrix:
                 crate: ["biome_fmt", "web_fmt"]
+        needs: wasm-build
         steps:
             - uses: actions/checkout@v4
 
@@ -102,6 +104,7 @@ jobs:
         strategy:
             matrix:
                 crate: ["biome_fmt", "web_fmt"]
+        needs: wasm-build
         steps:
             - uses: actions/checkout@v4
 
