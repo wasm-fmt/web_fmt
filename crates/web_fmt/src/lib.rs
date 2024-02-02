@@ -21,69 +21,16 @@ struct Config {
     style: Option<malva::config::FormatOptions>,
 }
 
-#[derive(Clone, Copy, Default, Deserialize)]
-#[serde(rename_all = "snake_case")]
-enum IndentStyle {
-    Tab,
-    #[default]
-    Space,
-}
-
-impl From<biome_fmt::IndentStyle> for IndentStyle {
-    fn from(value: biome_fmt::IndentStyle) -> Self {
-        match value {
-            biome_fmt::IndentStyle::Tab => Self::Tab,
-            biome_fmt::IndentStyle::Space => Self::Space,
-        }
-    }
-}
-
-impl From<IndentStyle> for biome_fmt::IndentStyle {
-    fn from(value: IndentStyle) -> Self {
-        match value {
-            IndentStyle::Tab => Self::Tab,
-            IndentStyle::Space => Self::Space,
-        }
-    }
-}
-
-impl From<IndentStyle> for bool {
-    fn from(value: IndentStyle) -> Self {
-        matches!(value, IndentStyle::Tab)
-    }
-}
-
-#[derive(Deserialize, Default)]
-#[serde(rename_all = "snake_case")]
-pub(crate) struct ConfigLayout {
-    indent_style: Option<IndentStyle>,
-    indent_width: Option<u8>,
-    line_width: Option<u16>,
-}
-
-#[derive(Deserialize, Default)]
-#[serde(rename_all = "snake_case")]
-struct ConfigDefault {
-    #[serde(flatten, default)]
-    default: ConfigLayout,
-    #[serde(default)]
-    markup: ConfigLayout,
-    #[serde(default)]
-    script: ConfigLayout,
-    #[serde(default)]
-    style: ConfigLayout,
-}
-
 #[wasm_bindgen(typescript_custom_section)]
 const TS_Config: &'static str = r#"
-export interface StyleConfig {
+export interface Config {
 	indent_style?: "tab" | "space";
 	indent_width?: number;
 	line_width?: number;
 
 	markup?: MarkupConfig;
 	script?: ScriptConfig;
-	style: StyleConfig;
+	style?: StyleConfig;
 }"#;
 
 #[wasm_bindgen]
@@ -167,4 +114,57 @@ pub fn format(src: &str, filename: &str, config: Option<JSConfig>) -> Result<Str
         }
         _ => Err(format!("unsupported file extension: {}", filename)),
     }
+}
+
+#[derive(Clone, Copy, Default, Deserialize)]
+#[serde(rename_all = "snake_case")]
+enum IndentStyle {
+    Tab,
+    #[default]
+    Space,
+}
+
+impl From<biome_fmt::IndentStyle> for IndentStyle {
+    fn from(value: biome_fmt::IndentStyle) -> Self {
+        match value {
+            biome_fmt::IndentStyle::Tab => Self::Tab,
+            biome_fmt::IndentStyle::Space => Self::Space,
+        }
+    }
+}
+
+impl From<IndentStyle> for biome_fmt::IndentStyle {
+    fn from(value: IndentStyle) -> Self {
+        match value {
+            IndentStyle::Tab => Self::Tab,
+            IndentStyle::Space => Self::Space,
+        }
+    }
+}
+
+impl From<IndentStyle> for bool {
+    fn from(value: IndentStyle) -> Self {
+        matches!(value, IndentStyle::Tab)
+    }
+}
+
+#[derive(Deserialize, Default)]
+#[serde(rename_all = "snake_case")]
+pub(crate) struct ConfigLayout {
+    indent_style: Option<IndentStyle>,
+    indent_width: Option<u8>,
+    line_width: Option<u16>,
+}
+
+#[derive(Deserialize, Default)]
+#[serde(rename_all = "snake_case")]
+struct ConfigDefault {
+    #[serde(flatten, default)]
+    default: ConfigLayout,
+    #[serde(default)]
+    markup: ConfigLayout,
+    #[serde(default)]
+    script: ConfigLayout,
+    #[serde(default)]
+    style: ConfigLayout,
 }
