@@ -13,7 +13,7 @@ version.workspace    = true
 
 [dependencies]
 biome_fmt          = { workspace = true, default-features = false }
-malva              = { version = "0.1.4", features = ["config_serde"] }
+malva              = { version = "0.1.5", features = ["config_serde"] }
 markup_fmt         = { version = "0.3.2", features = ["config_serde"] }
 serde              = { workspace = true, features = ["derive"] }
 serde-wasm-bindgen = { workspace = true }
