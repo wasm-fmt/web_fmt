@@ -87,6 +87,7 @@ pub(crate) fn detect_language(path: impl AsRef<Path>) -> Option<Language> {
         b"html" => Some(Language::Html),
         b"vue" => Some(Language::Vue),
         b"svelte" => Some(Language::Svelte),
+        b"astro" => Some(Language::Astro),
         b"jinja" | b"jinja2" | b"twig" => Some(Language::Jinja),
         _ => Some(Language::Html),
     }
