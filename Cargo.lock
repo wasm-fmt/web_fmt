@@ -234,6 +234,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "biome_json_formatter"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5755ac791f5a948b09929ca152c7950b9e088198af54f17fe601fc5dc2df9eab"
+dependencies = [
+ "biome_diagnostics",
+ "biome_formatter",
+ "biome_json_syntax",
+ "biome_rowan",
+ "biome_suppression",
+]
+
+[[package]]
 name = "biome_json_parser"
 version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -296,6 +309,17 @@ dependencies = [
  "memoffset",
  "rustc-hash",
  "tracing",
+]
+
+[[package]]
+name = "biome_suppression"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2b4fc7a1426896c50a6ff9cd966a8eeab117954a3720dd765db941a2a340fdc3"
+dependencies = [
+ "biome_console",
+ "biome_diagnostics",
+ "biome_rowan",
 ]
 
 [[package]]
@@ -490,6 +514,20 @@ version = "0.3.64"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c5f195fe497f702db0f318b07fdd68edb16955aed830df8363d837542f8f935a"
 dependencies = [
+ "wasm-bindgen",
+]
+
+[[package]]
+name = "json_fmt"
+version = "0.1.5"
+dependencies = [
+ "biome_formatter",
+ "biome_json_formatter",
+ "biome_json_parser",
+ "biome_json_syntax",
+ "serde",
+ "serde-wasm-bindgen",
+ "serde_json",
  "wasm-bindgen",
 ]
 

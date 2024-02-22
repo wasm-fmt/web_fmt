@@ -1,0 +1,31 @@
+[package]
+description = "JSON formatter powered by wasm ported from Biome"
+keywords    = ["wasm", "formatter", "json", "biome"]
+name        = "json_fmt"
+
+authors.workspace    = true
+edition.workspace    = true
+homepage.workspace   = true
+license.workspace    = true
+publish              = true
+repository.workspace = true
+version.workspace    = true
+
+
+[features]
+default      = ["wasm-bindgen"]
+wasm-bindgen = []
+
+[dependencies]
+biome_formatter      = { version = "0.4.0" }
+biome_json_formatter = { version = "0.4.0" }
+biome_json_parser    = { version = "0.4.0" }
+biome_json_syntax    = { version = "0.4.0" }
+serde                = { workspace = true, features = ["derive"] }
+serde-wasm-bindgen   = { workspace = true }
+serde_json           = { workspace = true, features = ["preserve_order"] }
+wasm-bindgen         = { workspace = true }
+
+
+[lib]
+crate-type = ["cdylib", "rlib"]
