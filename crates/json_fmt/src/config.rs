@@ -14,6 +14,19 @@ const TS_Config: &'static str = r#"export type Config = LayoutConfig;"#;
 #[serde(transparent)]
 pub struct JsonConfig(LayoutConfig);
 
+impl From<LayoutConfig> for JsonConfig {
+    fn from(config: LayoutConfig) -> Self {
+        Self(config)
+    }
+}
+
+impl JsonConfig {
+    pub fn with_line_width(mut self, line_width: u16) -> Self {
+        self.0 = self.0.with_line_width(line_width);
+        self
+    }
+}
+
 impl TryFrom<JsonConfig> for JsonFormatOptions {
     type Error = String;
 

@@ -8,10 +8,10 @@ use wasm_bindgen::prelude::wasm_bindgen;
 #[wasm_bindgen(typescript_custom_section)]
 const TS_Config: &'static str = r#"
 interface LayoutConfig {
-    indent_style?: "tab" | "space";
-    indent_width?: number;
-    line_width?: number;
-    line_ending?: "lf" | "crlf";
+	indent_style?: "tab" | "space";
+	indent_width?: number;
+	line_width?: number;
+	line_ending?: "lf" | "crlf";
 }"#;
 
 #[cfg_attr(feature = "serde", derive(Deserialize))]
@@ -28,6 +28,22 @@ pub struct LayoutConfig {
 }
 
 impl LayoutConfig {
+    pub fn fill_empty_with(mut self, other: &Self) -> Self {
+        if self.indent_style.is_none() {
+            self.indent_style = other.indent_style;
+        }
+        if self.indent_width.is_none() {
+            self.indent_width = other.indent_width;
+        }
+        if self.line_width.is_none() {
+            self.line_width = other.line_width;
+        }
+        if self.line_ending.is_none() {
+            self.line_ending = other.line_ending;
+        }
+        self
+    }
+
     pub fn with_indent_style(mut self, indent_style: IndentStyle) -> Self {
         self.indent_style = Some(indent_style);
         self
@@ -72,6 +88,12 @@ pub enum IndentStyle {
     Tab,
     #[default]
     Space,
+}
+
+impl IndentStyle {
+    pub fn is_tab(&self) -> bool {
+        matches!(self, Self::Tab)
+    }
 }
 
 #[cfg(feature = "biome_formatter")]

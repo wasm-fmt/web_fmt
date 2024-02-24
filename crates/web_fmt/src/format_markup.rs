@@ -1,11 +1,10 @@
 use std::path::Path;
 
-use biome_fmt::BiomeConfig;
-use markup_fmt::{self, Language};
+use common::LayoutConfig;
 
 use wasm_bindgen::prelude::*;
 
-use crate::{format_style::format_style_with_config, ConfigLayout};
+use crate::format_style;
 
 #[wasm_bindgen]
 extern "C" {
@@ -15,11 +14,8 @@ extern "C" {
 
 #[wasm_bindgen(typescript_custom_section)]
 const TS_Config: &'static str = r#"
-export interface MarkupConfig {
-	indent_style?: "tab" | "space";
-	indent_width?: number;
-	line_width?: number;
-	/** 
+export interface MarkupConfig extends LayoutConfig {
+	/**
 	 *  See {@link https://github.com/g-plane/markup_fmt/blob/main/docs/config.md}
 	 */
 	[other: string]: any;
@@ -27,7 +23,7 @@ export interface MarkupConfig {
 
 #[wasm_bindgen]
 pub fn format_markup(src: &str, filename: &str, config: Option<Config>) -> Result<String, String> {
-    let default_config: ConfigLayout = config
+    let default_config: LayoutConfig = config
         .as_ref()
         .map(|x| serde_wasm_bindgen::from_value(x.into()))
         .transpose()
@@ -39,41 +35,63 @@ pub fn format_markup(src: &str, filename: &str, config: Option<Config>) -> Resul
         .transpose()
         .map_err(|e| e.to_string())?;
 
-    let config = produce_markup_config(config, &default_config, &default_config);
+    let markup_config = produce_markup_config(config, &default_config, &default_config);
+    let style_config = format_style::produce_style_config(None, &default_config, &default_config);
+    let script_config = biome_fmt::BiomeConfig::default().fill_empty_layout_with(&default_config);
+    let json_config = LayoutConfig::default().fill_empty_with(&default_config);
 
-    format_markup_with_config(src, filename, config)
+    format_markup_with_config(
+        src,
+        filename,
+        markup_config,
+        style_config,
+        script_config,
+        json_config,
+    )
 }
 
 pub fn format_markup_with_config(
     src: &str,
     filename: &str,
-    config: markup_fmt::config::FormatOptions,
+    markup_config: markup_fmt::config::FormatOptions,
+    style_config: malva::config::FormatOptions,
+    script_config: biome_fmt::BiomeConfig,
+    json_config: LayoutConfig,
 ) -> Result<String, String> {
     let language = detect_language(filename).unwrap_or(markup_fmt::Language::Html);
 
-    markup_fmt::format_text(src, language, &config, |filename, src, width| {
+    markup_fmt::format_text(src, language, &markup_config, |filename, src, width| {
         let extension =
             filename.extension().map(|x| x.to_ascii_lowercase()).ok_or("expected extension")?;
         let filename: &str = filename.to_str().ok_or("expected filename")?;
 
         match extension.as_encoded_bytes() {
-            b"js" | b"ts" | b"mjs" | b"cjs" | b"jsx" | b"tsx" | b"mjsx" | b"cjsx" | b"mtsx"
-            | b"ctsx" => biome_fmt::format_script_with_config(
-                src,
-                filename,
-                BiomeConfig::default().with_line_width(width as u16),
-            )
-            .map(Into::into),
-            b"css" | b"scss" | b"sass" | b"less" => format_style_with_config(
-                src,
-                filename,
-                malva::config::FormatOptions {
-                    layout: malva::config::LayoutOptions {
-                        print_width: width,
-                        ..Default::default()
+            b"js" | b"ts" | b"mjs" | b"cjs" | b"jsx" | b"tsx" | b"mjsx" | b"cjsx" | b"mtsx" => {
+                biome_fmt::format_script_with_config(
+                    src,
+                    filename,
+                    script_config.clone().with_line_width(width as u16),
+                )
+                .map(Into::into)
+            }
+            b"css" | b"scss" | b"sass" | b"less" => {
+                let style_config = style_config.clone();
+                format_style::format_style_with_config(
+                    src,
+                    filename,
+                    malva::config::FormatOptions {
+                        layout: malva::config::LayoutOptions {
+                            print_width: width,
+                            ..style_config.layout
+                        },
+                        language: style_config.language,
                     },
-                    language: Default::default(),
-                },
+                )
+                .map(Into::into)
+            }
+            b"json" | b"jsonc" => json_fmt::format_json_with_config(
+                src,
+                json_config.clone().with_line_width(width as u16).into(),
             )
             .map(Into::into),
             _ => Ok(src.into()),
@@ -82,34 +100,42 @@ pub fn format_markup_with_config(
     .map_err(|e| format!("{:?}", e))
 }
 
-pub(crate) fn detect_language(path: impl AsRef<Path>) -> Option<Language> {
+pub(crate) fn detect_language(path: impl AsRef<Path>) -> Option<markup_fmt::Language> {
     match path.as_ref().extension().map(|x| x.to_ascii_lowercase())?.as_encoded_bytes() {
-        b"html" => Some(Language::Html),
-        b"vue" => Some(Language::Vue),
-        b"svelte" => Some(Language::Svelte),
-        b"astro" => Some(Language::Astro),
-        b"jinja" | b"jinja2" | b"twig" => Some(Language::Jinja),
-        _ => Some(Language::Html),
+        b"html" => Some(markup_fmt::Language::Html),
+        b"vue" => Some(markup_fmt::Language::Vue),
+        b"svelte" => Some(markup_fmt::Language::Svelte),
+        b"astro" => Some(markup_fmt::Language::Astro),
+        b"jinja" | b"jinja2" | b"twig" => Some(markup_fmt::Language::Jinja),
+        _ => Some(markup_fmt::Language::Html),
     }
 }
 
 pub(crate) fn produce_markup_config(
     base_config: Option<markup_fmt::config::FormatOptions>,
-    layout_config: &ConfigLayout,
-    default_config: &ConfigLayout,
+    config_default: &LayoutConfig,
+    global_fallback: &LayoutConfig,
 ) -> markup_fmt::config::FormatOptions {
-    let use_tabs: bool =
-        layout_config.indent_style.or(default_config.indent_style).unwrap_or_default().into();
-
-    let indent_width: u8 = layout_config.indent_width.or(default_config.indent_width).unwrap_or(2);
-
-    let line_width: u16 = layout_config.line_width.or(default_config.line_width).unwrap_or(80);
-
     let mut config = base_config.unwrap_or_default();
 
-    config.layout.use_tabs = use_tabs;
-    config.layout.indent_width = indent_width as usize;
-    config.layout.print_width = line_width as usize;
+    if let Some(indent_style) = config_default.indent_style().or(global_fallback.indent_style()) {
+        config.layout.use_tabs = indent_style.is_tab();
+    }
+
+    if let Some(indent_width) = config_default.indent_width().or(global_fallback.indent_width()) {
+        config.layout.indent_width = indent_width as usize;
+    }
+
+    if let Some(line_width) = config_default.line_width().or(global_fallback.line_width()) {
+        config.layout.print_width = line_width as usize;
+    }
+
+    if let Some(line_endings) = config_default.line_ending().or(global_fallback.line_ending()) {
+        config.layout.line_break = match line_endings {
+            common::LineEnding::Lf => markup_fmt::config::LineBreak::Lf,
+            common::LineEnding::Crlf => markup_fmt::config::LineBreak::Crlf,
+        };
+    }
 
     config
 }

@@ -66,6 +66,12 @@ impl BiomeConfig {
         self.layout = self.layout.with_line_width(line_width);
         self
     }
+
+    pub fn fill_empty_layout_with(mut self, layout: &LayoutConfig) -> Self {
+        self.layout = self.layout.fill_empty_with(layout);
+
+        self
+    }
 }
 
 impl TryFrom<BiomeConfig> for JsFormatOptions {

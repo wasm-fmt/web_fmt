@@ -1,9 +1,11 @@
+mod format_json;
 mod format_markup;
 mod format_script;
 mod format_style;
 
 use std::path::Path;
 
+use common::LayoutConfig;
 use serde::Deserialize;
 use wasm_bindgen::prelude::*;
 
@@ -19,18 +21,16 @@ struct Config {
     markup: Option<markup_fmt::config::FormatOptions>,
     script: Option<biome_fmt::BiomeConfig>,
     style: Option<malva::config::FormatOptions>,
+    json: Option<LayoutConfig>,
 }
 
 #[wasm_bindgen(typescript_custom_section)]
 const TS_Config: &'static str = r#"
-export interface Config {
-	indent_style?: "tab" | "space";
-	indent_width?: number;
-	line_width?: number;
-
+export interface Config extends LayoutConfig {
 	markup?: MarkupConfig;
 	script?: ScriptConfig;
 	style?: StyleConfig;
+	json?: JsonConfig;
 }"#;
 
 #[wasm_bindgen]
@@ -66,6 +66,11 @@ pub fn format(src: &str, filename: &str, config: Option<JSConfig>) -> Result<Str
         &default_config.markup,
         &default_config.default,
     );
+    let json_config = format_json::produce_json_config(
+        config.json,
+        &default_config.json,
+        &default_config.default,
+    );
 
     match extension.as_encoded_bytes() {
         b"js" | b"ts" | b"mjs" | b"cjs" | b"jsx" | b"tsx" | b"mjsx" | b"cjsx" | b"mtsx"
@@ -74,97 +79,31 @@ pub fn format(src: &str, filename: &str, config: Option<JSConfig>) -> Result<Str
             format_style::format_style_with_config(src, filename, style_config)
         }
         b"html" | b"vue" | b"svelte" | b"jinja" | b"jinja2" | b"twig" => {
-            let language =
-                markup_fmt::detect_language(filename).unwrap_or(markup_fmt::Language::Html);
-
-            markup_fmt::format_text(src, language, &markup_config, |filename, src, width| {
-                let extension = filename
-                    .extension()
-                    .map(|x| x.to_ascii_lowercase())
-                    .ok_or("expected extension")?;
-                let filename: &str = filename.to_str().ok_or("expected filename")?;
-
-                match extension.as_encoded_bytes() {
-                    b"js" | b"ts" | b"mjs" | b"cjs" | b"jsx" | b"tsx" | b"mjsx" | b"cjsx"
-                    | b"mtsx" => biome_fmt::format_script_with_config(
-                        src,
-                        filename,
-                        script_config.clone().with_line_width(width as u16),
-                    )
-                    .map(Into::into),
-                    b"css" | b"scss" | b"sass" | b"less" => {
-                        let style_config = style_config.clone();
-                        format_style::format_style_with_config(
-                            src,
-                            filename,
-                            malva::config::FormatOptions {
-                                layout: malva::config::LayoutOptions {
-                                    print_width: width,
-                                    ..style_config.layout
-                                },
-                                language: style_config.language,
-                            },
-                        )
-                        .map(Into::into)
-                    }
-                    _ => Ok(src.into()),
-                }
-            })
-            .map_err(|e| format!("{:?}", e))
+            format_markup::format_markup_with_config(
+                src,
+                filename,
+                markup_config,
+                style_config,
+                script_config,
+                json_config,
+            )
         }
+        b"json" | b"jsonc" => json_fmt::format_json_with_config(src, json_config.into()),
         _ => Err(format!("unsupported file extension: {}", filename)),
     }
-}
-
-#[derive(Clone, Copy, Default, Deserialize)]
-#[serde(rename_all = "snake_case")]
-enum IndentStyle {
-    Tab,
-    #[default]
-    Space,
-}
-
-impl From<biome_fmt::IndentStyle> for IndentStyle {
-    fn from(value: biome_fmt::IndentStyle) -> Self {
-        match value {
-            biome_fmt::IndentStyle::Tab => Self::Tab,
-            biome_fmt::IndentStyle::Space => Self::Space,
-        }
-    }
-}
-
-impl From<IndentStyle> for biome_fmt::IndentStyle {
-    fn from(value: IndentStyle) -> Self {
-        match value {
-            IndentStyle::Tab => Self::Tab,
-            IndentStyle::Space => Self::Space,
-        }
-    }
-}
-
-impl From<IndentStyle> for bool {
-    fn from(value: IndentStyle) -> Self {
-        matches!(value, IndentStyle::Tab)
-    }
-}
-
-#[derive(Deserialize, Default)]
-#[serde(rename_all = "snake_case")]
-pub(crate) struct ConfigLayout {
-    indent_style: Option<IndentStyle>,
-    indent_width: Option<u8>,
-    line_width: Option<u16>,
 }
 
 #[derive(Deserialize, Default)]
 #[serde(rename_all = "snake_case")]
 struct ConfigDefault {
     #[serde(flatten, default)]
-    default: ConfigLayout,
+    default: LayoutConfig,
     #[serde(default)]
-    markup: ConfigLayout,
+    markup: LayoutConfig,
     #[serde(default)]
-    script: ConfigLayout,
+    script: LayoutConfig,
     #[serde(default)]
-    style: ConfigLayout,
+    style: LayoutConfig,
+    #[serde(default)]
+    json: LayoutConfig,
 }

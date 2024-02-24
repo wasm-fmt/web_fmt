@@ -1036,6 +1036,8 @@ name = "web_fmt"
 version = "0.1.5"
 dependencies = [
  "biome_fmt",
+ "common",
+ "json_fmt",
  "malva",
  "markup_fmt",
  "serde",

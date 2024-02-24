@@ -1,6 +1,5 @@
+use common::LayoutConfig;
 use wasm_bindgen::prelude::*;
-
-use crate::ConfigLayout;
 
 #[wasm_bindgen]
 extern "C" {
@@ -10,11 +9,8 @@ extern "C" {
 
 #[wasm_bindgen(typescript_custom_section)]
 const TS_Config: &'static str = r#"
-export interface StyleConfig {
-	indent_style?: "tab" | "space";
-	indent_width?: number;
-	line_width?: number;
-	/** 
+export interface StyleConfig extends LayoutConfig {
+	/**
 	 *  See {@link https://github.com/g-plane/malva/blob/main/docs/config.md}
 	 */
 	[other: string]: any;
@@ -22,7 +18,7 @@ export interface StyleConfig {
 
 #[wasm_bindgen]
 pub fn format_style(src: &str, filename: &str, config: Option<Config>) -> Result<String, String> {
-    let default_config: ConfigLayout = config
+    let default_config: LayoutConfig = config
         .as_ref()
         .map(|x| serde_wasm_bindgen::from_value(x.into()))
         .transpose()
@@ -78,21 +74,29 @@ fn syntax_from_filename(filename: &str) -> Option<malva::Syntax> {
 
 pub(crate) fn produce_style_config(
     base_config: Option<malva::config::FormatOptions>,
-    layout_config: &ConfigLayout,
-    default_config: &ConfigLayout,
+    config_default: &LayoutConfig,
+    global_fallback: &LayoutConfig,
 ) -> malva::config::FormatOptions {
-    let use_tabs: bool =
-        layout_config.indent_style.or(default_config.indent_style).unwrap_or_default().into();
+    let mut config: malva::config::FormatOptions = base_config.unwrap_or_default();
 
-    let indent_width: u8 = layout_config.indent_width.or(default_config.indent_width).unwrap_or(2);
+    if let Some(indent_style) = config_default.indent_style().or(global_fallback.indent_style()) {
+        config.layout.use_tabs = indent_style.is_tab();
+    }
 
-    let line_width: u16 = layout_config.line_width.or(default_config.line_width).unwrap_or(80);
+    if let Some(indent_width) = config_default.indent_width().or(global_fallback.indent_width()) {
+        config.layout.indent_width = indent_width as usize;
+    }
 
-    let mut config = base_config.unwrap_or_default();
+    if let Some(line_width) = config_default.line_width().or(global_fallback.line_width()) {
+        config.layout.print_width = line_width as usize;
+    }
 
-    config.layout.use_tabs = use_tabs;
-    config.layout.indent_width = indent_width as usize;
-    config.layout.print_width = line_width as usize;
+    if let Some(line_endings) = config_default.line_ending().or(global_fallback.line_ending()) {
+        config.layout.line_break = match line_endings {
+            common::LineEnding::Lf => malva::config::LineBreak::Lf,
+            common::LineEnding::Crlf => malva::config::LineBreak::Crlf,
+        };
+    }
 
     config
 }
