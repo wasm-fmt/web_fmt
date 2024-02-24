@@ -26,5 +26,15 @@ pub(crate) fn produce_json_config(
     config_default: &LayoutConfig,
     global_fallback: &LayoutConfig,
 ) -> LayoutConfig {
-    config.unwrap_or_default().fill_empty_with(config_default).fill_empty_with(global_fallback)
+    let default = LayoutConfig::default()
+        .with_indent_style(common::IndentStyle::Space)
+        .with_indent_width(2)
+        .with_line_width(80)
+        .with_line_ending(common::LineEnding::Lf);
+
+    config
+        .unwrap_or_default()
+        .fill_empty_with(config_default)
+        .fill_empty_with(global_fallback)
+        .fill_empty_with(&default)
 }
