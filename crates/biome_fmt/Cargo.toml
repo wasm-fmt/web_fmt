@@ -17,10 +17,10 @@ default      = ["wasm-bindgen"]
 wasm-bindgen = []
 
 [dependencies]
-biome_formatter    = { version = "0.4.0" }
-biome_js_formatter = { version = "0.4.0" }
-biome_js_parser    = { version = "0.4.0" }
-biome_js_syntax    = { version = "0.4.0" }
+biome_formatter    = { workspace = true }
+biome_js_formatter = { workspace = true }
+biome_js_parser    = { workspace = true }
+biome_js_syntax    = { workspace = true }
 serde              = { workspace = true, features = ["derive"] }
 serde-wasm-bindgen = { workspace = true }
 serde_json         = { workspace = true, features = ["preserve_order"] }
