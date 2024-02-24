@@ -13,18 +13,19 @@ version.workspace    = true
 
 
 [features]
-default      = ["wasm-bindgen"]
-wasm-bindgen = []
+default = ["main"]
+main    = ["wasm-bindgen", "serde-wasm-bindgen", "common/wasm-bindgen"]
 
 [dependencies]
 biome_formatter    = { workspace = true }
 biome_js_formatter = { workspace = true }
 biome_js_parser    = { workspace = true }
 biome_js_syntax    = { workspace = true }
+common             = { workspace = true, features = ["biome_formatter", "serde"] }
 serde              = { workspace = true, features = ["derive"] }
-serde-wasm-bindgen = { workspace = true }
+serde-wasm-bindgen = { workspace = true, optional = true }
 serde_json         = { workspace = true, features = ["preserve_order"] }
-wasm-bindgen       = { workspace = true }
+wasm-bindgen       = { workspace = true, optional = true }
 
 
 [lib]

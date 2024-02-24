@@ -2,6 +2,7 @@ use biome_formatter::{IndentStyle as BiomeIndentStyle, LineWidthFromIntError};
 use biome_js_formatter::context::JsFormatOptions;
 use biome_js_syntax::JsFileSource;
 
+use common::LayoutConfig;
 use serde::Deserialize;
 
 #[cfg(feature = "wasm-bindgen")]
@@ -10,11 +11,7 @@ use wasm_bindgen::prelude::wasm_bindgen;
 #[cfg(feature = "wasm-bindgen")]
 #[wasm_bindgen(typescript_custom_section)]
 const TS_Config: &'static str = r#"
-export interface Config {
-    indent_style?: "tab" | "space";
-    indent_width?: number;
-    line_ending?: "lf" | "crlf" | "cr";
-    line_width?: number;
+export interface Config extends LayoutConfig {
     quote_style?: "double" | "single";
     jsx_quote_style?: "double" | "single";
     quote_properties?: "preserve" | "as-needed";
@@ -28,17 +25,8 @@ export interface Config {
 #[derive(Deserialize, Default, Clone)]
 #[serde(rename_all = "snake_case")]
 pub struct BiomeConfig {
-    /// The indent style.
-    indent_style: Option<IndentStyle>,
-
-    /// The indent width.
-    indent_width: Option<u8>,
-
-    /// The type of line ending.
-    line_ending: Option<String>,
-
-    /// What's the max width of a line. Defaults to 80.
-    line_width: Option<u16>,
+    #[serde(flatten)]
+    layout: LayoutConfig,
 
     /// The style for quotes. Defaults to double.
     quote_style: Option<String>,
@@ -74,31 +62,9 @@ impl BiomeConfig {
         self
     }
 
-    pub fn with_indent_style(mut self, indent_style: IndentStyle) -> Self {
-        self.indent_style = Some(indent_style);
-        self
-    }
-
-    pub fn with_indent_width(mut self, indent_width: u8) -> Self {
-        self.indent_width = Some(indent_width);
-        self
-    }
-
     pub fn with_line_width(mut self, line_width: u16) -> Self {
-        self.line_width = Some(line_width);
+        self.layout = self.layout.with_line_width(line_width);
         self
-    }
-
-    pub fn indent_style(&self) -> Option<IndentStyle> {
-        self.indent_style
-    }
-
-    pub fn indent_width(&self) -> Option<u8> {
-        self.indent_width
-    }
-
-    pub fn line_width(&self) -> Option<u16> {
-        self.line_width
     }
 }
 
@@ -110,25 +76,23 @@ impl TryFrom<BiomeConfig> for JsFormatOptions {
 
         let mut option = JsFormatOptions::new(source_type);
 
-        if let Some(indent_style) = value.indent_style {
+        if let Some(indent_style) = value.layout.indent_style() {
             option = option.with_indent_style(indent_style.into());
         };
 
-        if let Some(indent_width) = value.indent_width {
+        if let Some(indent_width) = value.layout.indent_width() {
             option = option.with_indent_width(indent_width.into());
         }
 
-        if let Some(line_ending) = value.line_ending {
-            let line_ending = line_ending.parse()?;
-
-            option = option.with_line_ending(line_ending);
-        };
-
-        if let Some(line_width) = value.line_width {
+        if let Some(line_width) = value.layout.line_width() {
             let line_width =
                 line_width.try_into().map_err(|e: LineWidthFromIntError| e.to_string())?;
 
             option = option.with_line_width(line_width);
+        };
+
+        if let Some(line_ending) = value.layout.line_ending() {
+            option = option.with_line_ending(line_ending.into());
         };
 
         if let Some(quote_style) = value.quote_style {
