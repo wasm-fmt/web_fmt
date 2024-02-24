@@ -32,6 +32,8 @@ for await (const input_path of walk(test_root)) {
 	switch (ext) {
 		case ".html":
 		case ".vue":
+		case ".json":
+		case ".tsx":
 			break;
 
 		default:

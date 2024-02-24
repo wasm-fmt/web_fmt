@@ -12,7 +12,7 @@ const test_root = new URL("../test_data", import.meta.url);
 
 for await (const entry of walk(test_root, {
 	includeDirs: false,
-	exts: ["html", "vue"],
+	exts: ["html", "vue", "json", "tsx"],
 })) {
 	if (entry.name.startsWith(".")) {
 		continue;

@@ -24,6 +24,8 @@ for await (const dirent of await fs.opendir(test_root, { recursive: true })) {
 	switch (ext) {
 		case ".html":
 		case ".vue":
+		case ".json":
+		case ".tsx":
 			break;
 
 		default:
