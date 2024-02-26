@@ -9,13 +9,13 @@ resolver = "2"
     license    = "MIT"
     readme     = "README.md"
     repository = "https://github.com/wasm-fmt/web_fmt"
-    version    = "0.1.5"
+    version    = "0.1.6"
 
 
     [workspace.dependencies]
-    biome_fmt = { path = "crates/biome_fmt", version = "0.1.5", default-features = false }
-    common    = { path = "crates/common", version = "0.1.5" }
-    json_fmt  = { path = "crates/json_fmt", version = "0.1.5", default-features = false }
+    biome_fmt = { path = "crates/biome_fmt", version = "0.1.6", default-features = false }
+    common    = { path = "crates/common", version = "0.1.6" }
+    json_fmt  = { path = "crates/json_fmt", version = "0.1.6", default-features = false }
 
     biome_formatter      = { version = "0.4.0" }
     biome_js_formatter   = { version = "0.4.0" }
