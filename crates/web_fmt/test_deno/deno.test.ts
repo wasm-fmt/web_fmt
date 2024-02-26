@@ -1,8 +1,8 @@
 import init, { format } from "../pkg/web_fmt.js";
 
-import { assertEquals } from "https://deno.land/std@0.200.0/assert/mod.ts";
-import { walk } from "https://deno.land/std@0.200.0/fs/walk.ts";
-import { relative } from "https://deno.land/std@0.200.0/path/mod.ts";
+import { assertEquals } from "https://deno.land/std@0.217.0/assert/mod.ts";
+import { walk } from "https://deno.land/std@0.217.0/fs/walk.ts";
+import { relative } from "https://deno.land/std@0.217.0/path/mod.ts";
 
 await init();
 
