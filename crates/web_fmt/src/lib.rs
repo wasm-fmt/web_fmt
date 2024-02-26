@@ -78,7 +78,7 @@ pub fn format(src: &str, filename: &str, config: Option<JSConfig>) -> Result<Str
         b"css" | b"scss" | b"sass" | b"less" => {
             format_style::format_style_with_config(src, filename, style_config)
         }
-        b"html" | b"vue" | b"svelte" | b"jinja" | b"jinja2" | b"twig" => {
+        b"html" | b"vue" | b"svelte" | b"astro" | b"jinja" | b"jinja2" | b"twig" => {
             format_markup::format_markup_with_config(
                 src,
                 filename,
