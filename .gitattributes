@@ -5,3 +5,4 @@
 *.ts linguist-detectable=false
 *.tsx linguist-detectable=false
 *.mjs linguist-detectable=false
+**/test_data/** linguist-detectable=false
