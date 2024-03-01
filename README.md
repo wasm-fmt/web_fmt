@@ -1,4 +1,4 @@
-[![Test](https://github.com/wasm-fmt/biome_fmt/actions/workflows/test.yml/badge.svg)](https://github.com/wasm-fmt/biome_fmt/actions/workflows/test.yml)
+[![Test](https://github.com/wasm-fmt/web_fmt/actions/workflows/test.yml/badge.svg)](https://github.com/wasm-fmt/web_fmt/actions/workflows/test.yml)
 
 ## [web_fmt](./crates/web_fmt/README.md) [![npm](https://img.shields.io/npm/v/@wasm-fmt/web_fmt)](https://www.npmjs.com/package/@wasm-fmt/web_fmt)
 
