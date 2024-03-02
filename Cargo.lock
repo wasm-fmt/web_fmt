@@ -576,9 +576,9 @@ dependencies = [
 
 [[package]]
 name = "markup_fmt"
-version = "0.5.1"
+version = "0.6.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2fb9d5beb96f74514d481338c9b0aa44b4f50e96db57a07d4609c5bd95293bd3"
+checksum = "8445c8cf0331b72d96228f21ace380de32243640ab91b21bb9a213d2269d4580"
 dependencies = [
  "css_dataset",
  "itertools",
