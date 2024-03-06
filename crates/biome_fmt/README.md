@@ -6,7 +6,7 @@
 npm install @wasm-fmt/biome_fmt
 ```
 
-[![](https://jsr.io/badges/@fmt/biome-fmt)](https://jsr.io/@fmt/biome-fmt)
+[![jsr.io](https://jsr.io/badges/@fmt/biome-fmt)](https://jsr.io/@fmt/biome-fmt)
 
 ```bash
 npx jsr add @fmt/biome-fmt

@@ -6,7 +6,7 @@
 npm install @wasm-fmt/web_fmt
 ```
 
-[![](https://jsr.io/badges/@fmt/web-fmt)](https://jsr.io/@fmt/web-fmt)
+[![jsr.io](https://jsr.io/badges/@fmt/web-fmt)](https://jsr.io/@fmt/web-fmt)
 
 ```bash
 npx jsr add @fmt/web-fmt

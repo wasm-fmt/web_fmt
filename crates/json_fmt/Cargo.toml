@@ -1,5 +1,5 @@
 [package]
-description = "JSON formatter powered by wasm ported from Biome"
+description = "JSON formatter powered by WASM ported from Biome"
 keywords    = ["wasm", "formatter", "json", "biome"]
 name        = "json_fmt"
 

@@ -1,5 +1,5 @@
 [package]
-description = "a formatter for web development powered by wasm"
+description = "a formatter for web development powered by WASM"
 keywords    = ["wasm", "formatter", "html", "css", "javascript"]
 name        = "web_fmt"
 

@@ -1,5 +1,5 @@
 [package]
-description = "JavaScript/TypeScript formatter powered by wasm ported from Biome"
+description = "JavaScript/TypeScript formatter powered by WASM ported from Biome"
 keywords    = ["wasm", "formatter", "javascript", "typescript", "biome"]
 name        = "biome_fmt"
 

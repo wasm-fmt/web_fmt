@@ -6,7 +6,7 @@
 npm install @wasm-fmt/json_fmt
 ```
 
-[![](https://jsr.io/badges/@fmt/json-fmt)](https://jsr.io/@fmt/json-fmt)
+[![jsr.io](https://jsr.io/badges/@fmt/json-fmt)](https://jsr.io/@fmt/json-fmt)
 
 ```bash
 npx jsr add @fmt/json-fmt
