@@ -68,6 +68,33 @@ jobs:
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
+    publish-jsr:
+        if: startsWith(github.ref, 'refs/tags/v')
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            id-token: write
+        strategy:
+            matrix:
+                crate: ["biome_fmt", "web_fmt", "json_fmt"]
+        needs: wasm-build
+        steps:
+            - uses: actions/checkout@v4
+
+            - uses: actions/download-artifact@v4
+              with:
+                  name: ${{matrix.crate}}
+                  path: crates/${{matrix.crate}}
+
+            - uses: actions/setup-node@v4
+              with:
+                  node-version-file: ".node-version"
+                  registry-url: "https://registry.npmjs.org"
+
+            - name: Publish ${{matrix.crate}}
+              working-directory: crates/${{matrix.crate}}/pkg
+              run: npx jsr publish
+
     publish-github:
         if: startsWith(github.ref, 'refs/tags/v')
         runs-on: ubuntu-latest

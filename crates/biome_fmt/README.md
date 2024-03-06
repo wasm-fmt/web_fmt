@@ -1,9 +1,15 @@
-[![npm](https://img.shields.io/npm/v/@wasm-fmt/biome_fmt)](https://www.npmjs.com/package/@wasm-fmt/biome_fmt)
-
 # Install
+
+[![npm](https://img.shields.io/npm/v/@wasm-fmt/biome_fmt)](https://www.npmjs.com/package/@wasm-fmt/biome_fmt)
 
 ```bash
 npm install @wasm-fmt/biome_fmt
+```
+
+[![](https://jsr.io/badges/@fmt/biome-fmt)](https://jsr.io/@fmt/biome-fmt)
+
+```bash
+npx jsr add @fmt/biome-fmt
 ```
 
 # Usage

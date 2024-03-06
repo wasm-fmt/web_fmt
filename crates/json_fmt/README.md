@@ -1,9 +1,15 @@
-[![npm](https://img.shields.io/npm/v/@wasm-fmt/json_fmt)](https://www.npmjs.com/package/@wasm-fmt/json_fmt)
-
 # Install
+
+[![npm](https://img.shields.io/npm/v/@wasm-fmt/json_fmt)](https://www.npmjs.com/package/@wasm-fmt/json_fmt)
 
 ```bash
 npm install @wasm-fmt/json_fmt
+```
+
+[![](https://jsr.io/badges/@fmt/json-fmt)](https://jsr.io/@fmt/json-fmt)
+
+```bash
+npx jsr add @fmt/json-fmt
 ```
 
 # Usage

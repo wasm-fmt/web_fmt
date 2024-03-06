@@ -29,3 +29,10 @@ pkg_json.exports = {
 };
 
 fs.writeFileSync(pkg_path, JSON.stringify(pkg_json, null, 4));
+
+// JSR
+
+const jsr_path = path.resolve(pkg_path, "..", "jsr.jsonc");
+pkg_json.name = "@fmt/web-fmt";
+pkg_json.exports = "./web_fmt.js";
+fs.writeFileSync(jsr_path, JSON.stringify(pkg_json, null, 4));

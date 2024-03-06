@@ -1,9 +1,15 @@
-[![npm](https://img.shields.io/npm/v/@wasm-fmt/web_fmt)](https://www.npmjs.com/package/@wasm-fmt/web_fmt)
-
 # Install
+
+[![npm](https://img.shields.io/npm/v/@wasm-fmt/web_fmt)](https://www.npmjs.com/package/@wasm-fmt/web_fmt)
 
 ```bash
 npm install @wasm-fmt/web_fmt
+```
+
+[![](https://jsr.io/badges/@fmt/web-fmt)](https://jsr.io/@fmt/web-fmt)
+
+```bash
+npx jsr add @fmt/web-fmt
 ```
 
 # Usage
