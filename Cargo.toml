@@ -13,9 +13,9 @@ resolver = "2"
 
 
     [workspace.dependencies]
-    biome_fmt = { path = "crates/biome_fmt", version = "0.1.6", default-features = false }
-    common    = { path = "crates/common", version = "0.1.6" }
-    json_fmt  = { path = "crates/json_fmt", version = "0.1.6", default-features = false }
+    biome_fmt = { path = "crates/biome_fmt", version = "0.1.7", default-features = false }
+    common    = { path = "crates/common", version = "0.1.7" }
+    json_fmt  = { path = "crates/json_fmt", version = "0.1.7", default-features = false }
 
     biome_formatter      = { version = "0.4.0" }
     biome_js_formatter   = { version = "0.4.0" }
