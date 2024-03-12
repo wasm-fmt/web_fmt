@@ -1,7 +1,7 @@
 class Foo1 {
 	@foo
-	async // comment
-	method() {}
+	// comment
+	async method() {}
 }
 
 class Foo2 {
@@ -12,14 +12,14 @@ class Foo2 {
 
 class Foo3 {
 	@foo
-	*// comment
-	method() {}
+	// comment
+	*method() {}
 }
 
 class Foo4 {
 	@foo
-	async *// comment
-	method() {}
+	// comment
+	async *method() {}
 }
 
 class Something {
