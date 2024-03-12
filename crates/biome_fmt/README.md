@@ -21,7 +21,7 @@ await init();
 
 const input = `function foo() {console.log("Hello, world!")}`;
 
-const formatted = format(input);
+const formatted = format(input, "app.js");
 console.log(formatted);
 ```
 
