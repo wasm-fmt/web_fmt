@@ -637,9 +637,9 @@ checksum = "90ed8c1e510134f979dbc4f070f87d4313098b704861a105fe34231c70a3901c"
 
 [[package]]
 name = "malva"
-version = "0.1.5"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9598ad803366d04286b8a8b5b869d7e5482bdc8151c4be52c86364d2f29500b6"
+checksum = "06b370bc23489442b51df2e54e854d6178d7d8296d2e5658031318c6ff219d4d"
 dependencies = [
  "aho-corasick",
  "itertools",
