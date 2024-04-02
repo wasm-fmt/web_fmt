@@ -21,7 +21,7 @@ common = { workspace = true, features = [
 biome_fmt  = { workspace = true, default-features = false }
 json_fmt   = { workspace = true, default-features = false }
 malva      = { version = "0.1.5", features = ["config_serde"] }
-markup_fmt = { version = "0.6.0", features = ["config_serde"] }
+markup_fmt = { version = "0.7.0", features = ["config_serde"] }
 
 serde              = { workspace = true, features = ["derive"] }
 serde-wasm-bindgen = { workspace = true }
