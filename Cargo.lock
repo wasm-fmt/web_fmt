@@ -572,6 +572,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "itertools"
+version = "0.12.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ba291022dbbd398a455acf126c1e341954079855bc60dfdda641363bd6922569"
+dependencies = [
+ "either",
+]
+
+[[package]]
 name = "itoa"
 version = "1.0.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -642,23 +651,26 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3e46bc1db87ea0e6a782fbd130f070b5019e947547b20e8df85159dbaf79a429"
 dependencies = [
  "aho-corasick",
- "itertools",
+ "itertools 0.11.0",
  "memchr",
  "raffia",
  "serde",
- "tiny_pretty",
+ "tiny_pretty 0.1.1",
 ]
 
 [[package]]
 name = "markup_fmt"
-version = "0.7.0"
+version = "0.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5704641fe630e87f25171f81ef0707cda8dc8ca969f57d35f226022fe8d9849c"
+checksum = "0a4956cc3f5f16c4f8ebf21a7c63c5c2527444dfda4089b2ecab9cb0b25f3a36"
 dependencies = [
+ "aho-corasick",
  "css_dataset",
- "itertools",
+ "itertools 0.12.1",
+ "memchr",
+ "once_cell",
  "serde",
- "tiny_pretty",
+ "tiny_pretty 0.2.0",
 ]
 
 [[package]]
@@ -1089,6 +1101,12 @@ name = "tiny_pretty"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "34dd2e384e3ddc3f1cd30c12f4647e32b6afd85eceb058c0245a2a96f7717179"
+
+[[package]]
+name = "tiny_pretty"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4b3f46f0549180b9c6f7f76270903f1a06867c43a03998b99dce81aa1760c3b2"
 dependencies = [
  "unicode-width",
 ]
