@@ -564,15 +564,6 @@ dependencies = [
 
 [[package]]
 name = "itertools"
-version = "0.11.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b1c173a5686ce8bfa551b3563d0c2170bf24ca44da99c7ca4bfdab5418c3fe57"
-dependencies = [
- "either",
-]
-
-[[package]]
-name = "itertools"
 version = "0.12.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ba291022dbbd398a455acf126c1e341954079855bc60dfdda641363bd6922569"
@@ -646,12 +637,12 @@ checksum = "90ed8c1e510134f979dbc4f070f87d4313098b704861a105fe34231c70a3901c"
 
 [[package]]
 name = "malva"
-version = "0.3.0"
+version = "0.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3e46bc1db87ea0e6a782fbd130f070b5019e947547b20e8df85159dbaf79a429"
+checksum = "29b2d8f629d6e4a3df85882a57d61254ab21745f190f1ab2a9c1efd7b3a3e916"
 dependencies = [
  "aho-corasick",
- "itertools 0.11.0",
+ "itertools",
  "memchr",
  "raffia",
  "serde",
@@ -666,7 +657,7 @@ checksum = "0a4956cc3f5f16c4f8ebf21a7c63c5c2527444dfda4089b2ecab9cb0b25f3a36"
 dependencies = [
  "aho-corasick",
  "css_dataset",
- "itertools 0.12.1",
+ "itertools",
  "memchr",
  "once_cell",
  "serde",
