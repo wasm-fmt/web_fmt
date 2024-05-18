@@ -20,7 +20,7 @@ common = { workspace = true, features = [
 
 biome_fmt  = { workspace = true, default-features = false }
 json_fmt   = { workspace = true, default-features = false }
-malva      = { version = "0.3.0", features = ["config_serde"] }
+malva      = { version = "0.4.0", features = ["config_serde"] }
 markup_fmt = { version = "0.8.0", features = ["config_serde"] }
 
 serde              = { workspace = true, features = ["derive"] }
