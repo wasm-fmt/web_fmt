@@ -25,11 +25,18 @@ resolver = "2"
     biome_json_parser    = { version = "0.5.7" }
     biome_json_syntax    = { version = "0.5.7" }
 
+    malva      = "0.4.0"
+    markup_fmt = "0.8.0"
+
     serde              = "1.0"
     serde-wasm-bindgen = "0.6"
     serde_json         = "1.0"
     wasm-bindgen       = "0.2.92"
 
 [profile.release]
-lto       = true
-opt-level = "s"
+codegen-units = 4
+debug         = false     # set to `true` for debug information
+lto           = true
+opt-level     = "s"
+panic         = "abort"   # Let it crash and force ourselves to write safe Rust.
+strip         = "symbols" # set to `false` for debug information
