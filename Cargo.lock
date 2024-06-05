@@ -566,6 +566,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "itertools"
+version = "0.13.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "413ee7dfc52ee1a4949ceeb7dbc8a33f2d6c088194d9f922fb8318faf1f01186"
+dependencies = [
+ "either",
+]
+
+[[package]]
 name = "itoa"
 version = "1.0.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -636,7 +645,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "5dc43b1ef867d69ea8917b88e0aefe1b85a7502f5c642b165132ee968ef49544"
 dependencies = [
  "aho-corasick",
- "itertools",
+ "itertools 0.12.1",
  "memchr",
  "raffia",
  "serde",
@@ -645,13 +654,13 @@ dependencies = [
 
 [[package]]
 name = "markup_fmt"
-version = "0.8.0"
+version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0a4956cc3f5f16c4f8ebf21a7c63c5c2527444dfda4089b2ecab9cb0b25f3a36"
+checksum = "4b61991b3934600e64c410ac3486c48e1a17ea39a7e1f405c4be255b96551d31"
 dependencies = [
  "aho-corasick",
  "css_dataset",
- "itertools",
+ "itertools 0.13.0",
  "memchr",
  "once_cell",
  "serde",
