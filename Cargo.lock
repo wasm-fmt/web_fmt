@@ -139,7 +139,7 @@ dependencies = [
 
 [[package]]
 name = "biome_fmt"
-version = "0.1.9"
+version = "0.1.10"
 dependencies = [
  "biome_formatter",
  "biome_js_formatter",
@@ -433,7 +433,7 @@ checksum = "aaa6b4b263a5d737e9bf6b7c09b72c41a5480aec4d7219af827f6564e950b6a5"
 
 [[package]]
 name = "common"
-version = "0.1.9"
+version = "0.1.10"
 dependencies = [
  "biome_formatter",
  "serde",
@@ -597,7 +597,7 @@ checksum = "c3d129799327c8f80861e467c59b825ba24c277dba6ad0d71a141dc98f9e04ee"
 
 [[package]]
 name = "json_fmt"
-version = "0.1.9"
+version = "0.1.10"
 dependencies = [
  "biome_formatter",
  "biome_json_formatter",
@@ -1211,7 +1211,7 @@ checksum = "af190c94f2773fdb3729c55b007a722abb5384da03bc0986df4c289bf5567e96"
 
 [[package]]
 name = "web_fmt"
-version = "0.1.9"
+version = "0.1.10"
 dependencies = [
  "biome_fmt",
  "common",
