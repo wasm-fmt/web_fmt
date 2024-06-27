@@ -145,7 +145,7 @@ jobs:
               run: npm pack
 
             - name: Release
-              uses: softprops/action-gh-release@69320dbe05506a9a39fc8ae11030b214ec2d1f87              
+              uses: softprops/action-gh-release@a485adba73bc95d9848c86e019d675bac99de0ed              
               with:
                   files: |
                       crates/*/pkg/*.tgz
