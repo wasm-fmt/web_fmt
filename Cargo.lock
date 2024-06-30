@@ -558,6 +558,15 @@ dependencies = [
 
 [[package]]
 name = "itertools"
+version = "0.12.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ba291022dbbd398a455acf126c1e341954079855bc60dfdda641363bd6922569"
+dependencies = [
+ "either",
+]
+
+[[package]]
+name = "itertools"
 version = "0.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "413ee7dfc52ee1a4949ceeb7dbc8a33f2d6c088194d9f922fb8318faf1f01186"
@@ -631,16 +640,16 @@ checksum = "90ed8c1e510134f979dbc4f070f87d4313098b704861a105fe34231c70a3901c"
 
 [[package]]
 name = "malva"
-version = "0.5.0"
+version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bd64c6e57f243150eaca24a21d6afc2649311110aa38f6022b9ba4089e6decf2"
+checksum = "5dc43b1ef867d69ea8917b88e0aefe1b85a7502f5c642b165132ee968ef49544"
 dependencies = [
  "aho-corasick",
- "itertools",
+ "itertools 0.12.1",
  "memchr",
  "raffia",
  "serde",
- "tiny_pretty",
+ "tiny_pretty 0.1.1",
 ]
 
 [[package]]
@@ -651,11 +660,11 @@ checksum = "4b61991b3934600e64c410ac3486c48e1a17ea39a7e1f405c4be255b96551d31"
 dependencies = [
  "aho-corasick",
  "css_dataset",
- "itertools",
+ "itertools 0.13.0",
  "memchr",
  "once_cell",
  "serde",
- "tiny_pretty",
+ "tiny_pretty 0.2.0",
 ]
 
 [[package]]
@@ -971,9 +980,9 @@ dependencies = [
 
 [[package]]
 name = "serde_json"
-version = "1.0.117"
+version = "1.0.119"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "455182ea6142b14f93f4bc5320a2b31c1f266b66a4a5c858b013302a5d8cbfc3"
+checksum = "e8eddb61f0697cc3989c5d64b452f5488e2b8a60fd7d5076a3045076ffef8cb0"
 dependencies = [
  "indexmap 2.2.6",
  "itoa",
@@ -1056,6 +1065,12 @@ dependencies = [
  "quote",
  "syn 2.0.66",
 ]
+
+[[package]]
+name = "tiny_pretty"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "34dd2e384e3ddc3f1cd30c12f4647e32b6afd85eceb058c0245a2a96f7717179"
 
 [[package]]
 name = "tiny_pretty"
