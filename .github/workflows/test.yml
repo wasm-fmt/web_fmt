@@ -78,7 +78,7 @@ jobs:
               with:
                   node-version-file: ".node-version"
 
-            - run: node --test crates/biome_fmt/test_node crates/web_fmt/test_node
+            - run: node --test crates/**/test_node/*.mjs
 
     deno-test:
         runs-on: ubuntu-latest

@@ -1,9 +1,9 @@
-import init, { format } from "../pkg/biome_fmt_node.js";
-import { test } from "node:test";
 import assert from "node:assert/strict";
 import fs from "node:fs/promises";
 import path from "node:path";
+import { test } from "node:test";
 import { fileURLToPath } from "node:url";
+import init, { format } from "../pkg/biome_fmt_node.js";
 
 await init();
 
