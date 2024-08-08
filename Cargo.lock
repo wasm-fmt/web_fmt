@@ -631,9 +631,9 @@ checksum = "90ed8c1e510134f979dbc4f070f87d4313098b704861a105fe34231c70a3901c"
 
 [[package]]
 name = "malva"
-version = "0.5.0"
+version = "0.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "bd64c6e57f243150eaca24a21d6afc2649311110aa38f6022b9ba4089e6decf2"
+checksum = "bf982faadf37679302c3fcd8d843d29bf4bb4d323323cffb2f5217ad39578470"
 dependencies = [
  "aho-corasick",
  "itertools",
@@ -829,9 +829,9 @@ dependencies = [
 
 [[package]]
 name = "raffia"
-version = "0.7.3"
+version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e6d90eedc51d9c3a13e34fc643fa79dda83aaa1c4ee47c38f3438f08ce3f5999"
+checksum = "6a26ea01d105c934a90ddd1fca6a343bec14e1a24b72126ee6f364f5a5dd5ec2"
 dependencies = [
  "raffia_macro",
  "serde",
@@ -1002,9 +1002,6 @@ name = "smallvec"
 version = "1.13.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3c5e1a9a646d36c3599cd173a41282daf47c44583ad367b8e6837255952e5c67"
-dependencies = [
- "serde",
-]
 
 [[package]]
 name = "syn"
