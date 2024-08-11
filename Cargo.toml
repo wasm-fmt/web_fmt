@@ -26,7 +26,7 @@ resolver = "2"
     biome_json_syntax    = { version = "0.5.7" }
 
     malva      = "0.8.0"
-    markup_fmt = "0.9.0"
+    markup_fmt = "0.11.0"
 
     serde              = "1.0"
     serde-wasm-bindgen = "0.6"
