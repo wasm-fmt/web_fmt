@@ -2,6 +2,7 @@ use std::path::Path;
 
 use common::LayoutConfig;
 
+use markup_fmt::Hints;
 use wasm_bindgen::prelude::*;
 
 use crate::format_style;
@@ -60,30 +61,34 @@ pub fn format_markup_with_config(
 ) -> Result<String, String> {
     let language = detect_language(filename).unwrap_or(markup_fmt::Language::Html);
 
-    markup_fmt::format_text(src, language, &markup_config, |filename, src, width| {
-        let extension =
-            filename.extension().map(|x| x.to_ascii_lowercase()).ok_or("expected extension")?;
-        let filename: &str = filename.to_str().ok_or("expected filename")?;
-
-        match extension.as_encoded_bytes() {
+    markup_fmt::format_text(
+        src,
+        language,
+        &markup_config,
+        |src, Hints { print_width, attr, ext }| match ext.as_bytes() {
             b"js" | b"ts" | b"mjs" | b"cjs" | b"jsx" | b"tsx" | b"mjsx" | b"cjsx" | b"mtsx" => {
                 biome_fmt::format_script_with_config(
                     src,
                     filename,
-                    script_config.clone().with_line_width(width as u16),
+                    script_config.clone().with_line_width(print_width as u16),
                 )
                 .map(Into::into)
             }
             b"css" | b"scss" | b"sass" | b"less" => {
-                let style_config = style_config.clone();
+                let mut style_config = style_config.clone();
+                if attr {
+                    if let markup_fmt::config::Quotes::Double = markup_config.language.quotes {
+                        style_config.language.quotes = malva::config::Quotes::AlwaysSingle;
+                    } else {
+                        style_config.language.quotes = malva::config::Quotes::AlwaysDouble;
+                    }
+                    style_config.language.single_line_top_level_declarations = true;
+                }
                 format_style::format_style_with_config(
                     src,
                     filename,
                     malva::config::FormatOptions {
-                        layout: malva::config::LayoutOptions {
-                            print_width: width,
-                            ..style_config.layout
-                        },
+                        layout: malva::config::LayoutOptions { print_width, ..style_config.layout },
                         language: style_config.language,
                     },
                 )
@@ -91,12 +96,12 @@ pub fn format_markup_with_config(
             }
             b"json" | b"jsonc" => json_fmt::format_json_with_config(
                 src,
-                json_config.clone().with_line_width(width as u16).into(),
+                json_config.clone().with_line_width(print_width as u16).into(),
             )
             .map(Into::into),
             _ => Ok(src.into()),
-        }
-    })
+        },
+    )
     .map_err(|e| format!("{:?}", e))
 }
 
