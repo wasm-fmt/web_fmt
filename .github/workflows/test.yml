@@ -105,7 +105,7 @@ jobs:
               with:
                   path: crates
 
-            - uses: oven-sh/setup-bun@v1
+            - uses: oven-sh/setup-bun@v2
               name: Install bun
 
             - run: bun test test_bun
