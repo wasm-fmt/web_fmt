@@ -93,7 +93,7 @@ jobs:
 
             - name: Publish ${{matrix.crate}}
               working-directory: crates/${{matrix.crate}}/pkg
-              run: npx jsr publish
+              run: npx jsr publish --allow-dirty
 
     publish-github:
         if: startsWith(github.ref, 'refs/tags/v')
