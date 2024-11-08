@@ -1,44 +1,30 @@
 import assert from "node:assert/strict";
 import fs from "node:fs/promises";
-import path from "node:path";
+import { basename } from "node:path";
+import { chdir } from "node:process";
 import { test } from "node:test";
 import { fileURLToPath } from "node:url";
+
 import init, { format } from "../pkg/biome_fmt_node.js";
 
 await init();
 
-const test_root = fileURLToPath(new URL("../test_data", import.meta.url));
+const test_root = fileURLToPath(import.meta.resolve("../test_data"));
+chdir(test_root);
 
-for await (const dirent of await fs.opendir(test_root, { recursive: true })) {
-	if (!dirent.isFile()) {
+for await (const input_path of fs.glob("**/*.{js,jsx,ts,tsx}")) {
+	if (basename(input_path).startsWith(".")) {
 		continue;
 	}
 
-	if (dirent.name.startsWith(".")) {
-		continue;
-	}
+	const expect_path = input_path + ".snap";
 
-	const input_path = path.join(dirent.path, dirent.name);
-	const ext = path.extname(input_path);
-
-	switch (ext) {
-		case ".js":
-		case ".jsx":
-		case ".ts":
-		case ".tsx":
-			break;
-
-		default:
-			continue;
-	}
-
-	const test_name = path.relative(test_root, input_path);
 	const [input, expected] = await Promise.all([
-		fs.readFile(input_path, { encoding: "utf-8" }),
-		fs.readFile(input_path + ".snap", { encoding: "utf-8" }),
+		fs.readFile(input_path, "utf-8"),
+		fs.readFile(expect_path, "utf-8"),
 	]);
 
-	test(test_name, () => {
+	test(input_path, () => {
 		const actual = format(input, input_path);
 		assert.equal(actual, expected);
 	});
