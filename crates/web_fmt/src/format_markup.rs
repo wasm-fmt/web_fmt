@@ -65,7 +65,7 @@ pub fn format_markup_with_config(
         src,
         language,
         &markup_config,
-        |src, Hints { print_width, attr, ext }| match ext.as_bytes() {
+        |src, Hints { print_width, attr, ext, .. }| match ext.as_bytes() {
             b"js" | b"ts" | b"mjs" | b"cjs" | b"jsx" | b"tsx" | b"mjsx" | b"cjsx" | b"mtsx" => {
                 biome_fmt::format_script_with_config(
                     src,

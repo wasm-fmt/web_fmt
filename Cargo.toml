@@ -25,13 +25,13 @@ resolver = "2"
     biome_json_parser    = { version = "0.5.7" }
     biome_json_syntax    = { version = "0.5.7" }
 
-    malva      = "0.11.0"
-    markup_fmt = "0.16.0"
+    malva      = "0.11.1"
+    markup_fmt = "0.18.0"
 
     serde              = "1.0"
     serde-wasm-bindgen = "0.6"
     serde_json         = "1.0"
-    wasm-bindgen       = "0.2.93"
+    wasm-bindgen       = "0.2.99"
 
 [profile.release]
 codegen-units = 4
