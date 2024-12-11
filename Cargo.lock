@@ -139,7 +139,7 @@ dependencies = [
 
 [[package]]
 name = "biome_fmt"
-version = "0.1.13"
+version = "0.1.12"
 dependencies = [
  "biome_formatter",
  "biome_js_formatter",
@@ -421,7 +421,7 @@ checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 
 [[package]]
 name = "common"
-version = "0.1.13"
+version = "0.1.12"
 dependencies = [
  "biome_formatter",
  "serde",
@@ -587,7 +587,7 @@ dependencies = [
 
 [[package]]
 name = "json_fmt"
-version = "0.1.13"
+version = "0.1.12"
 dependencies = [
  "biome_formatter",
  "biome_json_formatter",
@@ -638,9 +638,9 @@ dependencies = [
 
 [[package]]
 name = "markup_fmt"
-version = "0.18.0"
+version = "0.14.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fa7605bb4ad755a9ab5c96f2ce3bfd4eb8acd559b842c041fc8a5f84d63aed3a"
+checksum = "3f15d7b24ae4ea9b87279bc0696462a4fb6c2168847f2cc162a2da05fe1a0f61"
 dependencies = [
  "aho-corasick",
  "css_dataset",
@@ -862,9 +862,9 @@ checksum = "94143f37725109f92c262ed2cf5e59bce7498c01bcc1502d7b9afe439a4e9f49"
 
 [[package]]
 name = "serde"
-version = "1.0.215"
+version = "1.0.216"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6513c1ad0b11a9376da888e3e0baa0077f1aed55c17f50e7b2397136129fb88f"
+checksum = "0b9781016e935a97e8beecf0c933758c97a5520d32930e460142b4cd80c6338e"
 dependencies = [
  "serde_derive",
 ]
@@ -882,9 +882,9 @@ dependencies = [
 
 [[package]]
 name = "serde_derive"
-version = "1.0.215"
+version = "1.0.216"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ad1e866f866923f252f05c889987993144fb74e722403468a4ebd70c3cd756c0"
+checksum = "46f859dbbf73865c6627ed570e78961cd3ac92407a2d117204c49232485da55e"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1114,7 +1114,7 @@ checksum = "943aab3fdaaa029a6e0271b35ea10b72b943135afe9bffca82384098ad0e06a6"
 
 [[package]]
 name = "web_fmt"
-version = "0.1.13"
+version = "0.1.12"
 dependencies = [
  "biome_fmt",
  "common",
