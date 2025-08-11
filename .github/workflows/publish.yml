@@ -18,7 +18,7 @@ jobs:
             matrix:
                 crate: ["biome_fmt", "web_fmt", "json_fmt"]
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v5
 
             - name: Install wasm-pack
               run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
@@ -50,7 +50,7 @@ jobs:
                 crate: ["biome_fmt", "web_fmt", "json_fmt"]
         needs: wasm-build
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v5
 
             - uses: actions/download-artifact@v4
               with:
@@ -79,7 +79,7 @@ jobs:
                 crate: ["biome_fmt", "web_fmt", "json_fmt"]
         needs: wasm-build
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v5
 
             - uses: actions/download-artifact@v4
               with:
@@ -105,7 +105,7 @@ jobs:
                 crate: ["biome_fmt", "web_fmt", "json_fmt"]
         needs: wasm-build
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v5
 
             - uses: actions/download-artifact@v4
               with:
@@ -133,7 +133,7 @@ jobs:
                 crate: ["biome_fmt", "web_fmt", "json_fmt"]
         needs: wasm-build
         steps:
-            - uses: actions/checkout@v4
+            - uses: actions/checkout@v5
 
             - uses: actions/download-artifact@v4
               with:
