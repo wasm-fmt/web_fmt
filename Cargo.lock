@@ -553,15 +553,6 @@ dependencies = [
 
 [[package]]
 name = "itertools"
-version = "0.13.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "413ee7dfc52ee1a4949ceeb7dbc8a33f2d6c088194d9f922fb8318faf1f01186"
-dependencies = [
- "either",
-]
-
-[[package]]
-name = "itertools"
 version = "0.14.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2b192c782037fadd9cfa75548310488aabdbf3d2da73885b31bd0abd03351285"
@@ -638,7 +629,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "aa8f6005fe3f2348f1fc59d647ee6945d5832fd080178e6d034bab1bf7976348"
 dependencies = [
  "aho-corasick",
- "itertools 0.14.0",
+ "itertools",
  "memchr",
  "raffia",
  "serde",
@@ -647,13 +638,13 @@ dependencies = [
 
 [[package]]
 name = "markup_fmt"
-version = "0.22.0"
+version = "0.23.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2cc6a5130d40b34be77fbd52645323c199d2db25f90922d5cef1da2a9eca96b0"
+checksum = "fd8ae9e7e3d4ea46b90dc6f88a1ced59d2b9f43a0c2cbd7e212db5ff45d50e85"
 dependencies = [
  "aho-corasick",
  "css_dataset",
- "itertools 0.13.0",
+ "itertools",
  "memchr",
  "serde",
  "tiny_pretty",
