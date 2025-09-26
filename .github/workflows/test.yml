@@ -70,7 +70,7 @@ jobs:
         needs: wasm-build
         steps:
             - uses: actions/checkout@v4
-            - uses: actions/download-artifact@v4
+            - uses: actions/download-artifact@v5
               with:
                   path: crates
 
@@ -85,7 +85,7 @@ jobs:
         needs: wasm-build
         steps:
             - uses: actions/checkout@v4
-            - uses: actions/download-artifact@v4
+            - uses: actions/download-artifact@v5
               with:
                   path: crates
 
@@ -101,7 +101,7 @@ jobs:
         continue-on-error: true
         steps:
             - uses: actions/checkout@v4
-            - uses: actions/download-artifact@v4
+            - uses: actions/download-artifact@v5
               with:
                   path: crates
 
