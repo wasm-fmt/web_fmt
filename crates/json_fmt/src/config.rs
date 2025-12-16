@@ -1,4 +1,4 @@
-use biome_formatter::LineWidthFromIntError;
+use biome_formatter::{IndentWidthFromIntError, LineWidthFromIntError};
 use biome_json_formatter::context::JsonFormatOptions;
 use common::LayoutConfig;
 use serde::Deserialize;
@@ -38,7 +38,9 @@ impl TryFrom<JsonConfig> for JsonFormatOptions {
         };
 
         if let Some(indent_width) = value.0.indent_width() {
-            option = option.with_indent_width(indent_width.into());
+            let indent_width =
+                indent_width.try_into().map_err(|e: IndentWidthFromIntError| e.to_string())?;
+            option = option.with_indent_width(indent_width);
         }
 
         if let Some(line_ending) = value.0.line_ending() {

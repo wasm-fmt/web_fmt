@@ -1,4 +1,6 @@
-use biome_formatter::{IndentStyle as BiomeIndentStyle, LineWidthFromIntError};
+use biome_formatter::{
+    IndentStyle as BiomeIndentStyle, IndentWidthFromIntError, LineWidthFromIntError,
+};
 use biome_js_formatter::context::JsFormatOptions;
 use biome_js_syntax::JsFileSource;
 
@@ -87,7 +89,9 @@ impl TryFrom<BiomeConfig> for JsFormatOptions {
         };
 
         if let Some(indent_width) = value.layout.indent_width() {
-            option = option.with_indent_width(indent_width.into());
+            let indent_width =
+                indent_width.try_into().map_err(|e: IndentWidthFromIntError| e.to_string())?;
+            option = option.with_indent_width(indent_width);
         }
 
         if let Some(line_width) = value.layout.line_width() {
@@ -122,7 +126,7 @@ impl TryFrom<BiomeConfig> for JsFormatOptions {
         if let Some(trailing_comma) = value.trailing_comma {
             let trailing_comma = trailing_comma.parse()?;
 
-            option = option.with_trailing_comma(trailing_comma);
+            option = option.with_trailing_commas(trailing_comma);
         };
 
         if let Some(semicolons) = value.semicolons {

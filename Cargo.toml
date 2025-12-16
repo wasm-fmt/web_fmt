@@ -17,13 +17,13 @@ resolver = "2"
     common    = { path = "crates/common", version = "0.1.12" }
     json_fmt  = { path = "crates/json_fmt", version = "0.1.12", default-features = false }
 
-    biome_formatter      = { version = "0.5.7" }
-    biome_js_formatter   = { version = "0.5.7" }
-    biome_js_parser      = { version = "0.5.7" }
-    biome_js_syntax      = { version = "0.5.7" }
-    biome_json_formatter = { version = "0.5.7" }
-    biome_json_parser    = { version = "0.5.7" }
-    biome_json_syntax    = { version = "0.5.7" }
+    biome_formatter      = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.8" }
+    biome_js_formatter   = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.8" }
+    biome_js_parser      = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.8" }
+    biome_js_syntax      = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.8" }
+    biome_json_formatter = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.8" }
+    biome_json_parser    = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.8" }
+    biome_json_syntax    = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.8" }
 
     malva      = "0.15.0"
     markup_fmt = "0.25.0"
