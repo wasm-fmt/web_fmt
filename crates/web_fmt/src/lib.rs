@@ -1,3 +1,12 @@
+// Ensure exactly one script formatter feature is enabled
+#[cfg(all(feature = "script-biome", feature = "script-oxc"))]
+compile_error!(
+    "Features `script-biome` and `script-oxc` are mutually exclusive. Please enable only one."
+);
+
+#[cfg(not(any(feature = "script-biome", feature = "script-oxc")))]
+compile_error!("Either `script-biome` or `script-oxc` feature must be enabled.");
+
 mod format_json;
 mod format_markup;
 mod format_script;
@@ -19,7 +28,10 @@ extern "C" {
 #[serde(rename_all = "snake_case")]
 struct Config {
     markup: Option<markup_fmt::config::FormatOptions>,
+    #[cfg(feature = "script-biome")]
     script: Option<biome_fmt::BiomeConfig>,
+    #[cfg(feature = "script-oxc")]
+    script: Option<oxc_fmt::OxcConfig>,
     style: Option<malva::config::FormatOptions>,
     json: Option<LayoutConfig>,
 }
@@ -74,19 +86,31 @@ pub fn format(src: &str, filename: &str, config: Option<JSConfig>) -> Result<Str
 
     match extension.as_encoded_bytes() {
         b"js" | b"ts" | b"mjs" | b"cjs" | b"jsx" | b"tsx" | b"mjsx" | b"cjsx" | b"mtsx"
-        | b"ctsx" => biome_fmt::format_script_with_config(src, filename, script_config),
+        | b"ctsx" => {
+            #[cfg(feature = "script-biome")]
+            {
+                biome_fmt::format_script_with_config(src, filename, script_config)
+            }
+            #[cfg(feature = "script-oxc")]
+            {
+                format_script::format_script_with_config(
+                    src,
+                    filename,
+                    script_config,
+                    style_config.clone(),
+                )
+            }
+        }
         b"css" | b"scss" | b"sass" | b"less" => {
             format_style::format_style_with_config(src, filename, style_config)
         }
         b"html" | b"vue" | b"svelte" | b"astro" | b"jinja" | b"jinja2" | b"twig" => {
-            format_markup::format_markup_with_config(
-                src,
-                filename,
-                markup_config,
-                style_config,
-                script_config,
-                json_config,
-            )
+            format_markup::FormatMarkup::new(src, filename)
+                .markup(markup_config)
+                .style(style_config)
+                .script(script_config)
+                .json(json_config)
+                .format()
         }
         b"json" | b"jsonc" => json_fmt::format_json_with_config(src, json_config.into()),
         _ => Err(format!("unsupported file extension: {}", filename)),

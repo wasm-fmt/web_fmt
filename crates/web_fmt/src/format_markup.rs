@@ -5,7 +5,14 @@ use common::LayoutConfig;
 use markup_fmt::Hints;
 use wasm_bindgen::prelude::*;
 
+use crate::format_script;
 use crate::format_style;
+
+// Type alias for script config based on feature
+#[cfg(feature = "script-biome")]
+pub(crate) type ScriptConfig = biome_fmt::BiomeConfig;
+#[cfg(feature = "script-oxc")]
+pub(crate) type ScriptConfig = oxc_fmt::OxcConfig;
 
 #[wasm_bindgen]
 extern "C" {
@@ -38,71 +45,168 @@ pub fn format_markup(src: &str, filename: &str, config: Option<Config>) -> Resul
 
     let markup_config = produce_markup_config(config, &default_config, &default_config);
     let style_config = format_style::produce_style_config(None, &default_config, &default_config);
-    let script_config = biome_fmt::BiomeConfig::default().fill_empty_layout_with(&default_config);
+    let script_config =
+        format_script::produce_script_config(None, &default_config, &default_config);
     let json_config = LayoutConfig::default().fill_empty_with(&default_config);
 
-    format_markup_with_config(
-        src,
-        filename,
-        markup_config,
-        style_config,
-        script_config,
-        json_config,
-    )
+    FormatMarkup::new(src, filename)
+        .markup(markup_config)
+        .style(style_config)
+        .script(script_config)
+        .json(json_config)
+        .format()
 }
 
-pub fn format_markup_with_config(
-    src: &str,
-    filename: &str,
+/// Builder for formatting HTML/Vue/Svelte/Astro markup.
+pub struct FormatMarkup<'a> {
+    src: &'a str,
+    filename: &'a str,
     markup_config: markup_fmt::config::FormatOptions,
     style_config: malva::config::FormatOptions,
-    script_config: biome_fmt::BiomeConfig,
+    script_config: ScriptConfig,
     json_config: LayoutConfig,
-) -> Result<String, String> {
-    let language = detect_language(filename).unwrap_or(markup_fmt::Language::Html);
+}
 
-    markup_fmt::format_text(
-        src,
-        language,
-        &markup_config,
-        |src, Hints { print_width, attr, ext, .. }| match ext.as_bytes() {
-            b"js" | b"ts" | b"mjs" | b"cjs" | b"jsx" | b"tsx" | b"mjsx" | b"cjsx" | b"mtsx" => {
-                biome_fmt::format_script_with_config(
-                    src,
-                    filename,
-                    script_config.clone().with_line_width(print_width as u16),
-                )
-                .map(Into::into)
-            }
-            b"css" | b"scss" | b"sass" | b"less" => {
-                let mut style_config = style_config.clone();
-                if attr {
-                    if let markup_fmt::config::Quotes::Double = markup_config.language.quotes {
-                        style_config.language.quotes = malva::config::Quotes::AlwaysSingle;
-                    } else {
-                        style_config.language.quotes = malva::config::Quotes::AlwaysDouble;
-                    }
-                    style_config.language.single_line_top_level_declarations = true;
-                }
-                format_style::format_style_with_config(
-                    src,
-                    filename,
-                    malva::config::FormatOptions {
-                        layout: malva::config::LayoutOptions { print_width, ..style_config.layout },
-                        language: style_config.language,
-                    },
-                )
-                .map(Into::into)
-            }
-            b"json" | b"jsonc" => json_fmt::format_json_with_config(
+impl<'a> FormatMarkup<'a> {
+    pub fn new(src: &'a str, filename: &'a str) -> Self {
+        Self {
+            src,
+            filename,
+            markup_config: Default::default(),
+            style_config: Default::default(),
+            script_config: Default::default(),
+            json_config: Default::default(),
+        }
+    }
+
+    pub fn markup(mut self, config: markup_fmt::config::FormatOptions) -> Self {
+        self.markup_config = config;
+        self
+    }
+
+    pub fn style(mut self, config: malva::config::FormatOptions) -> Self {
+        self.style_config = config;
+        self
+    }
+
+    pub fn script(mut self, config: ScriptConfig) -> Self {
+        self.script_config = config;
+        self
+    }
+
+    pub fn json(mut self, config: LayoutConfig) -> Self {
+        self.json_config = config;
+        self
+    }
+
+    pub fn format(self) -> Result<String, String> {
+        let language = detect_language(self.filename).unwrap_or(markup_fmt::Language::Html);
+        let Self { src, filename, markup_config, style_config, script_config, json_config } = self;
+
+        markup_fmt::format_text(src, language, &markup_config, |src, hints| {
+            format_embedded(
                 src,
-                json_config.clone().with_line_width(print_width as u16).into(),
+                filename,
+                hints,
+                &markup_config,
+                &style_config,
+                &script_config,
+                &json_config,
             )
-            .map(Into::into),
-            _ => Ok(src.into()),
+        })
+        .map_err(|e| format!("{:?}", e))
+    }
+}
+
+fn format_embedded<'a>(
+    src: &'a str,
+    filename: &str,
+    Hints { print_width, attr, ext, .. }: Hints,
+    markup_config: &markup_fmt::config::FormatOptions,
+    style_config: &malva::config::FormatOptions,
+    script_config: &ScriptConfig,
+    json_config: &LayoutConfig,
+) -> Result<std::borrow::Cow<'a, str>, String> {
+    match ext.as_bytes() {
+        b"js" | b"ts" | b"mjs" | b"cjs" | b"jsx" | b"tsx" | b"mjsx" | b"cjsx" | b"mtsx" => {
+            format_script_embedded(src, filename, ext, print_width, script_config, style_config)
+        }
+        b"css" | b"scss" | b"sass" | b"less" => {
+            format_style_embedded(src, filename, print_width, attr, markup_config, style_config)
+        }
+        b"json" | b"jsonc" => json_fmt::format_json_with_config(
+            src,
+            json_config.clone().with_line_width(print_width as u16).into(),
+        )
+        .map(Into::into),
+        _ => Ok(src.into()),
+    }
+}
+
+#[cfg(feature = "script-biome")]
+fn format_script_embedded<'a>(
+    src: &'a str,
+    filename: &str,
+    _ext: &str,
+    print_width: usize,
+    script_config: &ScriptConfig,
+    _style_config: &malva::config::FormatOptions,
+) -> Result<std::borrow::Cow<'a, str>, String> {
+    biome_fmt::format_script_with_config(
+        src,
+        filename,
+        script_config.clone().with_line_width(print_width as u16),
+    )
+    .map(Into::into)
+}
+
+#[cfg(feature = "script-oxc")]
+fn format_script_embedded<'a>(
+    src: &'a str,
+    filename: &str,
+    ext: &str,
+    print_width: usize,
+    script_config: &ScriptConfig,
+    style_config: &malva::config::FormatOptions,
+) -> Result<std::borrow::Cow<'a, str>, String> {
+    let mut style_config = style_config.clone();
+    style_config.layout.print_width = print_width;
+    format_script::format_script_with_ext(
+        src,
+        filename,
+        ext,
+        script_config.clone().with_line_width(print_width as u16),
+        style_config,
+    )
+    .map(Into::into)
+}
+
+fn format_style_embedded<'a>(
+    src: &'a str,
+    filename: &str,
+    print_width: usize,
+    attr: bool,
+    markup_config: &markup_fmt::config::FormatOptions,
+    style_config: &malva::config::FormatOptions,
+) -> Result<std::borrow::Cow<'a, str>, String> {
+    let mut style_config = style_config.clone();
+    if attr {
+        if let markup_fmt::config::Quotes::Double = markup_config.language.quotes {
+            style_config.language.quotes = malva::config::Quotes::AlwaysSingle;
+        } else {
+            style_config.language.quotes = malva::config::Quotes::AlwaysDouble;
+        }
+        style_config.language.single_line_top_level_declarations = true;
+    }
+    format_style::format_style_with_config(
+        src,
+        filename,
+        malva::config::FormatOptions {
+            layout: malva::config::LayoutOptions { print_width, ..style_config.layout },
+            language: style_config.language,
         },
     )
-    .map_err(|e| format!("{:?}", e))
+    .map(Into::into)
 }
 
 pub(crate) fn detect_language(path: impl AsRef<Path>) -> Option<markup_fmt::Language> {

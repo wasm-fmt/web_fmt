@@ -1,0 +1,40 @@
+[package]
+description = "JavaScript/TypeScript formatter powered by WASM ported from OXC (experimental)"
+keywords    = ["wasm", "formatter", "javascript", "typescript", "oxc"]
+name        = "oxc_fmt"
+
+authors.workspace    = true
+edition.workspace    = true
+homepage.workspace   = true
+license.workspace    = true
+publish              = false
+repository.workspace = true
+version.workspace    = true
+
+    [package.metadata.wasm-pack.profile.release]
+    wasm-opt = [
+        "-Os",
+        "--enable-bulk-memory",
+        "--enable-nontrapping-float-to-int",
+    ]
+
+
+[features]
+default = ["main"]
+main    = ["wasm-bindgen", "serde-wasm-bindgen", "common/wasm-bindgen"]
+
+[dependencies]
+common = { workspace = true, features = ["serde"] }
+
+oxc_allocator = { workspace = true }
+oxc_formatter = { workspace = true }
+oxc_parser    = { workspace = true }
+oxc_span      = { workspace = true }
+
+serde              = { workspace = true, features = ["derive"] }
+serde-wasm-bindgen = { workspace = true, optional = true }
+wasm-bindgen       = { workspace = true, optional = true }
+
+
+[lib]
+crate-type = ["cdylib", "rlib"]
