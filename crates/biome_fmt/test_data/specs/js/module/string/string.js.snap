@@ -1,14 +1,34 @@
 import hey from "hey";
 import hey from "hey";
-import "x" assert { type: "json" };
-import "foo" assert { "type": "json" };
-import foo from "foo.json" assert { type: "json" };
-import foo from "foo.json" assert { type: "json" };
-import foo2 from "foo.json" assert {
-	"type": "json",
-	type: "html",
-	"type": "js",
-};
+import "x";
+assert;
+{
+	type: "json";
+}
+import "foo";
+assert;
+{
+	("type");
+	: "json"
+}
+import foo from "foo.json";
+assert;
+{
+	type: "json";
+}
+import foo from "foo.json";
+assert;
+{
+	type: "json";
+}
+import foo2 from "foo.json";
+assert;
+{
+	("type");
+	: "json",
+	type: "html", "type";
+	: "js"
+}
 import a, * as b from "foo";
 
 const foo = {};
@@ -45,10 +65,12 @@ export * from "hey";
 
 export * as something_bad_will_happen from "something_bad_might_not_happen";
 
-export * as something_bad_will_happen from "something_bad_might_not_happen" assert {
-	"type": "json",
-	"type2": "json3",
-};
+export * as something_bad_will_happen from "something_bad_might_not_happen";
+assert;
+{
+	("type");
+	: "json", "type2": "json3"
+}
 
 // this one should switch to use single quotes
 ('content \'\' """ ');
@@ -60,4 +82,4 @@ export * as something_bad_will_happen from "something_bad_might_not_happen" asse
 ("content \\' \\' ");
 
 // you should remove the escape
-("content '' ");
+("content \'\' ");

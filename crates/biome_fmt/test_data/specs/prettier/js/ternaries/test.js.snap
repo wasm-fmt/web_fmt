@@ -14,7 +14,7 @@ const obj3 = conditionIsTruthy
 			object: "with",
 			lots: "of",
 			stuff,
-	  }
+		}
 	: shortThing;
 
 const obj4 = conditionIsTruthy
@@ -24,7 +24,7 @@ const obj4 = conditionIsTruthy
 			object: "with",
 			lots: "of",
 			stuff,
-	  };
+		};
 
 const obj5 = conditionIsTruthy
 	? { some: "long", object: "with", lots: "of", stuff }
@@ -33,4 +33,4 @@ const obj5 = conditionIsTruthy
 			object: "with",
 			lots: "of",
 			stuff,
-	  };
+		};

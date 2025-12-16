@@ -6,7 +6,7 @@
 
 <div {...a /* comment */} />;
 
-<div {.../* comment */ a} />;
+<div {/* comment */ ...a} />;
 
 <div
 	{
@@ -23,14 +23,14 @@
 
 <div
 	{
-		...//comment
-		a
+		//comment
+		...a
 	}
 />;
 
 <div
 	{
-		...//comment
-		a // comment
+		//comment
+		...a // comment
 	}
 />;

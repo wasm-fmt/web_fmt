@@ -1,7 +1,21 @@
 export * as foo from "foo.json";
 export * as bar from "bar.json";
-export * as baz from "baz.json" /* comment */;
+assert;
+{
+}
+export * as baz from "baz.json";
+assert;
+{
+	/* comment */
+}
 
 import * as foo from "foo.json";
 import * as bar from "bar.json";
-import * as baz from "baz.json" /* comment */;
+assert;
+{
+}
+import * as baz from "baz.json";
+assert;
+{
+	/* comment */
+}

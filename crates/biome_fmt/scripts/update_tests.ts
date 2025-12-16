@@ -9,7 +9,7 @@ const test_root = new URL(import.meta.resolve("../test_data"));
 
 for await (const entry of walk(test_root, {
     includeDirs: false,
-	exts: ["html", "vue", "json", "tsx"],
+	exts: ["js", "jsx", "ts", "tsx"],
 })) {
     if (entry.name.startsWith(".")) {
         continue;

@@ -26,6 +26,5 @@ something()[1]()[3]()
 	.else()
 	.what_the_hell();
 
-some.member.with.
-	// rome-ignore format: Verify that formatting calls into right.format()
-	rather.hard.to.test.because.name.doesnt.format.being.ignored;
+// rome-ignore format: Verify that formatting calls into right.format()
+some.member.with.rather.hard.to.test.because.name.doesnt.format.being.ignored;

@@ -2,7 +2,7 @@
 
 <div>{...a /* comment */}</div>;
 
-<div>{.../* comment */ a}</div>;
+<div>{/* comment */ ...a}</div>;
 
 <div>
 	{
@@ -19,14 +19,14 @@
 
 <div>
 	{
-		...//comment
-		a
+		//comment
+		...a
 	}
 </div>;
 
 <div>
 	{
-		...//comment
-		a // comment
+		//comment
+		...a // comment
 	}
 </div>;

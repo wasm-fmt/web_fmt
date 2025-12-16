@@ -2,25 +2,25 @@
 // … or maybe this is okay, because the colon is enough?
 const avatar = has_ordered
 	? "https://marmelab.com/posters/avatar/longer-word-that-breaks-consequent-" +
-	  numberOfCustomers +
-	  ".jpeg"
+		numberOfCustomers +
+		".jpeg"
 	: undefined;
 
 // Similarly, in the alternate:
 const redirectUrl = pathName
 	? pathName
 	: nextPathName + nextSearch ||
-	  defaultAuthParams.afterLoginUrl.makeThisLongerSoItBreaks;
+		defaultAuthParams.afterLoginUrl.makeThisLongerSoItBreaks;
 
 // And another, more pathological case of the above:
 const isEmpty = (obj) =>
 	obj instanceof Date
 		? false
 		: obj === "" ||
-		  obj === null ||
-		  obj === undefined ||
-		  obj === somethingThatIsLonger ||
-		  shallowEqual(obj, {});
+			obj === null ||
+			obj === undefined ||
+			obj === somethingThatIsLonger ||
+			shallowEqual(obj, {});
 
 // Again, this case is a bit hard to distinguish the alternate.
 const eventsFromOrders =
@@ -29,7 +29,7 @@ const eventsFromOrders =
 				type: "order",
 				date: orders[id].date,
 				data: orders[id],
-		  }))
+			}))
 		: [];
 
 // Kinda weird to have dedents to the level of "return" in a function.
@@ -37,22 +37,22 @@ function foo() {
 	return !linkTo
 		? false
 		: typeof linkTo === "function"
-		  ? linkTo(record, reference)
-		  : linkToRecord(rootPath, sourceId, linkTo_as_string);
+			? linkTo(record, reference)
+			: linkToRecord(rootPath, sourceId, linkTo_as_string);
 }
 function foo2() {
 	return React.isValidElement(emptyText)
 		? React.cloneElement(emptyText)
 		: emptyText === ""
-		  ? " " // em space, forces the display of an empty line of normal height
-		  : translate(emptyText, { _: emptyText });
+			? " " // em space, forces the display of an empty line of normal height
+			: translate(emptyText, { _: emptyText });
 }
 
 // Function call ideally wouldnt break break
 const matchingReferencesError = isMatchingReferencesError(matchingReferences)
 	? translate(matchingReferences.error, {
 			_: matchingReferences.error,
-	  })
+		})
 	: null;
 
 // This one is kinda confusing any way you slice it…
@@ -63,7 +63,7 @@ const obj = {
 			(input.value && selectedReferencesDataStatus === REFERENCES_STATUS_EMPTY))
 			? translate("ra.input.references.all_missing", {
 					_: "ra.input.references.all_missing",
-			  })
+				})
 			: null,
 };
 
@@ -73,9 +73,9 @@ const obj2 = {
 		matchingReferencesError ||
 		(input.value && selectedReferencesDataStatus !== REFERENCES_STATUS_READY)
 			? matchingReferencesError ||
-			  translate("ra.input.references.many_missing", {
+				translate("ra.input.references.many_missing", {
 					_: "ra.input.references.many_missing",
-			  })
+				})
 			: null,
 };
 
@@ -92,20 +92,20 @@ resolveRedirectTo(
 	payload
 		? payload.id || (payload.data ? payload.data.id : null)
 		: requestPayload
-		  ? requestPayload.id
-		  : null,
+			? requestPayload.id
+			: null,
 	payload && payload.data
 		? payload.data
 		: requestPayload && requestPayload.data
-		  ? requestPayload.data
-		  : null,
+			? requestPayload.data
+			: null,
 );
 
 const delayedDataProvider = new Proxy(restProvider, {
 	get: (target, name, self) =>
 		name === "then"
 			? // as we await for the dataProvider, JS calls then on it. We must trap that call or else the dataProvider will be called with the then method
-			  self
+				self
 			: (resource, params) =>
 					new Promise((resolve) =>
 						setTimeout(

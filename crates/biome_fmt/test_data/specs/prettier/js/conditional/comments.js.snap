@@ -1,33 +1,33 @@
 var inspect =
 	4 === util.inspect.length
 		? // node <= 0.8.x
-		  function (v, colors) {
+			function (v, colors) {
 				return util.inspect(v, void 0, void 0, colors);
-		  }
+			}
 		: // node > 0.8.x
-		  function (v, colors) {
+			function (v, colors) {
 				return util.inspect(v, { colors: colors });
-		  };
+			};
 
 var inspect =
 	4 === util.inspect.length
 		? // node <= 0.8.x
-		  function (v, colors) {
+			function (v, colors) {
 				return util.inspect(v, void 0, void 0, colors);
-		  }
+			}
 		: // node > 0.8.x
-		  function (v, colors) {
+			function (v, colors) {
 				return util.inspect(v, { colors: colors });
-		  };
+			};
 
 const extractTextPluginOptions = shouldUseRelativeAssetPaths
 	? // Making sure that the publicPath goes back to to build folder.
-	  { publicPath: Array(cssFilename.split("/").length).join("../") }
+		{ publicPath: Array(cssFilename.split("/").length).join("../") }
 	: {};
 
 const extractTextPluginOptions2 = shouldUseRelativeAssetPaths
 	? // Making sure that the publicPath goes back to to build folder.
-	  { publicPath: Array(cssFilename.split("/").length).join("../") }
+		{ publicPath: Array(cssFilename.split("/").length).join("../") }
 	: {};
 
 const extractTextPluginOptions3 = shouldUseRelativeAssetPaths // Making sure that the publicPath goes back to to build folder.
@@ -52,7 +52,7 @@ test
     comment
           comment
   */
-	  foo
+		foo
 	: bar;
 
 test
@@ -61,13 +61,13 @@ test
        comment
        comment
     */
-	  foo
+		foo
 	: test
-	  ? /* comment
+		? /* comment
   comment
     comment */
-		  foo
-	  : bar;
+			foo
+		: bar;
 
 test ? /* comment */ foo : bar;
 
@@ -78,7 +78,7 @@ test
      comment
            comment
     */
-	  bar;
+		bar;
 
 test
 	? foo
@@ -88,13 +88,13 @@ test
            comment
       A newline will be added after this comment, unfortunately – but it can be removed manually, see next statement.
     */
-	  test
-	  ? foo
-	  : /* comment
+		test
+		? foo
+		: /* comment
   comment
     comment
    */
-		  bar;
+			bar;
 
 // It is at least possible to delete the extra newline that was
 // unfortunately added before the second condition above:
@@ -105,13 +105,13 @@ test
      comment
            comment
     */
-	  test
-	  ? foo
-	  : /* comment
+		test
+		? foo
+		: /* comment
   comment
     comment
    */
-		  bar;
+			bar;
 
 test ? foo : /* comment */ bar;
 

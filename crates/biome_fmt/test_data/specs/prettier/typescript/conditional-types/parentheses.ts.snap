@@ -12,9 +12,9 @@ type Test<T> = T extends (
 ) => token is infer U extends TSESTree.Token
 	? U
 	: TSESTree.Token;
-type Test<T> = T extends (
+type Test<T> = T extends ((
 	token: TSESTree.Token,
-) => asserts token is infer U extends TSESTree.Token
+) => asserts token is infer U extends TSESTree.Token)
 	? U
 	: TSESTree.Token;
 type Test<T> = T extends (new (

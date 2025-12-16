@@ -58,6 +58,7 @@ if (true) {
 } else if (
 	// rome-ignore format: Test suppression comments
 
-	true &&  false
+	true &&
+	false
 ) {
 }
