@@ -52,7 +52,7 @@ jobs:
         steps:
             - uses: actions/checkout@v6
 
-            - uses: actions/download-artifact@v6
+            - uses: actions/download-artifact@v7
               with:
                   name: ${{matrix.crate}}
                   path: crates/${{matrix.crate}}
@@ -81,7 +81,7 @@ jobs:
         steps:
             - uses: actions/checkout@v6
 
-            - uses: actions/download-artifact@v6
+            - uses: actions/download-artifact@v7
               with:
                   name: ${{matrix.crate}}
                   path: crates/${{matrix.crate}}
@@ -107,7 +107,7 @@ jobs:
         steps:
             - uses: actions/checkout@v6
 
-            - uses: actions/download-artifact@v6
+            - uses: actions/download-artifact@v7
               with:
                   name: ${{matrix.crate}}
                   path: crates/${{matrix.crate}}
@@ -135,7 +135,7 @@ jobs:
         steps:
             - uses: actions/checkout@v6
 
-            - uses: actions/download-artifact@v6
+            - uses: actions/download-artifact@v7
               with:
                   name: ${{matrix.crate}}
                   path: crates/${{matrix.crate}}
