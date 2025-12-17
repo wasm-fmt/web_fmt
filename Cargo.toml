@@ -18,13 +18,13 @@ resolver = "2"
     json_fmt  = { path = "crates/json_fmt", version = "0.1.12", default-features = false }
     oxc_fmt   = { path = "crates/oxc_fmt", default-features = false }
 
-    biome_formatter      = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.8" }
-    biome_js_formatter   = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.8" }
-    biome_js_parser      = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.8" }
-    biome_js_syntax      = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.8" }
-    biome_json_formatter = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.8" }
-    biome_json_parser    = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.8" }
-    biome_json_syntax    = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.8" }
+    biome_formatter      = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.9" }
+    biome_js_formatter   = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.9" }
+    biome_js_parser      = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.9" }
+    biome_js_syntax      = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.9" }
+    biome_json_formatter = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.9" }
+    biome_json_parser    = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.9" }
+    biome_json_syntax    = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.9" }
 
     malva      = "0.15.0"
     markup_fmt = "0.25.0"
