@@ -12,6 +12,13 @@ npm install @wasm-fmt/web_fmt
 npx jsr add @fmt/web-fmt
 ```
 
+# Supported Formats
+
+- **Script**: JavaScript, TypeScript, JSX and TSX
+- **Style**: CSS, SASS, LESS
+- **Markup**: HTML, Vue, Svelte, Astro, Jinja, Twig
+- **JSON**: JSON, JSON with comments
+
 # Usage
 
 ```javascript
@@ -27,8 +34,26 @@ console.log(formatted);
 
 For Vite users:
 
+Add `"@wasm-fmt/web_fmt"` to `optimizeDeps.exclude` in your vite config:
+
+```JSON
+{
+    "optimizeDeps": {
+        "exclude": ["@wasm-fmt/web_fmt"]
+    }
+}
+```
+
+<details>
+<summary>
+If you cannot change the vite config, you can use another import entry
+
+</summary>
+
 ```JavaScript
 import init, { format } from "@wasm-fmt/web_fmt/vite";
 
 // ...
 ```
+
+</details>
