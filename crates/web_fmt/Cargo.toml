@@ -19,9 +19,8 @@ version.workspace    = true
     ]
 
 [features]
-default      = ["script-biome"]
+default = ["script-biome"]
 script-biome = ["dep:biome_fmt", "common/biome_formatter"]
-script-oxc   = ["dep:oxc_fmt"]
 
 [dependencies]
 common = { workspace = true, features = ["serde", "wasm-bindgen"] }
@@ -30,7 +29,6 @@ biome_fmt  = { workspace = true, default-features = false, optional = true }
 json_fmt   = { workspace = true, default-features = false }
 malva      = { workspace = true, features = ["config_serde"] }
 markup_fmt = { workspace = true, features = ["config_serde"] }
-oxc_fmt    = { workspace = true, default-features = false, optional = true }
 
 serde              = { workspace = true, features = ["derive"] }
 serde-wasm-bindgen = { workspace = true }

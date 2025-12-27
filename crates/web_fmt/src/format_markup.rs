@@ -8,11 +8,7 @@ use wasm_bindgen::prelude::*;
 use crate::format_script;
 use crate::format_style;
 
-// Type alias for script config based on feature
-#[cfg(feature = "script-biome")]
 pub(crate) type ScriptConfig = biome_fmt::BiomeConfig;
-#[cfg(feature = "script-oxc")]
-pub(crate) type ScriptConfig = oxc_fmt::OxcConfig;
 
 #[wasm_bindgen]
 extern "C" {
@@ -143,7 +139,6 @@ fn format_embedded<'a>(
     }
 }
 
-#[cfg(feature = "script-biome")]
 fn format_script_embedded<'a>(
     src: &'a str,
     filename: &str,
@@ -156,27 +151,6 @@ fn format_script_embedded<'a>(
         src,
         filename,
         script_config.clone().with_line_width(print_width as u16),
-    )
-    .map(Into::into)
-}
-
-#[cfg(feature = "script-oxc")]
-fn format_script_embedded<'a>(
-    src: &'a str,
-    filename: &str,
-    ext: &str,
-    print_width: usize,
-    script_config: &ScriptConfig,
-    style_config: &malva::config::FormatOptions,
-) -> Result<std::borrow::Cow<'a, str>, String> {
-    let mut style_config = style_config.clone();
-    style_config.layout.print_width = print_width;
-    format_script::format_script_with_ext(
-        src,
-        filename,
-        ext,
-        script_config.clone().with_line_width(print_width as u16),
-        style_config,
     )
     .map(Into::into)
 }

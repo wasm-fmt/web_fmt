@@ -1,11 +1,6 @@
-// Ensure exactly one script formatter feature is enabled
-#[cfg(all(feature = "script-biome", feature = "script-oxc"))]
-compile_error!(
-    "Features `script-biome` and `script-oxc` are mutually exclusive. Please enable only one."
-);
-
-#[cfg(not(any(feature = "script-biome", feature = "script-oxc")))]
-compile_error!("Either `script-biome` or `script-oxc` feature must be enabled.");
+// Ensure script formatter feature is enabled
+#[cfg(not(feature = "script-biome"))]
+compile_error!("Feature `script-biome` must be enabled.");
 
 mod format_json;
 mod format_markup;
@@ -30,8 +25,6 @@ struct Config {
     markup: Option<markup_fmt::config::FormatOptions>,
     #[cfg(feature = "script-biome")]
     script: Option<biome_fmt::BiomeConfig>,
-    #[cfg(feature = "script-oxc")]
-    script: Option<oxc_fmt::OxcConfig>,
     style: Option<malva::config::FormatOptions>,
     json: Option<LayoutConfig>,
 }
@@ -90,15 +83,6 @@ pub fn format(src: &str, filename: &str, config: Option<JSConfig>) -> Result<Str
             #[cfg(feature = "script-biome")]
             {
                 biome_fmt::format_script_with_config(src, filename, script_config)
-            }
-            #[cfg(feature = "script-oxc")]
-            {
-                format_script::format_script_with_config(
-                    src,
-                    filename,
-                    script_config,
-                    style_config.clone(),
-                )
             }
         }
         b"css" | b"scss" | b"sass" | b"less" => {

@@ -1522,7 +1522,6 @@ dependencies = [
  "json_fmt",
  "malva",
  "markup_fmt",
- "oxc_fmt",
  "serde",
  "serde-wasm-bindgen",
  "serde_json",
