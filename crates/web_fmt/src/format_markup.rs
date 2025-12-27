@@ -202,7 +202,7 @@ pub(crate) fn produce_markup_config(
     let mut config = base_config.unwrap_or_default();
 
     if let Some(indent_style) = config_default.indent_style().or(global_fallback.indent_style()) {
-        config.layout.use_tabs = indent_style.is_tab();
+        config.layout.use_tabs = indent_style.use_tabs();
     }
 
     if let Some(indent_width) = config_default.indent_width().or(global_fallback.indent_width()) {

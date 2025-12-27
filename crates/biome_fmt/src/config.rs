@@ -85,7 +85,7 @@ impl TryFrom<BiomeConfig> for JsFormatOptions {
         let mut option = JsFormatOptions::new(source_type);
 
         if let Some(indent_style) = value.layout.indent_style() {
-            option = option.with_indent_style(indent_style.into());
+            option = option.with_indent_style(indent_style.as_str().parse()?);
         };
 
         if let Some(indent_width) = value.layout.indent_width() {
@@ -102,7 +102,7 @@ impl TryFrom<BiomeConfig> for JsFormatOptions {
         };
 
         if let Some(line_ending) = value.layout.line_ending() {
-            option = option.with_line_ending(line_ending.into());
+            option = option.with_line_ending(line_ending.as_str().parse()?);
         };
 
         if let Some(quote_style) = value.quote_style {

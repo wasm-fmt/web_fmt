@@ -13,10 +13,10 @@ resolver = "2"
 
 
     [workspace.dependencies]
-    biome_fmt = { path = "crates/biome_fmt", version = "0.1.12", default-features = false }
-    common    = { path = "crates/common", version = "0.1.12" }
-    json_fmt  = { path = "crates/json_fmt", version = "0.1.12", default-features = false }
-    oxc_fmt   = { path = "crates/oxc_fmt", default-features = false }
+    biome_fmt = { path = "crates/biome_fmt", version = "0.1.14", default-features = false }
+    common    = { path = "crates/common", version = "0.1.14", default-features = false }
+    json_fmt  = { path = "crates/json_fmt", version = "0.1.14", default-features = false }
+    oxc_fmt   = { path = "crates/oxc_fmt", version = "0.1.14", default-features = false }
 
     biome_formatter      = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.9" }
     biome_js_formatter   = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.9" }

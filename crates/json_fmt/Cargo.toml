@@ -24,7 +24,7 @@ default = ["main"]
 main    = ["wasm-bindgen", "serde-wasm-bindgen", "common/wasm-bindgen"]
 
 [dependencies]
-common = { workspace = true, features = ["biome_formatter", "serde"] }
+common = { workspace = true, features = ["serde"] }
 
 biome_formatter      = { workspace = true }
 biome_json_formatter = { workspace = true }

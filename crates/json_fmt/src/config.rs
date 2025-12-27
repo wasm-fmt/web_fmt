@@ -34,7 +34,7 @@ impl TryFrom<JsonConfig> for JsonFormatOptions {
         let mut option = JsonFormatOptions::default();
 
         if let Some(indent_style) = value.0.indent_style() {
-            option = option.with_indent_style(indent_style.into());
+            option = option.with_indent_style(indent_style.as_str().parse()?);
         };
 
         if let Some(indent_width) = value.0.indent_width() {
@@ -44,7 +44,7 @@ impl TryFrom<JsonConfig> for JsonFormatOptions {
         }
 
         if let Some(line_ending) = value.0.line_ending() {
-            option = option.with_line_ending(line_ending.into());
+            option = option.with_line_ending(line_ending.as_str().parse()?);
         };
 
         if let Some(line_width) = value.0.line_width() {

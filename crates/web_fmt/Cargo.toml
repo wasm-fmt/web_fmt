@@ -19,8 +19,8 @@ version.workspace    = true
     ]
 
 [features]
-default = ["script-biome"]
-script-biome = ["dep:biome_fmt", "common/biome_formatter"]
+default      = ["script-biome"]
+script-biome = ["dep:biome_fmt"]
 
 [dependencies]
 common = { workspace = true, features = ["serde", "wasm-bindgen"] }

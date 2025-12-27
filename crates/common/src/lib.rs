@@ -1,3 +1,5 @@
+use std::str::FromStr;
+
 #[cfg(feature = "serde")]
 use serde::Deserialize;
 
@@ -8,10 +10,10 @@ use wasm_bindgen::prelude::wasm_bindgen;
 #[wasm_bindgen(typescript_custom_section)]
 const TS_Config: &'static str = r#"
 interface LayoutConfig {
-	indent_style?: "tab" | "space";
-	indent_width?: number;
-	line_width?: number;
-	line_ending?: "lf" | "crlf";
+	indentStyle?: "tab" | "space";
+	indentWidth?: number;
+	lineWidth?: number;
+	lineEnding?: "lf" | "crlf";
 }"#;
 
 #[cfg_attr(feature = "serde", derive(Deserialize))]
@@ -82,7 +84,7 @@ impl LayoutConfig {
 }
 
 #[cfg_attr(feature = "serde", derive(Deserialize))]
-#[cfg_attr(feature = "serde", serde(rename_all = "snake_case"))]
+#[cfg_attr(feature = "serde", serde(rename_all = "lowercase"))]
 #[derive(Clone, Copy, Default)]
 pub enum IndentStyle {
     Tab,
@@ -91,23 +93,32 @@ pub enum IndentStyle {
 }
 
 impl IndentStyle {
-    pub fn is_tab(&self) -> bool {
-        matches!(self, Self::Tab)
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            IndentStyle::Tab => "tab",
+            IndentStyle::Space => "space",
+        }
+    }
+
+    pub fn use_tabs(&self) -> bool {
+        matches!(self, IndentStyle::Tab)
     }
 }
 
-#[cfg(feature = "biome_formatter")]
-impl From<IndentStyle> for biome_formatter::IndentStyle {
-    fn from(style: IndentStyle) -> Self {
-        match style {
-            IndentStyle::Tab => biome_formatter::IndentStyle::Tab,
-            IndentStyle::Space => biome_formatter::IndentStyle::Space,
+impl FromStr for IndentStyle {
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "tab" | "tabs" | "\t" => Ok(IndentStyle::Tab),
+            "space" | "spaces" | "\x20" => Ok(IndentStyle::Space),
+            _ => Err(()),
         }
     }
 }
 
 #[cfg_attr(feature = "serde", derive(Deserialize))]
-#[cfg_attr(feature = "serde", serde(rename_all = "snake_case"))]
+#[cfg_attr(feature = "serde", serde(rename_all = "lowercase"))]
 #[derive(Clone, Copy, Default)]
 pub enum LineEnding {
     #[default]
@@ -115,12 +126,23 @@ pub enum LineEnding {
     Crlf,
 }
 
-#[cfg(feature = "biome_formatter")]
-impl From<LineEnding> for biome_formatter::LineEnding {
-    fn from(ending: LineEnding) -> Self {
-        match ending {
-            LineEnding::Lf => biome_formatter::LineEnding::Lf,
-            LineEnding::Crlf => biome_formatter::LineEnding::Crlf,
+impl LineEnding {
+    pub fn as_str(&self) -> &'static str {
+        match self {
+            LineEnding::Lf => "lf",
+            LineEnding::Crlf => "crlf",
+        }
+    }
+}
+
+impl FromStr for LineEnding {
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        match s {
+            "lf" | "\n" => Ok(LineEnding::Lf),
+            "crlf" | "\r\n" => Ok(LineEnding::Crlf),
+            _ => Err(()),
         }
     }
 }
