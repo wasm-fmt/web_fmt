@@ -16,7 +16,7 @@ extern "C" {
 }
 
 #[cfg(feature = "wasm-bindgen")]
-#[wasm_bindgen(skip_typescript)]
+#[wasm_bindgen]
 pub fn format(src: &str, config: Option<Config>) -> Result<String, String> {
     let config = config
         .map(|x| serde_wasm_bindgen::from_value(x.clone()))

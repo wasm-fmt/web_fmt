@@ -41,7 +41,6 @@ pub fn format_script(src: &str, filename: &str, config: Option<Config>) -> Resul
 pub(crate) fn produce_script_config(
     config: Option<biome_fmt::BiomeConfig>,
     config_default: &LayoutConfig,
-    global_fallback: &LayoutConfig,
 ) -> biome_fmt::BiomeConfig {
     let default = LayoutConfig::default()
         .with_indent_style(common::IndentStyle::Space)
@@ -52,6 +51,5 @@ pub(crate) fn produce_script_config(
     config
         .unwrap_or_default()
         .fill_empty_layout_with(config_default)
-        .fill_empty_layout_with(global_fallback)
         .fill_empty_layout_with(&default)
 }

@@ -39,10 +39,9 @@ pub fn format_markup(src: &str, filename: &str, config: Option<Config>) -> Resul
         .transpose()
         .map_err(|e| e.to_string())?;
 
-    let markup_config = produce_markup_config(config, &default_config, &default_config);
-    let style_config = format_style::produce_style_config(None, &default_config, &default_config);
-    let script_config =
-        format_script::produce_script_config(None, &default_config, &default_config);
+    let markup_config = produce_markup_config(config, &default_config);
+    let style_config = format_style::produce_style_config(None, &default_config);
+    let script_config = format_script::produce_script_config(None, &default_config);
     let json_config = LayoutConfig::default().fill_empty_with(&default_config);
 
     FormatMarkup::new(src, filename)
@@ -197,23 +196,22 @@ pub(crate) fn detect_language(path: impl AsRef<Path>) -> Option<markup_fmt::Lang
 pub(crate) fn produce_markup_config(
     base_config: Option<markup_fmt::config::FormatOptions>,
     config_default: &LayoutConfig,
-    global_fallback: &LayoutConfig,
 ) -> markup_fmt::config::FormatOptions {
     let mut config = base_config.unwrap_or_default();
 
-    if let Some(indent_style) = config_default.indent_style().or(global_fallback.indent_style()) {
+    if let Some(indent_style) = config_default.indent_style() {
         config.layout.use_tabs = indent_style.use_tabs();
     }
 
-    if let Some(indent_width) = config_default.indent_width().or(global_fallback.indent_width()) {
+    if let Some(indent_width) = config_default.indent_width() {
         config.layout.indent_width = indent_width as usize;
     }
 
-    if let Some(line_width) = config_default.line_width().or(global_fallback.line_width()) {
+    if let Some(line_width) = config_default.line_width() {
         config.layout.print_width = line_width as usize;
     }
 
-    if let Some(line_endings) = config_default.line_ending().or(global_fallback.line_ending()) {
+    if let Some(line_endings) = config_default.line_ending() {
         config.layout.line_break = match line_endings {
             common::LineEnding::Lf => markup_fmt::config::LineBreak::Lf,
             common::LineEnding::Crlf => markup_fmt::config::LineBreak::Crlf,

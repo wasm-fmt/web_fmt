@@ -30,7 +30,7 @@ pub fn format_style(src: &str, filename: &str, config: Option<Config>) -> Result
         .transpose()
         .map_err(|e| e.to_string())?;
 
-    let config = produce_style_config(config, &default_config, &default_config);
+    let config = produce_style_config(config, &default_config);
 
     format_style_with_config(src, filename, config)
 }
@@ -75,23 +75,22 @@ fn syntax_from_filename(filename: &str) -> Option<malva::Syntax> {
 pub(crate) fn produce_style_config(
     base_config: Option<malva::config::FormatOptions>,
     config_default: &LayoutConfig,
-    global_fallback: &LayoutConfig,
 ) -> malva::config::FormatOptions {
     let mut config: malva::config::FormatOptions = base_config.unwrap_or_default();
 
-    if let Some(indent_style) = config_default.indent_style().or(global_fallback.indent_style()) {
+    if let Some(indent_style) = config_default.indent_style() {
         config.layout.use_tabs = indent_style.use_tabs();
     }
 
-    if let Some(indent_width) = config_default.indent_width().or(global_fallback.indent_width()) {
+    if let Some(indent_width) = config_default.indent_width() {
         config.layout.indent_width = indent_width as usize;
     }
 
-    if let Some(line_width) = config_default.line_width().or(global_fallback.line_width()) {
+    if let Some(line_width) = config_default.line_width() {
         config.layout.print_width = line_width as usize;
     }
 
-    if let Some(line_endings) = config_default.line_ending().or(global_fallback.line_ending()) {
+    if let Some(line_endings) = config_default.line_ending() {
         config.layout.line_break = match line_endings {
             common::LineEnding::Lf => malva::config::LineBreak::Lf,
             common::LineEnding::Crlf => malva::config::LineBreak::Crlf,

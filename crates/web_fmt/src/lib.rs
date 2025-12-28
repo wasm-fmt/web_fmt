@@ -58,24 +58,17 @@ pub fn format(src: &str, filename: &str, config: Option<JSConfig>) -> Result<Str
 
     let script_config = format_script::produce_script_config(
         config.script,
-        &default_config.script,
-        &default_config.default,
+        &default_config.script.fill_empty_with(&default_config.default),
     );
     let style_config = format_style::produce_style_config(
         config.style,
-        &default_config.style,
-        &default_config.default,
+        &default_config.style.fill_empty_with(&default_config.default),
     );
     let markup_config = format_markup::produce_markup_config(
         config.markup,
-        &default_config.markup,
-        &default_config.default,
+        &default_config.markup.fill_empty_with(&default_config.default),
     );
-    let json_config = format_json::produce_json_config(
-        config.json,
-        &default_config.json,
-        &default_config.default,
-    );
+    let json_config = config.json.unwrap_or_default().fill_empty_with(&default_config.default);
 
     match extension.as_encoded_bytes() {
         b"js" | b"ts" | b"mjs" | b"cjs" | b"jsx" | b"tsx" | b"mjsx" | b"cjsx" | b"mtsx"
@@ -102,7 +95,7 @@ pub fn format(src: &str, filename: &str, config: Option<JSConfig>) -> Result<Str
 }
 
 #[derive(Deserialize, Default)]
-#[serde(rename_all = "snake_case")]
+#[serde()]
 struct ConfigDefault {
     #[serde(flatten, default)]
     default: LayoutConfig,
@@ -112,6 +105,4 @@ struct ConfigDefault {
     script: LayoutConfig,
     #[serde(default)]
     style: LayoutConfig,
-    #[serde(default)]
-    json: LayoutConfig,
 }
