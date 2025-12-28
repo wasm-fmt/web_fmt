@@ -686,6 +686,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "malva_fmt"
+version = "0.1.14"
+dependencies = [
+ "common",
+ "malva",
+ "serde",
+ "serde-wasm-bindgen",
+ "serde_json",
+ "wasm-bindgen",
+]
+
+[[package]]
 name = "markup_fmt"
 version = "0.25.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"

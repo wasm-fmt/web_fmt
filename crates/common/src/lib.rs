@@ -103,6 +103,14 @@ impl IndentStyle {
     pub fn use_tabs(&self) -> bool {
         matches!(self, IndentStyle::Tab)
     }
+
+    pub fn from_use_tabs(use_tabs: bool) -> Self {
+        if use_tabs {
+            IndentStyle::Tab
+        } else {
+            IndentStyle::Space
+        }
+    }
 }
 
 impl FromStr for IndentStyle {

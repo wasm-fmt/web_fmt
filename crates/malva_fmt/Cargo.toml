@@ -1,0 +1,38 @@
+[package]
+description = "Style/CSS/SASS/LESS formatter powered by WASM ported from malva"
+keywords    = ["wasm", "formatter", "css", "scss", "sass", "less", "malva"]
+name        = "malva_fmt"
+
+authors.workspace    = true
+edition.workspace    = true
+homepage.workspace   = true
+license.workspace    = true
+publish              = true
+repository.workspace = true
+version.workspace    = true
+
+	[package.metadata.wasm-pack.profile.release]
+	wasm-opt = [
+		"-Os",
+		"--enable-bulk-memory",
+		"--enable-nontrapping-float-to-int",
+	]
+
+
+[features]
+default = ["main"]
+main    = ["wasm-bindgen", "serde-wasm-bindgen", "common/wasm-bindgen"]
+
+[dependencies]
+common = { workspace = true, features = ["serde"] }
+
+malva = { workspace = true, features = ["config_serde"] }
+
+serde              = { workspace = true, features = ["derive"] }
+serde-wasm-bindgen = { workspace = true, optional = true }
+serde_json         = { workspace = true, features = ["preserve_order"] }
+wasm-bindgen       = { workspace = true, optional = true }
+
+
+[lib]
+crate-type = ["cdylib", "rlib"]
