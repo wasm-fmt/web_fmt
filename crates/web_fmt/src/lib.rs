@@ -10,6 +10,8 @@ mod format_style;
 use std::path::Path;
 
 use common::LayoutConfig;
+use format_markup::EmbeddedCodeFormatter as MarkupEmbeddedCodeFormatter;
+use markup_fmt::FormatMarkup;
 use serde::Deserialize;
 use wasm_bindgen::prelude::*;
 
@@ -22,10 +24,10 @@ extern "C" {
 #[derive(Deserialize, Default)]
 #[serde(rename_all = "snake_case")]
 struct Config {
-    markup: Option<markup_fmt_core::config::FormatOptions>,
+    markup: Option<markup_fmt::config::MarkupConfig>,
     #[cfg(feature = "script-biome")]
     script: Option<biome_fmt::BiomeConfig>,
-    style: Option<malva::config::FormatOptions>,
+    style: Option<malva_fmt::config::MalvaConfig>,
     json: Option<LayoutConfig>,
 }
 
@@ -79,14 +81,20 @@ pub fn format(src: &str, filename: &str, config: Option<JSConfig>) -> Result<Str
             }
         }
         b"css" | b"scss" | b"sass" | b"less" => {
-            format_style::format_style_with_config(src, filename, style_config)
+            malva_fmt::format_style_with_config(src, filename, style_config)
         }
         b"html" | b"vue" | b"svelte" | b"astro" | b"jinja" | b"jinja2" | b"twig" => {
-            format_markup::FormatMarkup::new(src, filename)
-                .markup(markup_config)
-                .style(style_config)
-                .script(script_config)
-                .json(json_config)
+            let formatter = MarkupEmbeddedCodeFormatter {
+                filename: filename.to_string(),
+                markup_config: markup_config.clone(),
+                script_config,
+                style_config,
+                json_config,
+            };
+
+            FormatMarkup::new(src, filename)
+                .config(markup_config.into())
+                .embed_formatter(formatter)
                 .format()
         }
         b"json" | b"jsonc" => json_fmt::format_json_with_config(src, json_config.into()),

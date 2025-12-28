@@ -1543,6 +1543,8 @@ dependencies = [
  "common",
  "json_fmt",
  "malva",
+ "malva_fmt",
+ "markup_fmt 0.1.14",
  "markup_fmt 0.25.3",
  "serde",
  "serde-wasm-bindgen",

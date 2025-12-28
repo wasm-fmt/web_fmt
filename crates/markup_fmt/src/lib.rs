@@ -1,6 +1,6 @@
 pub mod config;
 
-pub use markup_fmt_core::Hints;
+pub use markup_fmt_core::{Hints, Language};
 
 #[cfg(feature = "wasm-bindgen")]
 use wasm_bindgen::prelude::*;

@@ -2,9 +2,6 @@ use common::LayoutConfig;
 use wasm_bindgen::prelude::*;
 
 #[cfg(feature = "script-biome")]
-use biome_fmt;
-
-#[cfg(feature = "script-biome")]
 #[wasm_bindgen]
 extern "C" {
     #[wasm_bindgen(typescript_type = "ScriptConfig")]
@@ -40,16 +37,7 @@ pub fn format_script(src: &str, filename: &str, config: Option<Config>) -> Resul
 #[cfg(feature = "script-biome")]
 pub(crate) fn produce_script_config(
     config: Option<biome_fmt::BiomeConfig>,
-    config_default: &LayoutConfig,
+    default_layout: &LayoutConfig,
 ) -> biome_fmt::BiomeConfig {
-    let default = LayoutConfig::default()
-        .with_indent_style(common::IndentStyle::Space)
-        .with_indent_width(2)
-        .with_line_width(80)
-        .with_line_ending(common::LineEnding::Lf);
-
-    config
-        .unwrap_or_default()
-        .fill_empty_layout_with(config_default)
-        .fill_empty_layout_with(&default)
+    config.unwrap_or_default().fill_empty_layout_with(default_layout)
 }

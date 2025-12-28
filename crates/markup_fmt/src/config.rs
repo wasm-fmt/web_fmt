@@ -5,7 +5,7 @@ use serde::Deserialize;
 #[derive(Deserialize, Default, Clone)]
 pub struct MarkupConfig {
     #[serde(flatten)]
-    layout: LayoutConfig,
+    pub layout: LayoutConfig,
 
     #[serde(flatten)]
     markup_layout: MarkupLayoutOptions,
@@ -80,6 +80,15 @@ impl From<MarkupLayoutOptions> for markup_fmt_core::config::LayoutOptions {
 impl MarkupConfig {
     pub fn with_line_width(mut self, line_width: u16) -> Self {
         self.markup_layout.print_width = Some(line_width as usize);
+        self
+    }
+
+    pub fn quotes(&self) -> markup_fmt_core::config::Quotes {
+        self.language.quotes.clone()
+    }
+
+    pub fn fill_empty_layout_with(mut self, layout: &LayoutConfig) -> Self {
+        self.layout = self.layout.fill_empty_with(layout);
         self
     }
 }

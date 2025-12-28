@@ -25,10 +25,12 @@ script-biome = ["dep:biome_fmt"]
 [dependencies]
 common = { workspace = true, features = ["serde", "wasm-bindgen"] }
 
-biome_fmt       = { workspace = true, default-features = false, optional = true }
-json_fmt        = { workspace = true, default-features = false }
-malva           = { workspace = true, features = ["config_serde"] }
-markup_fmt_core = { workspace = true, features = ["config_serde"] }
+biome_fmt        = { workspace = true, default-features = false, optional = true }
+json_fmt         = { workspace = true, default-features = false }
+malva            = { workspace = true, features = ["config_serde"] }
+malva_fmt        = { path = "../malva_fmt", default-features = false }
+markup_fmt       = { path = "../markup_fmt", default-features = false }
+markup_fmt_core  = { workspace = true, features = ["config_serde"] }
 
 serde              = { workspace = true, features = ["derive"] }
 serde-wasm-bindgen = { workspace = true }

@@ -18,6 +18,13 @@ struct MalvaLayoutOptions {
 }
 
 impl MalvaLayoutOptions {
+    pub fn with_print_width(mut self, print_width: usize) -> Self {
+        self.print_width = Some(print_width);
+        self
+    }
+}
+
+impl MalvaLayoutOptions {
     pub fn fill_empty_with(mut self, other: &Self) -> Self {
         if self.print_width.is_none() {
             self.print_width = other.print_width;
@@ -71,7 +78,7 @@ impl From<LayoutConfig> for MalvaLayoutOptions {
 #[derive(Deserialize, Default, Clone)]
 pub struct MalvaConfig {
     #[serde(flatten)]
-    layout: LayoutConfig,
+    pub layout: LayoutConfig,
 
     #[serde(flatten)]
     malva_layout: MalvaLayoutOptions,
@@ -81,8 +88,23 @@ pub struct MalvaConfig {
 }
 
 impl MalvaConfig {
-    pub fn with_line_width(mut self, line_width: u16) -> Self {
-        self.malva_layout.print_width = Some(line_width as usize);
+    pub fn with_print_width(mut self, print_width: usize) -> Self {
+        self.malva_layout = self.malva_layout.with_print_width(print_width);
+        self
+    }
+
+    pub fn with_quotes(mut self, quotes: malva::config::Quotes) -> Self {
+        self.language.quotes = quotes;
+        self
+    }
+
+    pub fn with_single_line_top_level_declarations(mut self, value: bool) -> Self {
+        self.language.single_line_top_level_declarations = value;
+        self
+    }
+
+    pub fn fill_empty_layout_with(mut self, layout: &LayoutConfig) -> Self {
+        self.layout = self.layout.fill_empty_with(layout);
         self
     }
 }
