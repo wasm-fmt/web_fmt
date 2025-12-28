@@ -12,9 +12,9 @@
     <script src="main.js"></script>
     <script type="importmap">
     {
-      "imports": {
-        "lodash": "https://cdn.skypack.dev/lodash"
-      }
+    	"imports": {
+    		"lodash": "https://cdn.skypack.dev/lodash"
+    	}
     }
     </script>
   </body>
