@@ -26,7 +26,7 @@ type X = "" | "x";
 
 export type Filename = `index.${Mod}${"t" | "j"}s${X}` | `index.d.${Mod}ts${X}` | (string & {});
 
-export function format(src: string, filename?: Filename, config?: Config): string;
+export function format(src: string, filename: Filename, config?: Config): string;
 "#;
 
 #[cfg(feature = "wasm-bindgen")]
