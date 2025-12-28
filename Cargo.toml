@@ -13,11 +13,12 @@ resolver = "2"
 
 
     [workspace.dependencies]
-    biome_fmt = { path = "crates/biome_fmt", version = "0.1.14", default-features = false }
-    common    = { path = "crates/common", version = "0.1.14", default-features = false }
-    json_fmt  = { path = "crates/json_fmt", version = "0.1.14", default-features = false }
-    malva_fmt = { path = "crates/malva_fmt", version = "0.1.14", default-features = false }
-    oxc_fmt   = { path = "crates/oxc_fmt", version = "0.1.14", default-features = false }
+    biome_fmt  = { path = "crates/biome_fmt", version = "0.1.14", default-features = false }
+    common     = { path = "crates/common", version = "0.1.14", default-features = false }
+    json_fmt   = { path = "crates/json_fmt", version = "0.1.14", default-features = false }
+    malva_fmt  = { path = "crates/malva_fmt", version = "0.1.14", default-features = false }
+    markup_fmt = { path = "crates/markup_fmt", version = "0.1.14", default-features = false }
+    oxc_fmt    = { path = "crates/oxc_fmt", version = "0.1.14", default-features = false }
 
     biome_formatter      = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.9" }
     biome_js_formatter   = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.9" }
@@ -27,8 +28,10 @@ resolver = "2"
     biome_json_parser    = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.9" }
     biome_json_syntax    = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.9" }
 
-    malva      = "0.15.0"
-    markup_fmt = "0.25.0"
+    malva = { version = "0.15.0", features = ["config_serde"] }
+    markup_fmt_core = { package = "markup_fmt", version = "0.25.0", features = [
+        "config_serde",
+    ] }
 
     # OXC - experimental, using git dependency since oxc_formatter is not published
     oxc_allocator = { git = "https://github.com/oxc-project/oxc", tag = "oxfmt_v0.18.0" }

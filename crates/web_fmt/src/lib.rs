@@ -22,7 +22,7 @@ extern "C" {
 #[derive(Deserialize, Default)]
 #[serde(rename_all = "snake_case")]
 struct Config {
-    markup: Option<markup_fmt::config::FormatOptions>,
+    markup: Option<markup_fmt_core::config::FormatOptions>,
     #[cfg(feature = "script-biome")]
     script: Option<biome_fmt::BiomeConfig>,
     style: Option<malva::config::FormatOptions>,

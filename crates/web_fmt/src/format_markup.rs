@@ -2,7 +2,7 @@ use std::path::Path;
 
 use common::LayoutConfig;
 
-use markup_fmt::Hints;
+use markup_fmt_core::Hints;
 use wasm_bindgen::prelude::*;
 
 use crate::format_script;
@@ -56,7 +56,7 @@ pub fn format_markup(src: &str, filename: &str, config: Option<Config>) -> Resul
 pub struct FormatMarkup<'a> {
     src: &'a str,
     filename: &'a str,
-    markup_config: markup_fmt::config::FormatOptions,
+    markup_config: markup_fmt_core::config::FormatOptions,
     style_config: malva::config::FormatOptions,
     script_config: ScriptConfig,
     json_config: LayoutConfig,
@@ -74,7 +74,7 @@ impl<'a> FormatMarkup<'a> {
         }
     }
 
-    pub fn markup(mut self, config: markup_fmt::config::FormatOptions) -> Self {
+    pub fn markup(mut self, config: markup_fmt_core::config::FormatOptions) -> Self {
         self.markup_config = config;
         self
     }
@@ -95,10 +95,10 @@ impl<'a> FormatMarkup<'a> {
     }
 
     pub fn format(self) -> Result<String, String> {
-        let language = detect_language(self.filename).unwrap_or(markup_fmt::Language::Html);
+        let language = detect_language(self.filename).unwrap_or(markup_fmt_core::Language::Html);
         let Self { src, filename, markup_config, style_config, script_config, json_config } = self;
 
-        markup_fmt::format_text(src, language, &markup_config, |src, hints| {
+        markup_fmt_core::format_text(src, language, &markup_config, |src, hints| {
             format_embedded(
                 src,
                 filename,
@@ -117,7 +117,7 @@ fn format_embedded<'a>(
     src: &'a str,
     filename: &str,
     Hints { print_width, attr, ext, .. }: Hints,
-    markup_config: &markup_fmt::config::FormatOptions,
+    markup_config: &markup_fmt_core::config::FormatOptions,
     style_config: &malva::config::FormatOptions,
     script_config: &ScriptConfig,
     json_config: &LayoutConfig,
@@ -159,12 +159,12 @@ fn format_style_embedded<'a>(
     filename: &str,
     print_width: usize,
     attr: bool,
-    markup_config: &markup_fmt::config::FormatOptions,
+    markup_config: &markup_fmt_core::config::FormatOptions,
     style_config: &malva::config::FormatOptions,
 ) -> Result<std::borrow::Cow<'a, str>, String> {
     let mut style_config = style_config.clone();
     if attr {
-        if let markup_fmt::config::Quotes::Double = markup_config.language.quotes {
+        if let markup_fmt_core::config::Quotes::Double = markup_config.language.quotes {
             style_config.language.quotes = malva::config::Quotes::AlwaysSingle;
         } else {
             style_config.language.quotes = malva::config::Quotes::AlwaysDouble;
@@ -182,21 +182,21 @@ fn format_style_embedded<'a>(
     .map(Into::into)
 }
 
-pub(crate) fn detect_language(path: impl AsRef<Path>) -> Option<markup_fmt::Language> {
+pub(crate) fn detect_language(path: impl AsRef<Path>) -> Option<markup_fmt_core::Language> {
     match path.as_ref().extension().map(|x| x.to_ascii_lowercase())?.as_encoded_bytes() {
-        b"html" => Some(markup_fmt::Language::Html),
-        b"vue" => Some(markup_fmt::Language::Vue),
-        b"svelte" => Some(markup_fmt::Language::Svelte),
-        b"astro" => Some(markup_fmt::Language::Astro),
-        b"jinja" | b"jinja2" | b"twig" => Some(markup_fmt::Language::Jinja),
-        _ => Some(markup_fmt::Language::Html),
+        b"html" => Some(markup_fmt_core::Language::Html),
+        b"vue" => Some(markup_fmt_core::Language::Vue),
+        b"svelte" => Some(markup_fmt_core::Language::Svelte),
+        b"astro" => Some(markup_fmt_core::Language::Astro),
+        b"jinja" | b"jinja2" | b"twig" => Some(markup_fmt_core::Language::Jinja),
+        _ => Some(markup_fmt_core::Language::Html),
     }
 }
 
 pub(crate) fn produce_markup_config(
-    base_config: Option<markup_fmt::config::FormatOptions>,
+    base_config: Option<markup_fmt_core::config::FormatOptions>,
     config_default: &LayoutConfig,
-) -> markup_fmt::config::FormatOptions {
+) -> markup_fmt_core::config::FormatOptions {
     let mut config = base_config.unwrap_or_default();
 
     if let Some(indent_style) = config_default.indent_style() {
@@ -213,8 +213,8 @@ pub(crate) fn produce_markup_config(
 
     if let Some(line_endings) = config_default.line_ending() {
         config.layout.line_break = match line_endings {
-            common::LineEnding::Lf => markup_fmt::config::LineBreak::Lf,
-            common::LineEnding::Crlf => markup_fmt::config::LineBreak::Crlf,
+            common::LineEnding::Lf => markup_fmt_core::config::LineBreak::Lf,
+            common::LineEnding::Crlf => markup_fmt_core::config::LineBreak::Crlf,
         };
     }
 

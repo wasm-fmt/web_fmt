@@ -699,6 +699,17 @@ dependencies = [
 
 [[package]]
 name = "markup_fmt"
+version = "0.1.14"
+dependencies = [
+ "common",
+ "markup_fmt 0.25.3",
+ "serde",
+ "serde-wasm-bindgen",
+ "wasm-bindgen",
+]
+
+[[package]]
+name = "markup_fmt"
 version = "0.25.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "33187384eb1c90119310cec0bd8322f544e5e62f025b82ec8d9080a924c5ef9c"
@@ -1532,7 +1543,7 @@ dependencies = [
  "common",
  "json_fmt",
  "malva",
- "markup_fmt",
+ "markup_fmt 0.25.3",
  "serde",
  "serde-wasm-bindgen",
  "serde_json",
