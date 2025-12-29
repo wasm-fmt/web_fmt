@@ -23,7 +23,7 @@ extern "C" {
 
 #[cfg(feature = "wasm-bindgen")]
 #[wasm_bindgen(js_name = format)]
-pub fn format_graphql(src: &str, filename: &str, config: Option<Config>) -> Result<String, String> {
+pub fn format_graphql(src: &str, config: Option<Config>) -> Result<String, String> {
     let config: config::GraphqlConfig = config
         .as_ref()
         .map(|x| serde_wasm_bindgen::from_value(x.into()))
@@ -31,13 +31,9 @@ pub fn format_graphql(src: &str, filename: &str, config: Option<Config>) -> Resu
         .map_err(|e| e.to_string())?
         .unwrap_or_default();
 
-    format_graphql_with_config(src, filename, config)
+    format_graphql_with_config(src, config)
 }
 
-pub fn format_graphql_with_config(
-    src: &str,
-    _filename: &str,
-    config: GraphqlConfig,
-) -> Result<String, String> {
+pub fn format_graphql_with_config(src: &str, config: GraphqlConfig) -> Result<String, String> {
     pretty_graphql::format_text(src, &config.into()).map_err(|e| e.to_string())
 }

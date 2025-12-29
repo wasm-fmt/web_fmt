@@ -17,14 +17,14 @@ export interface GraphqlConfig extends LayoutConfig {
 }"#;
 
 #[wasm_bindgen]
-pub fn format_graphql(src: &str, filename: &str, config: Option<Config>) -> Result<String, String> {
+pub fn format_graphql(src: &str, config: Option<Config>) -> Result<String, String> {
     let config = config
         .map(|x| serde_wasm_bindgen::from_value(x.clone()))
         .transpose()
         .map_err(|op| op.to_string())?
         .unwrap_or_default();
 
-    graphql_fmt::format_graphql_with_config(src, filename, config)
+    graphql_fmt::format_graphql_with_config(src, config)
 }
 
 pub(crate) fn produce_graphql_config(

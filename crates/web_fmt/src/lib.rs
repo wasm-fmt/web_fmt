@@ -105,9 +105,7 @@ pub fn format(src: &str, filename: &str, config: Option<JSConfig>) -> Result<Str
                 .format()
         }
         b"json" | b"jsonc" => json_fmt::format_json_with_config(src, json_config.into()),
-        b"graphql" | b"gql" => {
-            graphql_fmt::format_graphql_with_config(src, filename, graphql_config)
-        }
+        b"graphql" | b"gql" => graphql_fmt::format_graphql_with_config(src, graphql_config),
         _ => Err(format!("unsupported file extension: {}", filename)),
     }
 }
