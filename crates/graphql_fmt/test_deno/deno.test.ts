@@ -22,7 +22,7 @@ for await (const entry of walk(test_root, {
 	const expected = Deno.readTextFileSync(expect_path);
 
 	Deno.test(input_path, () => {
-		const actual = format(input, entry.path);
+		const actual = format(input);
 		assertEquals(actual, expected);
 	});
 }

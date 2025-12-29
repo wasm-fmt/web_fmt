@@ -1,36 +1,38 @@
-# graphql_fmt
+# Install
 
-GraphQL formatter powered by WASM ported from [pretty_graphql](https://github.com/g-plane/pretty_graphql).
+[![npm](https://img.shields.io/npm/v/@wasm-fmt/graphql_fmt)](https://www.npmjs.com/package/@wasm-fmt/graphql_fmt)
 
-## Usage
-
-### Node.js
-
-```js
-import init from "graphql_fmt";
-
-const { format } = await init();
-
-const result = format(
-	"query { user { name } }",
-	"query.graphql",
-	{
-		indentStyle: "space",
-		indentWidth: 2,
-		lineWidth: 80,
-		lineEnding: "lf",
-	}
-);
+```bash
+npm install @wasm-fmt/graphql_fmt
 ```
 
-### Vite
+[![jsr.io](https://jsr.io/badges/@fmt/graphql-fmt)](https://jsr.io/@fmt/graphql-fmt)
 
-Add `"@wasm-fmt/graphql-fmt"` to `optimizeDeps.exclude` in your vite config:
+```bash
+npx jsr add @fmt/graphql-fmt
+```
+
+# Usage
+
+```javascript
+import init, { format } from "@wasm-fmt/graphql_fmt";
+
+await init();
+
+const input = `query { user { name } }`;
+
+const formatted = format(input);
+console.log(formatted);
+```
+
+For Vite users:
+
+Add `"@wasm-fmt/graphql_fmt"` to `optimizeDeps.exclude` in your vite config:
 
 ```JSON
 {
     "optimizeDeps": {
-        "exclude": ["@wasm-fmt/graphql-fmt"]
+        "exclude": ["@wasm-fmt/graphql_fmt"]
     }
 }
 ```
@@ -41,25 +43,14 @@ If you cannot change the vite config, you can use another import entry
 
 </summary>
 
-```js
-import init from "@wasm-fmt/graphql-fmt/vite";
+```JavaScript
+import init, { format } from "@wasm-fmt/graphql_fmt/vite";
 
-const { format } = await init();
-
-const result = format(
-	"query { user { name } }",
-	"query.graphql",
-	{
-		indentStyle: "space",
-		indentWidth: 2,
-		lineWidth: 80,
-		lineEnding: "lf",
-	}
-);
+// ...
 ```
 
 </details>
 
-## Configuration
+# Configuration
 
 See [pretty_graphql configuration docs](https://pretty-graphql.netlify.app/) for all available options.

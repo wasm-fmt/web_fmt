@@ -19,7 +19,7 @@ for await (const input_path of glob.scan()) {
 	]);
 
 	test(input_path, () => {
-		const actual = format(input, input_path);
+		const actual = format(input);
 		expect(actual).toBe(expected);
 	});
 }
