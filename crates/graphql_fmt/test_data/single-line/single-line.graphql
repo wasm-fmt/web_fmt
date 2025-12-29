@@ -1,0 +1,10 @@
+query Query($a: A, $b: B) @directive(arg1: "arg1", arg2: "arg2") {
+  field1
+  field2
+}
+
+query Query(
+  $a: A, $b: B) @directive(
+    arg1: "arg1", arg2: "arg2") { field1
+  field2
+}

@@ -1,0 +1,15 @@
+{
+  # pretty-graphql-ignore
+  hero {
+       name
+    height
+  }
+}
+
+{
+  # dprint-ignore
+  hero {
+       name
+    height
+  }
+}

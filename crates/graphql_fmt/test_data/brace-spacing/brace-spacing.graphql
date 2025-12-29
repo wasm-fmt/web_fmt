@@ -1,0 +1,9 @@
+query Query($object: Any = { key: "value" }) {
+  field
+}
+
+enum Enum {
+  A
+  B
+  C
+}

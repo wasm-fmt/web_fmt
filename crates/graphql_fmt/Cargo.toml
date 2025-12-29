@@ -1,0 +1,38 @@
+[package]
+description = "GraphQL formatter powered by WASM ported from pretty_graphql"
+keywords    = ["wasm", "formatter", "graphql", "pretty_graphql"]
+name        = "graphql_fmt"
+
+authors.workspace    = true
+edition.workspace    = true
+homepage.workspace   = true
+license.workspace    = true
+publish              = true
+repository.workspace = true
+version.workspace    = true
+
+	[package.metadata.wasm-pack.profile.release]
+	wasm-opt = [
+		"-Os",
+		"--enable-bulk-memory",
+		"--enable-nontrapping-float-to-int",
+	]
+
+
+[features]
+default = ["main"]
+main    = ["wasm-bindgen", "serde-wasm-bindgen", "common/wasm-bindgen"]
+
+[dependencies]
+common = { workspace = true, features = ["serde"] }
+
+pretty_graphql = { git = "https://github.com/g-plane/pretty_graphql", version = "0.2.3", features = ["config_serde"] }
+
+serde              = { workspace = true, features = ["derive"] }
+serde-wasm-bindgen = { workspace = true, optional = true }
+serde_json         = { workspace = true, features = ["preserve_order"] }
+wasm-bindgen       = { workspace = true, optional = true }
+
+
+[lib]
+crate-type = ["cdylib", "rlib"]

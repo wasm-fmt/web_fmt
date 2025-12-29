@@ -2,6 +2,7 @@
 #[cfg(not(feature = "script-biome"))]
 compile_error!("Feature `script-biome` must be enabled.");
 
+mod format_graphql;
 mod format_json;
 mod format_markup;
 mod format_script;
@@ -29,6 +30,7 @@ struct Config {
     script: Option<biome_fmt::BiomeConfig>,
     style: Option<malva_fmt::config::MalvaConfig>,
     json: Option<LayoutConfig>,
+    graphql: Option<graphql_fmt::config::GraphqlConfig>,
 }
 
 #[wasm_bindgen(typescript_custom_section)]
@@ -38,6 +40,7 @@ export interface Config extends LayoutConfig {
 	script?: ScriptConfig;
 	style?: StyleConfig;
 	json?: JsonConfig;
+	graphql?: GraphqlConfig;
 }"#;
 
 #[wasm_bindgen]
@@ -71,6 +74,10 @@ pub fn format(src: &str, filename: &str, config: Option<JSConfig>) -> Result<Str
         &default_config.markup.fill_empty_with(&default_config.default),
     );
     let json_config = config.json.unwrap_or_default().fill_empty_with(&default_config.default);
+    let graphql_config = format_graphql::produce_graphql_config(
+        config.graphql,
+        &default_config.graphql.fill_empty_with(&default_config.default),
+    );
 
     match extension.as_encoded_bytes() {
         b"js" | b"ts" | b"mjs" | b"cjs" | b"jsx" | b"tsx" | b"mjsx" | b"cjsx" | b"mtsx"
@@ -98,6 +105,9 @@ pub fn format(src: &str, filename: &str, config: Option<JSConfig>) -> Result<Str
                 .format()
         }
         b"json" | b"jsonc" => json_fmt::format_json_with_config(src, json_config.into()),
+        b"graphql" | b"gql" => {
+            graphql_fmt::format_graphql_with_config(src, filename, graphql_config)
+        }
         _ => Err(format!("unsupported file extension: {}", filename)),
     }
 }
@@ -113,4 +123,6 @@ struct ConfigDefault {
     script: LayoutConfig,
     #[serde(default)]
     style: LayoutConfig,
+    #[serde(default)]
+    graphql: LayoutConfig,
 }

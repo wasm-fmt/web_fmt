@@ -1,0 +1,3 @@
+query Query($a: A) @directive(key: "value") {
+  field
+}

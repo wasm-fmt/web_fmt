@@ -1,0 +1,3 @@
+query Query @directive(key: [1, 2, 3]) {
+  field
+}
