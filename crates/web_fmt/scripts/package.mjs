@@ -28,7 +28,7 @@ pkg_json.exports = {
 	"./*": "./*",
 };
 
-fs.writeFileSync(pkg_path, JSON.stringify(pkg_json, null, 4));
+fs.writeFileSync(pkg_path, JSON.stringify(pkg_json, null, "\t"));
 
 // JSR
 
@@ -36,4 +36,4 @@ const jsr_path = path.resolve(pkg_path, "..", "jsr.jsonc");
 pkg_json.name = "@fmt/web-fmt";
 pkg_json.exports = "./web_fmt.js";
 pkg_json.exclude = ["!**", "*.tgz"];
-fs.writeFileSync(jsr_path, JSON.stringify(pkg_json, null, 4));
+fs.writeFileSync(jsr_path, JSON.stringify(pkg_json, null, "\t"));
