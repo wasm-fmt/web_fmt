@@ -41,7 +41,15 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                crate: ["biome_fmt", "web_fmt"]
+                crate:
+                    - "biome_fmt"
+                    - "graphql_fmt"
+                    - "json_fmt"
+                    - "malva_fmt"
+                    - "markup_fmt"
+                    - "oxc_fmt"
+                    - "web_fmt"
+
         steps:
             - uses: actions/checkout@v6
 
