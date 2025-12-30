@@ -47,7 +47,15 @@ jobs:
             id-token: write
         strategy:
             matrix:
-                crate: ["biome_fmt", "web_fmt", "json_fmt"]
+                crate:
+                    - "biome_fmt"
+                    - "graphql_fmt"
+                    - "json_fmt"
+                    - "malva_fmt"
+                    - "markup_fmt"
+                    - "oxc_fmt"
+                    - "web_fmt"
+
         needs: wasm-build
         steps:
             - uses: actions/checkout@v6
@@ -145,7 +153,7 @@ jobs:
               run: npm pack
 
             - name: Release
-              uses: softprops/action-gh-release@69320dbe05506a9a39fc8ae11030b214ec2d1f87              
+              uses: softprops/action-gh-release@69320dbe05506a9a39fc8ae11030b214ec2d1f87
               with:
                   files: |
                       crates/*/pkg/*.tgz
