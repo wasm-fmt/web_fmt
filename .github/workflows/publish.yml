@@ -16,7 +16,15 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                crate: ["biome_fmt", "web_fmt", "json_fmt"]
+                crate: &all_crates
+                    - "biome_fmt"
+                    - "graphql_fmt"
+                    - "json_fmt"
+                    - "malva_fmt"
+                    - "markup_fmt"
+                    - "oxc_fmt"
+                    - "web_fmt"
+
         steps:
             - uses: actions/checkout@v6
 
@@ -47,15 +55,7 @@ jobs:
             id-token: write
         strategy:
             matrix:
-                crate:
-                    - "biome_fmt"
-                    - "graphql_fmt"
-                    - "json_fmt"
-                    - "malva_fmt"
-                    - "markup_fmt"
-                    - "oxc_fmt"
-                    - "web_fmt"
-
+                crate: *all_crates
         needs: wasm-build
         steps:
             - uses: actions/checkout@v6
@@ -84,7 +84,7 @@ jobs:
             id-token: write
         strategy:
             matrix:
-                crate: ["biome_fmt", "web_fmt", "json_fmt"]
+                crate: *all_crates
         needs: wasm-build
         steps:
             - uses: actions/checkout@v6
@@ -110,7 +110,7 @@ jobs:
             packages: write
         strategy:
             matrix:
-                crate: ["biome_fmt", "web_fmt", "json_fmt"]
+                crate: *all_crates
         needs: wasm-build
         steps:
             - uses: actions/checkout@v6
@@ -138,7 +138,7 @@ jobs:
             contents: write
         strategy:
             matrix:
-                crate: ["biome_fmt", "web_fmt", "json_fmt"]
+                crate: *all_crates
         needs: wasm-build
         steps:
             - uses: actions/checkout@v6
