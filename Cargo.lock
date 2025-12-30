@@ -413,9 +413,9 @@ dependencies = [
 
 [[package]]
 name = "bumpalo"
-version = "3.19.0"
+version = "3.19.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "46c5e41b57b8bba42a04676d81cb89e9ee8e859a1a66f80a5a72e1cb76b34d43"
+checksum = "5dd9dc738b7a8311c7ade152424974d8115f2cdad61e8dab8dac9f2362298510"
 dependencies = [
  "allocator-api2",
 ]
@@ -661,15 +661,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "json-strip-comments"
-version = "3.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "25376d12b2f6ae53f986f86e2a808a56af03d72284ae24fc35a2e290d09ee3c3"
-dependencies = [
- "memchr",
-]
-
-[[package]]
 name = "json_fmt"
 version = "0.1.14"
 dependencies = [
@@ -692,9 +683,9 @@ checksum = "37c93d8daa9d8a012fd8ab92f088405fb202ea0b6ab73ee2482ae66af4f42091"
 
 [[package]]
 name = "libredox"
-version = "0.1.11"
+version = "0.1.12"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "df15f6eac291ed1cf25865b1ee60399f57e7c227e7f51bdbd4c5270396a9ed50"
+checksum = "3d0b95e02c851351f877147b7deea7b1afb1df71b63aa5f8270716e0c5720616"
 dependencies = [
  "bitflags",
  "libc",
@@ -879,8 +870,8 @@ dependencies = [
 
 [[package]]
 name = "oxc_allocator"
-version = "0.102.0"
-source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.18.0#5b1bf4a0fbf5cbe158cff25423ee176e29f283c0"
+version = "0.106.0"
+source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.21.0#8e83df25670500349cd23313339b69a4c3b58039"
 dependencies = [
  "allocator-api2",
  "bumpalo",
@@ -891,8 +882,8 @@ dependencies = [
 
 [[package]]
 name = "oxc_ast"
-version = "0.102.0"
-source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.18.0#5b1bf4a0fbf5cbe158cff25423ee176e29f283c0"
+version = "0.106.0"
+source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.21.0#8e83df25670500349cd23313339b69a4c3b58039"
 dependencies = [
  "bitflags",
  "oxc_allocator",
@@ -907,8 +898,8 @@ dependencies = [
 
 [[package]]
 name = "oxc_ast_macros"
-version = "0.102.0"
-source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.18.0#5b1bf4a0fbf5cbe158cff25423ee176e29f283c0"
+version = "0.106.0"
+source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.21.0#8e83df25670500349cd23313339b69a4c3b58039"
 dependencies = [
  "phf",
  "proc-macro2",
@@ -918,13 +909,13 @@ dependencies = [
 
 [[package]]
 name = "oxc_data_structures"
-version = "0.102.0"
-source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.18.0#5b1bf4a0fbf5cbe158cff25423ee176e29f283c0"
+version = "0.106.0"
+source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.21.0#8e83df25670500349cd23313339b69a4c3b58039"
 
 [[package]]
 name = "oxc_diagnostics"
-version = "0.102.0"
-source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.18.0#5b1bf4a0fbf5cbe158cff25423ee176e29f283c0"
+version = "0.106.0"
+source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.21.0#8e83df25670500349cd23313339b69a4c3b58039"
 dependencies = [
  "cow-utils",
  "oxc-miette",
@@ -933,8 +924,8 @@ dependencies = [
 
 [[package]]
 name = "oxc_ecmascript"
-version = "0.102.0"
-source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.18.0#5b1bf4a0fbf5cbe158cff25423ee176e29f283c0"
+version = "0.106.0"
+source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.21.0#8e83df25670500349cd23313339b69a4c3b58039"
 dependencies = [
  "cow-utils",
  "num-bigint",
@@ -947,8 +938,8 @@ dependencies = [
 
 [[package]]
 name = "oxc_estree"
-version = "0.102.0"
-source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.18.0#5b1bf4a0fbf5cbe158cff25423ee176e29f283c0"
+version = "0.106.0"
+source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.21.0#8e83df25670500349cd23313339b69a4c3b58039"
 
 [[package]]
 name = "oxc_fmt"
@@ -966,11 +957,10 @@ dependencies = [
 
 [[package]]
 name = "oxc_formatter"
-version = "0.18.0"
-source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.18.0#5b1bf4a0fbf5cbe158cff25423ee176e29f283c0"
+version = "0.21.0"
+source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.21.0#8e83df25670500349cd23313339b69a4c3b58039"
 dependencies = [
  "cow-utils",
- "json-strip-comments",
  "natord",
  "oxc-schemars",
  "oxc_allocator",
@@ -998,8 +988,8 @@ dependencies = [
 
 [[package]]
 name = "oxc_parser"
-version = "0.102.0"
-source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.18.0#5b1bf4a0fbf5cbe158cff25423ee176e29f283c0"
+version = "0.106.0"
+source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.21.0#8e83df25670500349cd23313339b69a4c3b58039"
 dependencies = [
  "bitflags",
  "cow-utils",
@@ -1020,8 +1010,8 @@ dependencies = [
 
 [[package]]
 name = "oxc_regular_expression"
-version = "0.102.0"
-source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.18.0#5b1bf4a0fbf5cbe158cff25423ee176e29f283c0"
+version = "0.106.0"
+source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.21.0#8e83df25670500349cd23313339b69a4c3b58039"
 dependencies = [
  "bitflags",
  "oxc_allocator",
@@ -1047,8 +1037,8 @@ dependencies = [
 
 [[package]]
 name = "oxc_span"
-version = "0.102.0"
-source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.18.0#5b1bf4a0fbf5cbe158cff25423ee176e29f283c0"
+version = "0.106.0"
+source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.21.0#8e83df25670500349cd23313339b69a4c3b58039"
 dependencies = [
  "compact_str",
  "oxc-miette",
@@ -1059,8 +1049,8 @@ dependencies = [
 
 [[package]]
 name = "oxc_syntax"
-version = "0.102.0"
-source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.18.0#5b1bf4a0fbf5cbe158cff25423ee176e29f283c0"
+version = "0.106.0"
+source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.21.0#8e83df25670500349cd23313339b69a4c3b58039"
 dependencies = [
  "bitflags",
  "cow-utils",
@@ -1176,9 +1166,9 @@ dependencies = [
 
 [[package]]
 name = "proc-macro2"
-version = "1.0.103"
+version = "1.0.104"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5ee95bc4ef87b8d5ba32e8b7714ccc834865276eab0aed5c9958d00ec45f49e8"
+checksum = "9695f8df41bb4f3d222c95a67532365f569318332d03d5f3f67f37b20e6ebdf0"
 dependencies = [
  "unicode-ident",
 ]
@@ -1744,6 +1734,6 @@ checksum = "d6bbff5f0aada427a1e5a6da5f1f98158182f26556f345ac9e04d36d0ebed650"
 
 [[package]]
 name = "zmij"
-version = "1.0.0"
+version = "1.0.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e6d6085d62852e35540689d1f97ad663e3971fc19cf5eceab364d62c646ea167"
+checksum = "e9747e91771f56fd7893e1164abd78febd14a670ceec257caad15e051de35f06"

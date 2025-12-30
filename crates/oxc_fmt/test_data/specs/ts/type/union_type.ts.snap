@@ -36,8 +36,8 @@ type Comments =
 trailing type */
 
 type A = [
-    /*leading comment with new line*/
-    A | B,
+  /*leading comment with new line*/
+  A | B,
 ];
 
 type RemoveLeadingSeparatorIfNotBreak = /*a*/ /*b*/ A | B;

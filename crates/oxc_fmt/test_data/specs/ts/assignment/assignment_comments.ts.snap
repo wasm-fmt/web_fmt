@@ -12,7 +12,6 @@ const d: string = // 1
   // 2
   4;
 
-const e: string =
-  // 1
+const e: string = // 1
   // 2
   { object: 5 };

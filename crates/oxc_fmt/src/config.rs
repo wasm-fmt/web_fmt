@@ -1,5 +1,5 @@
 use common::LayoutConfig;
-use oxc_formatter::Oxfmtrc;
+pub use oxc_formatter::oxfmtrc::Oxfmtrc;
 use serde::Deserialize;
 
 #[derive(Deserialize, Default, Clone)]

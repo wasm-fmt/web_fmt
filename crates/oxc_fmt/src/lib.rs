@@ -1,6 +1,6 @@
 mod config;
 
-pub use oxc_formatter::{EmbeddedFormatter, EmbeddedFormatterCallback, Oxfmtrc};
+pub use oxc_formatter::{EmbeddedFormatter, EmbeddedFormatterCallback};
 
 use oxc_allocator::Allocator;
 use oxc_formatter::{get_parse_options, FormatOptions, Formatter};
