@@ -168,7 +168,7 @@ dependencies = [
 
 [[package]]
 name = "biome_fmt"
-version = "0.1.16"
+version = "0.1.17"
 dependencies = [
  "biome_formatter",
  "biome_js_formatter",
@@ -443,7 +443,7 @@ checksum = "9330f8b2ff13f34540b44e946ef35111825727b38d33286ef986142615121801"
 
 [[package]]
 name = "common"
-version = "0.1.16"
+version = "0.1.17"
 dependencies = [
  "serde",
  "wasm-bindgen",
@@ -588,7 +588,7 @@ checksum = "e629b9b98ef3dd8afe6ca2bd0f89306cec16d43d907889945bc5d6687f2f13c7"
 
 [[package]]
 name = "graphql_fmt"
-version = "0.1.16"
+version = "0.1.17"
 dependencies = [
  "common",
  "pretty_graphql",
@@ -662,7 +662,7 @@ dependencies = [
 
 [[package]]
 name = "json_fmt"
-version = "0.1.16"
+version = "0.1.17"
 dependencies = [
  "biome_formatter",
  "biome_json_formatter",
@@ -713,7 +713,7 @@ dependencies = [
 
 [[package]]
 name = "malva_fmt"
-version = "0.1.16"
+version = "0.1.17"
 dependencies = [
  "common",
  "malva",
@@ -725,7 +725,7 @@ dependencies = [
 
 [[package]]
 name = "markup_fmt"
-version = "0.1.16"
+version = "0.1.17"
 dependencies = [
  "common",
  "markup_fmt 0.25.3",
@@ -943,7 +943,7 @@ source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.21.0#8e83df2567050
 
 [[package]]
 name = "oxc_fmt"
-version = "0.1.16"
+version = "0.1.17"
 dependencies = [
  "common",
  "oxc_allocator",
@@ -1618,7 +1618,7 @@ dependencies = [
 
 [[package]]
 name = "web_fmt"
-version = "0.1.16"
+version = "0.1.17"
 dependencies = [
  "biome_fmt",
  "common",
@@ -1626,7 +1626,7 @@ dependencies = [
  "json_fmt",
  "malva",
  "malva_fmt",
- "markup_fmt 0.1.16",
+ "markup_fmt 0.1.17",
  "markup_fmt 0.25.3",
  "serde",
  "serde-wasm-bindgen",
