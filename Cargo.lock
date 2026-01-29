@@ -699,9 +699,9 @@ checksum = "df1d3c3b53da64cf5760482273a98e575c651a67eec7f77df96b5b642de8f039"
 
 [[package]]
 name = "malva"
-version = "0.15.1"
+version = "0.15.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d929173e755e816829682615f222df6011c61e787e2a2585333f05570bfb117b"
+checksum = "7402fe65a61b31ddfcd60f3d965547baab1f1bbdd4506afa73edabed8ed002af"
 dependencies = [
  "aho-corasick",
  "itertools",
@@ -1184,9 +1184,9 @@ dependencies = [
 
 [[package]]
 name = "raffia"
-version = "0.11.1"
+version = "0.12.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "835acd953484875b38912e6b9b2813682329f3912992bf5fc3109f7197add098"
+checksum = "826278ad840a1f047475ac36c40569b953b0b5359b126d7a09058e2a42151f89"
 dependencies = [
  "raffia_macro",
  "serde",
@@ -1195,9 +1195,9 @@ dependencies = [
 
 [[package]]
 name = "raffia_macro"
-version = "0.1.1"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4fdb50eb5bf734fa5a770680a61876a6ec77b99c1e0e52d1f18ad6ebfa85759f"
+checksum = "8ac21f5e4bc6b29ea5d5e691a9aa08b2b9fd8891f48a99157b9f02d8a48e1318"
 dependencies = [
  "heck",
  "quote",
