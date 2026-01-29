@@ -1,0 +1,20 @@
+{
+	"name": "@wasm-fmt/biome-fmt",
+	"version": "0.1.17",
+	"exports": {
+		".": "./biome_fmt.js",
+		"./esm": "./biome_fmt_esm.js",
+		"./node": "./biome_fmt_node.js",
+		"./bundler": "./biome_fmt.js",
+		"./web": "./biome_fmt_web.js"
+	},
+	"publish": {
+		"include": [
+			"biome_fmt*",
+			"README.md"
+		],
+		"exclude": [
+			"!**"
+		]
+	}
+}

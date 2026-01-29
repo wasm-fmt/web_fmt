@@ -1,0 +1,20 @@
+{
+	"name": "@wasm-fmt/graphql-fmt",
+	"version": "0.1.17",
+	"exports": {
+		".": "./graphql_fmt.js",
+		"./esm": "./graphql_fmt_esm.js",
+		"./node": "./graphql_fmt_node.js",
+		"./bundler": "./graphql_fmt.js",
+		"./web": "./graphql_fmt_web.js"
+	},
+	"publish": {
+		"include": [
+			"graphql_fmt*",
+			"README.md"
+		],
+		"exclude": [
+			"!**"
+		]
+	}
+}

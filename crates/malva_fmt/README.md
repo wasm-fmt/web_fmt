@@ -1,65 +1,71 @@
-# malva_fmt
+[![Test](https://github.com/wasm-fmt/web_fmt/actions/workflows/test.yml/badge.svg)](https://github.com/wasm-fmt/web_fmt/actions/workflows/test.yml)
 
-CSS/SCSS/SASS/LESS formatter powered by WASM ported from [malva](https://github.com/g-plane/malva).
+# Install
 
-## Usage
+[![npm](https://img.shields.io/npm/v/@wasm-fmt/malva_fmt)](https://www.npmjs.com/package/@wasm-fmt/malva_fmt)
 
-### Node.js
+```bash
+npm install @wasm-fmt/malva_fmt
+```
 
-```js
-import init from "malva_fmt";
+[![jsr.io](https://jsr.io/badges/@fmt/malva-fmt)](https://jsr.io/@fmt/malva-fmt)
 
-const { format } = await init();
+```bash
+npx jsr add @fmt/malva-fmt
+```
 
-const result = format(
-	".foo {\n  color: red;\n}",
-	"style.css",
-	{
-		indentStyle: "space",
-		indentWidth: 2,
-		lineWidth: 80,
-		lineEnding: "lf",
-	}
-);
+# Usage
+
+## Node.js / Deno / Bun / Bundler
+
+```javascript
+import { format } from "@wasm-fmt/malva_fmt";
+
+const input = `.foo { color: red; }`;
+
+const formatted = format(input, "style.css");
+console.log(formatted);
+```
+
+## Web
+
+For web environments, you need to initialize WASM module manually:
+
+```javascript
+import init, { format } from "@wasm-fmt/malva_fmt/web";
+
+await init();
+
+const input = `.foo { color: red; }`;
+
+const formatted = format(input, "style.css");
+console.log(formatted);
 ```
 
 ### Vite
 
-Add `"@wasm-fmt/malva-fmt"` to `optimizeDeps.exclude` in your vite config:
+```JavaScript
+import init, { format } from "@wasm-fmt/malva_fmt/vite";
 
-```JSON
-{
-    "optimizeDeps": {
-        "exclude": ["@wasm-fmt/malva-fmt"]
-    }
-}
+await init();
+// ...
 ```
 
-<details>
-<summary>
-If you cannot change the vite config, you can use another import entry
+## Entry Points
 
-</summary>
+- `.` - Auto-detects environment (Node.js uses node, Webpack uses bundler, default is ESM)
+- `./node` - Node.js environment (no init required)
+- `./esm` - ESM environments like Deno (no init required)
+- `./bundler` - Bundlers like Webpack (no init required)
+- `./web` - Web browsers (requires manual init)
+- `./vite` - Vite bundler (requires manual init)
 
-```js
-import init from "@wasm-fmt/malva-fmt/vite";
-
-const { format } = await init();
-
-const result = format(
-	".foo {\n  color: red;\n}",
-	"style.css",
-	{
-		indentStyle: "space",
-		indentWidth: 2,
-		lineWidth: 80,
-		lineEnding: "lf",
-	}
-);
-```
-
-</details>
-
-## Configuration
+# Configuration
 
 See [malva configuration docs](https://github.com/g-plane/malva/blob/main/docs/config.md) for all available options.
+
+# Credits
+
+Thanks to:
+
+- The [malva](https://github.com/g-plane/malva) project

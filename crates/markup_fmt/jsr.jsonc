@@ -1,0 +1,20 @@
+{
+	"name": "@wasm-fmt/markup-fmt",
+	"version": "0.1.17",
+	"exports": {
+		".": "./markup_fmt.js",
+		"./esm": "./markup_fmt_esm.js",
+		"./node": "./markup_fmt_node.js",
+		"./bundler": "./markup_fmt.js",
+		"./web": "./markup_fmt_web.js"
+	},
+	"publish": {
+		"include": [
+			"markup_fmt*",
+			"README.md"
+		],
+		"exclude": [
+			"!**"
+		]
+	}
+}

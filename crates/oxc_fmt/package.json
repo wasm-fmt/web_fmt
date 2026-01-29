@@ -1,0 +1,64 @@
+{
+	"name": "@wasm-fmt/oxc_fmt",
+	"type": "module",
+	"collaborators": [
+		"magic-akari <akari.ccino@gmail.com>"
+	],
+	"description": "JavaScript/TypeScript formatter powered by WASM ported from OXC (experimental)",
+	"version": "0.1.17",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/wasm-fmt/web_fmt.git"
+	},
+	"homepage": "https://github.com/wasm-fmt/web_fmt/tree/main/crates/oxc_fmt",
+	"types": "oxc_fmt.d.ts",
+	"files": [
+		"oxc_fmt*"
+	],
+	"sideEffects": [
+		"./oxc_fmt.js",
+		"./oxc_fmt_node.js",
+		"./oxc_fmt_esm.js"
+	],
+	"keywords": [
+		"wasm",
+		"formatter",
+		"javascript",
+		"typescript",
+		"oxc"
+	],
+	"publishConfig": {
+		"access": "public"
+	},
+	"exports": {
+		".": {
+			"types": "./oxc_fmt.d.ts",
+			"webpack": "./oxc_fmt.js",
+			"deno": "./oxc_fmt.js",
+			"bun": "./oxc_fmt_node.js",
+			"module-sync": "./oxc_fmt_node.js",
+			"node": "./oxc_fmt_node.js",
+			"default": "./oxc_fmt_esm.js"
+		},
+		"./esm": {
+			"types": "./oxc_fmt.d.ts",
+			"default": "./oxc_fmt_esm.js"
+		},
+		"./node": {
+			"types": "./oxc_fmt.d.ts",
+			"default": "./oxc_fmt_node.js"
+		},
+		"./bundler": {
+			"types": "./oxc_fmt.d.ts",
+			"default": "./oxc_fmt.js"
+		},
+		"./vite": {
+			"types": "./oxc_fmt.d.ts",
+			"default": "./oxc_fmt_vite.js"
+		},
+		"./wasm": "./oxc_fmt_bg.wasm",
+		"./package.json": "./package.json",
+		"./*": "./*"
+	}
+}

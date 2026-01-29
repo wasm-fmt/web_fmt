@@ -1,10 +1,21 @@
-import fs from "node:fs/promises";
-import initAsync from "./graphql_fmt.js";
+/* @ts-self-types="./graphql_fmt.d.ts" */
+import { readFileSync } from "node:fs";
+import * as import_bg from "./graphql_fmt_bg.js";
+const { __wbg_set_wasm, format, ...wasmImport } = import_bg;
 
-const wasm = new URL("./graphql_fmt_bg.wasm", import.meta.url);
+const wasmUrl = new URL("graphql_fmt_bg.wasm", import.meta.url);
+const wasmBytes = readFileSync(wasmUrl);
+const wasmModule = new WebAssembly.Module(wasmBytes);
 
-export default function __wbg_init(init = { module_or_path: fs.readFile(wasm) }) {
-	return initAsync(init);
+function getImports() {
+	return {
+		__proto__: null,
+		"./graphql_fmt_bg.js": wasmImport,
+	};
 }
 
-export * from "./graphql_fmt.js";
+const instance = new WebAssembly.Instance(wasmModule, getImports());
+const wasm = instance.exports;
+__wbg_set_wasm(wasm);
+
+export { format };

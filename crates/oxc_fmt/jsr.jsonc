@@ -1,0 +1,20 @@
+{
+	"name": "@wasm-fmt/oxc-fmt",
+	"version": "0.1.17",
+	"exports": {
+		".": "./oxc_fmt.js",
+		"./esm": "./oxc_fmt_esm.js",
+		"./node": "./oxc_fmt_node.js",
+		"./bundler": "./oxc_fmt.js",
+		"./web": "./oxc_fmt_web.js"
+	},
+	"publish": {
+		"include": [
+			"oxc_fmt*",
+			"README.md"
+		],
+		"exclude": [
+			"!**"
+		]
+	}
+}

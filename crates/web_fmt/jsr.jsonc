@@ -1,0 +1,20 @@
+{
+	"name": "@wasm-fmt/web-fmt",
+	"version": "0.1.17",
+	"exports": {
+		".": "./web_fmt.js",
+		"./esm": "./web_fmt_esm.js",
+		"./node": "./web_fmt_node.js",
+		"./bundler": "./web_fmt.js",
+		"./web": "./web_fmt_web.js"
+	},
+	"publish": {
+		"include": [
+			"web_fmt*",
+			"README.md"
+		],
+		"exclude": [
+			"!**"
+		]
+	}
+}

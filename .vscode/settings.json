@@ -1,6 +1,12 @@
 {
-    "deno.enable": true,
-    "deno.enablePaths": [
-        "./crates/biome_fmt/test_deno"
-    ]
+	"deno.enable": true,
+	"deno.enablePaths": [
+		"crates/biome_fmt/test_deno/",
+		"crates/graphql_fmt/test_deno/",
+		"crates/json_fmt/test_deno/",
+		"crates/malva_fmt/test_deno/",
+		"crates/markup_fmt/test_deno/",
+		"crates/oxc_fmt/test_deno/",
+		"crates/web_fmt/test_deno/"
+	]
 }

@@ -34,7 +34,7 @@ type Mod = "" | "m" | "c";
 type Lang = "j" | "t";
 type X = "" | "x";
 
-export type Filename = `index.${Mod}${"t" | "j"}s${X}` | `index.d.${Mod}ts${X}` | (string & {});
+type Filename = `index.${Mod}${"t" | "j"}s${X}` | `index.d.${Mod}ts${X}` | (string & {});
 
 /**
  * A range in text, using UTF-8 byte offsets.

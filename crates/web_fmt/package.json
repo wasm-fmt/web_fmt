@@ -1,0 +1,64 @@
+{
+	"name": "@wasm-fmt/web_fmt",
+	"type": "module",
+	"collaborators": [
+		"magic-akari <akari.ccino@gmail.com>"
+	],
+	"description": "A formatter for web development powered by WASM",
+	"version": "0.1.17",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/wasm-fmt/web_fmt.git"
+	},
+	"homepage": "https://github.com/wasm-fmt/web_fmt/tree/main/crates/web_fmt",
+	"types": "web_fmt.d.ts",
+	"files": [
+		"web_fmt*"
+	],
+	"sideEffects": [
+		"./web_fmt.js",
+		"./web_fmt_node.js",
+		"./web_fmt_esm.js"
+	],
+	"keywords": [
+		"wasm",
+		"formatter",
+		"html",
+		"css",
+		"javascript"
+	],
+	"publishConfig": {
+		"access": "public"
+	},
+	"exports": {
+		".": {
+			"types": "./web_fmt.d.ts",
+			"webpack": "./web_fmt.js",
+			"deno": "./web_fmt.js",
+			"bun": "./web_fmt_node.js",
+			"module-sync": "./web_fmt_node.js",
+			"node": "./web_fmt_node.js",
+			"default": "./web_fmt_esm.js"
+		},
+		"./esm": {
+			"types": "./web_fmt.d.ts",
+			"default": "./web_fmt_esm.js"
+		},
+		"./node": {
+			"types": "./web_fmt.d.ts",
+			"default": "./web_fmt_node.js"
+		},
+		"./bundler": {
+			"types": "./web_fmt.d.ts",
+			"default": "./web_fmt.js"
+		},
+		"./vite": {
+			"types": "./web_fmt.d.ts",
+			"default": "./web_fmt_vite.js"
+		},
+		"./wasm": "./web_fmt_bg.wasm",
+		"./package.json": "./package.json",
+		"./*": "./*"
+	}
+}

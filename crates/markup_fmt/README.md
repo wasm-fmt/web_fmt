@@ -1,3 +1,5 @@
+[![Test](https://github.com/wasm-fmt/web_fmt/actions/workflows/test.yml/badge.svg)](https://github.com/wasm-fmt/web_fmt/actions/workflows/test.yml)
+
 # Install
 
 [![npm](https://img.shields.io/npm/v/@wasm-fmt/markup_fmt)](https://www.npmjs.com/package/@wasm-fmt/markup_fmt)
@@ -14,8 +16,23 @@ npx jsr add @fmt/markup-fmt
 
 # Usage
 
+## Node.js / Deno / Bun / Bundler
+
 ```javascript
-import init, { format } from "@wasm-fmt/markup_fmt";
+import { format } from "@wasm-fmt/markup_fmt";
+
+const input = `<div  class="container"  id="main" >Hello World</div>`;
+
+const formatted = format(input, "index.html");
+console.log(formatted);
+```
+
+## Web
+
+For web environments, you need to initialize WASM module manually:
+
+```javascript
+import init, { format } from "@wasm-fmt/markup_fmt/web";
 
 await init();
 
@@ -25,28 +42,30 @@ const formatted = format(input, "index.html");
 console.log(formatted);
 ```
 
-For Vite users:
-
-Add `"@wasm-fmt/markup_fmt"` to `optimizeDeps.exclude` in your vite config:
-
-```JSON
-{
-    "optimizeDeps": {
-        "exclude": ["@wasm-fmt/markup_fmt"]
-    }
-}
-```
-
-<details>
-<summary>
-If you cannot change the vite config, you can use another import entry
-
-</summary>
+### Vite
 
 ```JavaScript
 import init, { format } from "@wasm-fmt/markup_fmt/vite";
 
+await init();
 // ...
 ```
 
-</details>
+## Entry Points
+
+- `.` - Auto-detects environment (Node.js uses node, Webpack uses bundler, default is ESM)
+- `./node` - Node.js environment (no init required)
+- `./esm` - ESM environments like Deno (no init required)
+- `./bundler` - Bundlers like Webpack (no init required)
+- `./web` - Web browsers (requires manual init)
+- `./vite` - Vite bundler (requires manual init)
+
+# Configuration
+
+See [markup_fmt configuration docs](https://github.com/g-plane/markup_fmt) for all available options.
+
+# Credits
+
+Thanks to:
+
+- The [markup_fmt](https://github.com/g-plane/markup_fmt) project

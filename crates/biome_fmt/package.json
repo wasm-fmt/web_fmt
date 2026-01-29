@@ -1,0 +1,64 @@
+{
+	"name": "@wasm-fmt/biome_fmt",
+	"type": "module",
+	"collaborators": [
+		"magic-akari <akari.ccino@gmail.com>"
+	],
+	"description": "JavaScript/TypeScript formatter powered by WASM ported from Biome",
+	"version": "0.1.17",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/wasm-fmt/web_fmt.git"
+	},
+	"homepage": "https://github.com/wasm-fmt/web_fmt/tree/main/crates/biome_fmt",
+	"types": "biome_fmt.d.ts",
+	"files": [
+		"biome_fmt*"
+	],
+	"sideEffects": [
+		"./biome_fmt.js",
+		"./biome_fmt_node.js",
+		"./biome_fmt_esm.js"
+	],
+	"keywords": [
+		"wasm",
+		"formatter",
+		"javascript",
+		"typescript",
+		"biome"
+	],
+	"publishConfig": {
+		"access": "public"
+	},
+	"exports": {
+		".": {
+			"types": "./biome_fmt.d.ts",
+			"webpack": "./biome_fmt.js",
+			"deno": "./biome_fmt.js",
+			"bun": "./biome_fmt_node.js",
+			"module-sync": "./biome_fmt_node.js",
+			"node": "./biome_fmt_node.js",
+			"default": "./biome_fmt_esm.js"
+		},
+		"./esm": {
+			"types": "./biome_fmt.d.ts",
+			"default": "./biome_fmt_esm.js"
+		},
+		"./node": {
+			"types": "./biome_fmt.d.ts",
+			"default": "./biome_fmt_node.js"
+		},
+		"./bundler": {
+			"types": "./biome_fmt.d.ts",
+			"default": "./biome_fmt.js"
+		},
+		"./vite": {
+			"types": "./biome_fmt.d.ts",
+			"default": "./biome_fmt_vite.js"
+		},
+		"./wasm": "./biome_fmt_bg.wasm",
+		"./package.json": "./package.json",
+		"./*": "./*"
+	}
+}

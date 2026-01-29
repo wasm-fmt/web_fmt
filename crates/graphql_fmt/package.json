@@ -1,0 +1,63 @@
+{
+	"name": "@wasm-fmt/graphql_fmt",
+	"type": "module",
+	"collaborators": [
+		"magic-akari <akari.ccino@gmail.com>"
+	],
+	"description": "GraphQL formatter powered by WASM ported from pretty_graphql",
+	"version": "0.1.17",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/wasm-fmt/web_fmt.git"
+	},
+	"homepage": "https://github.com/wasm-fmt/web_fmt/tree/main/crates/graphql_fmt",
+	"types": "graphql_fmt.d.ts",
+	"files": [
+		"graphql_fmt*"
+	],
+	"sideEffects": [
+		"./graphql_fmt.js",
+		"./graphql_fmt_node.js",
+		"./graphql_fmt_esm.js"
+	],
+	"keywords": [
+		"wasm",
+		"formatter",
+		"graphql",
+		"pretty_graphql"
+	],
+	"publishConfig": {
+		"access": "public"
+	},
+	"exports": {
+		".": {
+			"types": "./graphql_fmt.d.ts",
+			"webpack": "./graphql_fmt.js",
+			"deno": "./graphql_fmt.js",
+			"bun": "./graphql_fmt_node.js",
+			"module-sync": "./graphql_fmt_node.js",
+			"node": "./graphql_fmt_node.js",
+			"default": "./graphql_fmt_esm.js"
+		},
+		"./esm": {
+			"types": "./graphql_fmt.d.ts",
+			"default": "./graphql_fmt_esm.js"
+		},
+		"./node": {
+			"types": "./graphql_fmt.d.ts",
+			"default": "./graphql_fmt_node.js"
+		},
+		"./bundler": {
+			"types": "./graphql_fmt.d.ts",
+			"default": "./graphql_fmt.js"
+		},
+		"./vite": {
+			"types": "./graphql_fmt.d.ts",
+			"default": "./graphql_fmt_vite.js"
+		},
+		"./wasm": "./graphql_fmt_bg.wasm",
+		"./package.json": "./package.json",
+		"./*": "./*"
+	}
+}

@@ -24,29 +24,23 @@ jobs:
                     - "markup_fmt"
                     - "oxc_fmt"
                     - "web_fmt"
-
         steps:
             - uses: actions/checkout@v6
-
-            - name: Install wasm-pack
-              run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-
-            - name: Build ${{matrix.crate}} wasm
-              run: |
-                  ./crates/${{ matrix.crate }}/scripts/build.sh
-
-            - name: Package ${{matrix.crate}}
-              working-directory: crates/${{matrix.crate}}/pkg
+            - uses: taiki-e/install-action@v2
+              with:
+                  tool: wasm-pack,just
+            - name: Build ${{ matrix.crate }} wasm
+              run: just build ${{ matrix.crate }}
+            - name: Package ${{ matrix.crate }}
+              working-directory: crates/${{ matrix.crate }}/pkg
               run: npm pack
-
-            - name: Upload ${{matrix.crate}}
+            - name: Upload ${{ matrix.crate }}
               uses: actions/upload-artifact@v6
               with:
-                  name: ${{matrix.crate}}
+                  name: ${{ matrix.crate }}
                   path: |
-                      crates/${{matrix.crate}}/pkg
-                      # To keep the pkg directory structure
-                      crates/${{matrix.crate}}/README.md
+                      crates/${{ matrix.crate }}/pkg
+                      crates/${{ matrix.crate }}/README.md
 
     publish-npm:
         if: startsWith(github.ref, 'refs/tags/v')
@@ -59,19 +53,16 @@ jobs:
         needs: wasm-build
         steps:
             - uses: actions/checkout@v6
-
             - uses: actions/download-artifact@v7
               with:
-                  name: ${{matrix.crate}}
-                  path: crates/${{matrix.crate}}
-
+                  name: ${{ matrix.crate }}
+                  path: crates/${{ matrix.crate }}
             - uses: actions/setup-node@v6
               with:
                   node-version-file: ".node-version"
                   registry-url: "https://registry.npmjs.org"
-
-            - name: Publish ${{matrix.crate}}
-              working-directory: crates/${{matrix.crate}}/pkg
+            - name: Publish ${{ matrix.crate }}
+              working-directory: crates/${{ matrix.crate }}/pkg
               run: npm publish --provenance
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -88,19 +79,16 @@ jobs:
         needs: wasm-build
         steps:
             - uses: actions/checkout@v6
-
             - uses: actions/download-artifact@v7
               with:
-                  name: ${{matrix.crate}}
-                  path: crates/${{matrix.crate}}
-
+                  name: ${{ matrix.crate }}
+                  path: crates/${{ matrix.crate }}
             - uses: actions/setup-node@v6
               with:
                   node-version-file: ".node-version"
                   registry-url: "https://registry.npmjs.org"
-
-            - name: Publish ${{matrix.crate}}
-              working-directory: crates/${{matrix.crate}}/pkg
+            - name: Publish ${{ matrix.crate }}
+              working-directory: crates/${{ matrix.crate }}/pkg
               run: npx jsr publish --allow-dirty
 
     publish-github:
@@ -114,19 +102,16 @@ jobs:
         needs: wasm-build
         steps:
             - uses: actions/checkout@v6
-
             - uses: actions/download-artifact@v7
               with:
-                  name: ${{matrix.crate}}
-                  path: crates/${{matrix.crate}}
-
+                  name: ${{ matrix.crate }}
+                  path: crates/${{ matrix.crate }}
             - uses: actions/setup-node@v6
               with:
                   node-version-file: ".node-version"
                   registry-url: "https://npm.pkg.github.com"
-
-            - name: Publish ${{matrix.crate}}
-              working-directory: crates/${{matrix.crate}}/pkg
+            - name: Publish ${{ matrix.crate }}
+              working-directory: crates/${{ matrix.crate }}/pkg
               run: npm publish
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -142,16 +127,13 @@ jobs:
         needs: wasm-build
         steps:
             - uses: actions/checkout@v6
-
             - uses: actions/download-artifact@v7
               with:
-                  name: ${{matrix.crate}}
-                  path: crates/${{matrix.crate}}
-
-            - name: Package ${{matrix.crate}}
-              working-directory: crates/${{matrix.crate}}/pkg
+                  name: ${{ matrix.crate }}
+                  path: crates/${{ matrix.crate }}
+            - name: Package ${{ matrix.crate }}
+              working-directory: crates/${{ matrix.crate }}/pkg
               run: npm pack
-
             - name: Release
               uses: softprops/action-gh-release@69320dbe05506a9a39fc8ae11030b214ec2d1f87
               with:

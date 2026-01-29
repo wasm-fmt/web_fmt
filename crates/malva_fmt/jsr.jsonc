@@ -1,0 +1,20 @@
+{
+	"name": "@wasm-fmt/malva-fmt",
+	"version": "0.1.17",
+	"exports": {
+		".": "./malva_fmt.js",
+		"./esm": "./malva_fmt_esm.js",
+		"./node": "./malva_fmt_node.js",
+		"./bundler": "./malva_fmt.js",
+		"./web": "./malva_fmt_web.js"
+	},
+	"publish": {
+		"include": [
+			"malva_fmt*",
+			"README.md"
+		],
+		"exclude": [
+			"!**"
+		]
+	}
+}

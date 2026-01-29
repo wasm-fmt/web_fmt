@@ -1,0 +1,66 @@
+{
+	"name": "@wasm-fmt/markup_fmt",
+	"type": "module",
+	"collaborators": [
+		"magic-akari <akari.ccino@gmail.com>"
+	],
+	"description": "HTML/Vue/Svelte/Astro/Jinja/Twig formatter powered by WASM",
+	"version": "0.1.17",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/wasm-fmt/web_fmt.git"
+	},
+	"homepage": "https://github.com/wasm-fmt/web_fmt/tree/main/crates/markup_fmt",
+	"types": "markup_fmt.d.ts",
+	"files": [
+		"markup_fmt*"
+	],
+	"sideEffects": [
+		"./markup_fmt.js",
+		"./markup_fmt_node.js",
+		"./markup_fmt_esm.js"
+	],
+	"keywords": [
+		"wasm",
+		"formatter",
+		"html",
+		"vue",
+		"svelte",
+		"astro",
+		"markup_fmt"
+	],
+	"publishConfig": {
+		"access": "public"
+	},
+	"exports": {
+		".": {
+			"types": "./markup_fmt.d.ts",
+			"webpack": "./markup_fmt.js",
+			"deno": "./markup_fmt.js",
+			"bun": "./markup_fmt_node.js",
+			"module-sync": "./markup_fmt_node.js",
+			"node": "./markup_fmt_node.js",
+			"default": "./markup_fmt_esm.js"
+		},
+		"./esm": {
+			"types": "./markup_fmt.d.ts",
+			"default": "./markup_fmt_esm.js"
+		},
+		"./node": {
+			"types": "./markup_fmt.d.ts",
+			"default": "./markup_fmt_node.js"
+		},
+		"./bundler": {
+			"types": "./markup_fmt.d.ts",
+			"default": "./markup_fmt.js"
+		},
+		"./vite": {
+			"types": "./markup_fmt.d.ts",
+			"default": "./markup_fmt_vite.js"
+		},
+		"./wasm": "./markup_fmt_bg.wasm",
+		"./package.json": "./package.json",
+		"./*": "./*"
+	}
+}

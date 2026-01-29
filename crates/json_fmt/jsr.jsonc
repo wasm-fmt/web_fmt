@@ -1,0 +1,20 @@
+{
+	"name": "@wasm-fmt/json-fmt",
+	"version": "0.1.17",
+	"exports": {
+		".": "./json_fmt.js",
+		"./esm": "./json_fmt_esm.js",
+		"./node": "./json_fmt_node.js",
+		"./bundler": "./json_fmt.js",
+		"./web": "./json_fmt_web.js"
+	},
+	"publish": {
+		"include": [
+			"json_fmt*",
+			"README.md"
+		],
+		"exclude": [
+			"!**"
+		]
+	}
+}

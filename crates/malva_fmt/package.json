@@ -1,0 +1,66 @@
+{
+	"name": "@wasm-fmt/malva_fmt",
+	"type": "module",
+	"collaborators": [
+		"magic-akari <akari.ccino@gmail.com>"
+	],
+	"description": "Style/CSS/SASS/LESS formatter powered by WASM ported from malva",
+	"version": "0.1.17",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/wasm-fmt/web_fmt.git"
+	},
+	"homepage": "https://github.com/wasm-fmt/web_fmt/tree/main/crates/malva_fmt",
+	"types": "malva_fmt.d.ts",
+	"files": [
+		"malva_fmt*"
+	],
+	"sideEffects": [
+		"./malva_fmt.js",
+		"./malva_fmt_node.js",
+		"./malva_fmt_esm.js"
+	],
+	"keywords": [
+		"wasm",
+		"formatter",
+		"css",
+		"scss",
+		"sass",
+		"less",
+		"malva"
+	],
+	"publishConfig": {
+		"access": "public"
+	},
+	"exports": {
+		".": {
+			"types": "./malva_fmt.d.ts",
+			"webpack": "./malva_fmt.js",
+			"deno": "./malva_fmt.js",
+			"bun": "./malva_fmt_node.js",
+			"module-sync": "./malva_fmt_node.js",
+			"node": "./malva_fmt_node.js",
+			"default": "./malva_fmt_esm.js"
+		},
+		"./esm": {
+			"types": "./malva_fmt.d.ts",
+			"default": "./malva_fmt_esm.js"
+		},
+		"./node": {
+			"types": "./malva_fmt.d.ts",
+			"default": "./malva_fmt_node.js"
+		},
+		"./bundler": {
+			"types": "./malva_fmt.d.ts",
+			"default": "./malva_fmt.js"
+		},
+		"./vite": {
+			"types": "./malva_fmt.d.ts",
+			"default": "./malva_fmt_vite.js"
+		},
+		"./wasm": "./malva_fmt_bg.wasm",
+		"./package.json": "./package.json",
+		"./*": "./*"
+	}
+}

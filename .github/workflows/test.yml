@@ -7,6 +7,10 @@ on:
     pull_request:
         types: ["opened", "reopened", "synchronize"]
 
+concurrency:
+    group: ${{ github.workflow }}-${{ github.ref_name }}-${{ github.event.pull_request.number || github.sha }}
+    cancel-in-progress: ${{ github.ref_name != 'main' }}
+
 env:
     CARGO_INCREMENTAL: 0
     CARGO_TERM_COLOR: "always"
@@ -14,27 +18,33 @@ env:
     RUST_LOG: "off"
 
 jobs:
-    cargo-fmt:
-        name: Cargo fmt
-        runs-on: ubuntu-latest
+    test:
+        name: Test on ${{ matrix.os }}
+        runs-on: ${{ matrix.os }}
+        strategy:
+            fail-fast: false
+            matrix:
+                os: [ubuntu-latest, macos-latest, windows-latest]
         steps:
+            - name: Enable long paths on Windows
+              if: runner.os == 'Windows'
+              run: git config --global core.longpaths true
             - uses: actions/checkout@v6
-            - run: cargo fmt -- --check
+            - uses: taiki-e/install-action@v2
+              with:
+                  tool: dprint,taplo,just
+            - run: just check
+            - run: just test-rust
 
-    cargo-clippy:
-        name: Cargo clippy
+    audit:
+        name: Audit
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v6
-            - run: cargo clippy
-
-    cargo-test:
-        name: Cargo test
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v6
-            - run: cargo check
-            - run: cargo test
+            - uses: taiki-e/install-action@v2
+              with:
+                  tool: cargo-audit
+            - run: cargo audit
 
     wasm-build:
         name: Wasm build
@@ -49,29 +59,23 @@ jobs:
                     - "markup_fmt"
                     - "oxc_fmt"
                     - "web_fmt"
-
         steps:
             - uses: actions/checkout@v6
-
-            - name: Install wasm-pack
-              run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-
-            - name: Build ${{matrix.crate}} wasm
-              run: |
-                  ./crates/${{ matrix.crate }}/scripts/build.sh
-
-            - name: Package ${{matrix.crate}}
-              working-directory: crates/${{matrix.crate}}/pkg
+            - uses: taiki-e/install-action@v2
+              with:
+                  tool: wasm-pack,just
+            - name: Build ${{ matrix.crate }} wasm
+              run: just build ${{ matrix.crate }}
+            - name: Package ${{ matrix.crate }}
+              working-directory: crates/${{ matrix.crate }}/pkg
               run: npm pack
-
-            - name: Upload ${{matrix.crate}}
+            - name: Upload ${{ matrix.crate }}
               uses: actions/upload-artifact@v6
               with:
-                  name: ${{matrix.crate}}
+                  name: ${{ matrix.crate }}
                   path: |
-                      crates/${{matrix.crate}}/pkg
-                      # To keep the pkg directory structure
-                      crates/${{matrix.crate}}/README.md
+                      crates/${{ matrix.crate }}/pkg
+                      crates/${{ matrix.crate }}/README.md
 
     node-test:
         runs-on: ubuntu-latest
@@ -81,11 +85,9 @@ jobs:
             - uses: actions/download-artifact@v7
               with:
                   path: crates
-
             - uses: actions/setup-node@v6
               with:
                   node-version-file: ".node-version"
-
             - run: node --test crates/**/test_node/*.mjs
 
     deno-test:
@@ -96,11 +98,9 @@ jobs:
             - uses: actions/download-artifact@v7
               with:
                   path: crates
-
-            - uses: denoland/setup-deno@v1
+            - uses: denoland/setup-deno@v2
               with:
                   deno-version: 2.x
-
             - run: deno test --allow-read --parallel "crates/**/test_deno/*"
 
     bun-test:
@@ -112,8 +112,6 @@ jobs:
             - uses: actions/download-artifact@v7
               with:
                   path: crates
-
             - uses: oven-sh/setup-bun@v2
               name: Install bun
-
-            - run: bun test test_bun
+            - run: bun test crates/**/test_bun

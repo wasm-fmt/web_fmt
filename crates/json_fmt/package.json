@@ -1,0 +1,63 @@
+{
+	"name": "@wasm-fmt/json_fmt",
+	"type": "module",
+	"collaborators": [
+		"magic-akari <akari.ccino@gmail.com>"
+	],
+	"description": "JSON formatter powered by WASM ported from Biome",
+	"version": "0.1.17",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/wasm-fmt/web_fmt.git"
+	},
+	"homepage": "https://github.com/wasm-fmt/web_fmt/tree/main/crates/json_fmt",
+	"types": "json_fmt.d.ts",
+	"files": [
+		"json_fmt*"
+	],
+	"sideEffects": [
+		"./json_fmt.js",
+		"./json_fmt_node.js",
+		"./json_fmt_esm.js"
+	],
+	"keywords": [
+		"wasm",
+		"formatter",
+		"json",
+		"biome"
+	],
+	"publishConfig": {
+		"access": "public"
+	},
+	"exports": {
+		".": {
+			"types": "./json_fmt.d.ts",
+			"webpack": "./json_fmt.js",
+			"deno": "./json_fmt.js",
+			"bun": "./json_fmt_node.js",
+			"module-sync": "./json_fmt_node.js",
+			"node": "./json_fmt_node.js",
+			"default": "./json_fmt_esm.js"
+		},
+		"./esm": {
+			"types": "./json_fmt.d.ts",
+			"default": "./json_fmt_esm.js"
+		},
+		"./node": {
+			"types": "./json_fmt.d.ts",
+			"default": "./json_fmt_node.js"
+		},
+		"./bundler": {
+			"types": "./json_fmt.d.ts",
+			"default": "./json_fmt.js"
+		},
+		"./vite": {
+			"types": "./json_fmt.d.ts",
+			"default": "./json_fmt_vite.js"
+		},
+		"./wasm": "./json_fmt_bg.wasm",
+		"./package.json": "./package.json",
+		"./*": "./*"
+	}
+}

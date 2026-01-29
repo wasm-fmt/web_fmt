@@ -1,6 +1,6 @@
 [![Test](https://github.com/wasm-fmt/web_fmt/actions/workflows/test.yml/badge.svg)](https://github.com/wasm-fmt/web_fmt/actions/workflows/test.yml)
 
-## web_fmt [![npm][npm-web_fmt]][npm-web_fmt-link][![jsr.io][jsr-web_fmt]][jsr-web_fmt-link]
+## web_fmt [![npm][npm-web_fmt]][npm-web_fmt-link] [![jsr.io][jsr-web_fmt]][jsr-web_fmt-link]
 
 **Recommended** - Supports internal inter-calls to handle all Web project file types uniformly
 
