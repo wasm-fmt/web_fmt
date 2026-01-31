@@ -1,6 +1,6 @@
 mod config;
 
-pub use oxc_formatter::{EmbeddedFormatter, EmbeddedFormatterCallback};
+pub use oxc_formatter::{EmbeddedFormatterCallback, ExternalCallbacks};
 
 use oxc_allocator::Allocator;
 use oxc_formatter::{get_parse_options, FormatOptions, Formatter};
@@ -69,12 +69,12 @@ pub struct FormatScript<'a> {
     filename: &'a str,
     ext: Option<&'a str>,
     config: Option<FormatOptions>,
-    embedded_formatter: Option<EmbeddedFormatter>,
+    external_callbacks: Option<ExternalCallbacks>,
 }
 
 impl<'a> FormatScript<'a> {
     pub fn new(src: &'a str, filename: &'a str) -> Self {
-        Self { src, filename, ext: None, config: None, embedded_formatter: None }
+        Self { src, filename, ext: None, config: None, external_callbacks: None }
     }
 
     /// Set format configuration.
@@ -92,8 +92,8 @@ impl<'a> FormatScript<'a> {
     }
 
     /// Set embedded language formatter for template literals.
-    pub fn embedded(mut self, formatter: EmbeddedFormatter) -> Self {
-        self.embedded_formatter = Some(formatter);
+    pub fn external_callbacks(mut self, callbacks: ExternalCallbacks) -> Self {
+        self.external_callbacks = Some(callbacks);
         self
     }
 
@@ -118,13 +118,9 @@ impl<'a> FormatScript<'a> {
         }
 
         let options = self.config.unwrap_or_default();
-        let formatter = Formatter::new(&allocator, options);
 
-        let formatted = if let Some(ef) = self.embedded_formatter {
-            formatter.format_with_embedded(&ret.program, ef)
-        } else {
-            formatter.format(&ret.program)
-        };
+        let formatted = Formatter::new(&allocator, options)
+            .format_with_external_callbacks(&ret.program, self.external_callbacks);
 
         formatted.print().map(|p| p.into_code()).map_err(|e| e.to_string())
     }
