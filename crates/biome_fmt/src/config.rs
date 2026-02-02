@@ -1,11 +1,16 @@
 use biome_formatter::{
-    IndentStyle as BiomeIndentStyle, IndentWidthFromIntError, LineWidthFromIntError,
+    AttributePosition, BracketSameLine, BracketSpacing, Expand, IndentStyle as BiomeIndentStyle,
+    IndentWidthFromIntError, LineWidthFromIntError, QuoteStyle,
 };
-use biome_js_formatter::context::JsFormatOptions;
+use biome_js_formatter::context::{
+    ArrowParentheses, JsFormatOptions, OperatorLinebreak, QuoteProperties, Semicolons,
+    TrailingCommas,
+};
 use biome_js_syntax::JsFileSource;
 
 use common::LayoutConfig;
-use serde::Deserialize;
+use serde::{Deserialize, Deserializer};
+use std::str::FromStr;
 
 #[cfg(feature = "wasm-bindgen")]
 use wasm_bindgen::prelude::wasm_bindgen;
@@ -41,46 +46,48 @@ pub struct BiomeConfig {
 #[derive(Deserialize, Default, Clone)]
 pub struct LanguageOptions {
     /// The style for quotes. Defaults to double.
-    #[serde(alias = "quoteStyle")]
-    quote_style: Option<String>,
+    #[serde(alias = "quoteStyle", deserialize_with = "deserialize_option_from_str")]
+    quote_style: Option<QuoteStyle>,
 
     /// The style for JSX quotes. Defaults to double.
-    #[serde(alias = "jsxQuoteStyle")]
-    jsx_quote_style: Option<String>,
+    #[serde(alias = "jsxQuoteStyle", deserialize_with = "deserialize_option_from_str")]
+    jsx_quote_style: Option<QuoteStyle>,
 
     /// When properties in objects are quoted. Defaults to as-needed.
-    #[serde(alias = "quoteProperties")]
-    quote_properties: Option<String>,
+    #[serde(alias = "quoteProperties", deserialize_with = "deserialize_option_from_str")]
+    quote_properties: Option<QuoteProperties>,
 
     /// Print trailing commas wherever possible in multi-line comma-separated syntactic structures. Defaults to "all".
-    #[serde(alias = "trailingComma")]
-    trailing_comma: Option<String>,
+    #[serde(alias = "trailingComma", deserialize_with = "deserialize_option_from_str")]
+    trailing_comma: Option<TrailingCommas>,
 
     /// Whether the formatter prints semicolons for all statements, class members, and type members or only when necessary because of [ASI](https://tc39.es/ecma262/multipage/ecmascript-language-lexical-grammar.html#sec-automatic-semicolon-insertion).
-    semicolons: Option<String>,
+    #[serde(deserialize_with = "deserialize_option_from_str")]
+    semicolons: Option<Semicolons>,
 
     /// Whether to add non-necessary parentheses to arrow functions. Defaults to "always".
-    #[serde(alias = "arrowParentheses")]
-    arrow_parentheses: Option<String>,
+    #[serde(alias = "arrowParentheses", deserialize_with = "deserialize_option_from_str")]
+    arrow_parentheses: Option<ArrowParentheses>,
 
     /// Whether to insert spaces around brackets in object literals. Defaults to true.
-    #[serde(alias = "bracketSpacing")]
-    bracket_spacing: Option<bool>,
+    #[serde(alias = "bracketSpacing", deserialize_with = "deserialize_option_from_str")]
+    bracket_spacing: Option<BracketSpacing>,
 
     /// Whether to hug the closing bracket of multiline HTML/JSX tags to the end of the last line, rather than being alone on the following line. Defaults to false.
-    #[serde(alias = "bracketSameLine")]
-    bracket_same_line: Option<bool>,
+    #[serde(alias = "bracketSameLine", deserialize_with = "deserialize_option_from_str")]
+    bracket_same_line: Option<BracketSameLine>,
 
     /// Attribute position style. By default auto.
-    #[serde(alias = "attributePosition")]
-    attribute_position: Option<String>,
+    #[serde(alias = "attributePosition", deserialize_with = "deserialize_option_from_str")]
+    attribute_position: Option<AttributePosition>,
 
     /// Whether to expand object and array literals to multiple lines. Defaults to "auto".
-    expand: Option<String>,
+    #[serde(deserialize_with = "deserialize_option_from_str")]
+    expand: Option<Expand>,
 
     /// When formatting binary expressions, whether to break the line before or after the operator. Defaults to "after".
-    #[serde(alias = "operatorLinebreak")]
-    operator_linebreak: Option<String>,
+    #[serde(alias = "operatorLinebreak", deserialize_with = "deserialize_option_from_str")]
+    operator_linebreak: Option<OperatorLinebreak>,
 }
 
 impl BiomeConfig {
@@ -131,69 +138,61 @@ impl TryFrom<BiomeConfig> for JsFormatOptions {
         };
 
         if let Some(quote_style) = value.language.quote_style {
-            let quote_style = quote_style.parse()?;
-
             option = option.with_quote_style(quote_style);
-        };
+        }
 
         if let Some(jsx_quote_style) = value.language.jsx_quote_style {
-            let jsx_quote_style = jsx_quote_style.parse()?;
-
             option = option.with_jsx_quote_style(jsx_quote_style);
-        };
+        }
 
         if let Some(quote_properties) = value.language.quote_properties {
-            let quote_properties = quote_properties.parse()?;
-
             option = option.with_quote_properties(quote_properties);
-        };
+        }
 
         if let Some(trailing_comma) = value.language.trailing_comma {
-            let trailing_comma = trailing_comma.parse()?;
-
             option = option.with_trailing_commas(trailing_comma);
-        };
+        }
 
         if let Some(semicolons) = value.language.semicolons {
-            let semicolons = semicolons.parse()?;
-
             option = option.with_semicolons(semicolons);
-        };
+        }
 
         if let Some(arrow_parentheses) = value.language.arrow_parentheses {
-            let arrow_parentheses = arrow_parentheses.parse()?;
-
             option = option.with_arrow_parentheses(arrow_parentheses);
-        };
+        }
 
         if let Some(bracket_spacing) = value.language.bracket_spacing {
-            option = option.with_bracket_spacing(bracket_spacing.into());
-        };
+            option = option.with_bracket_spacing(bracket_spacing);
+        }
 
         if let Some(bracket_same_line) = value.language.bracket_same_line {
-            option = option.with_bracket_same_line(bracket_same_line.into());
-        };
+            option = option.with_bracket_same_line(bracket_same_line);
+        }
 
         if let Some(attribute_position) = value.language.attribute_position {
-            let attribute_position = attribute_position.parse()?;
-
             option = option.with_attribute_position(attribute_position);
-        };
+        }
 
         if let Some(expand) = value.language.expand {
-            let expand = expand.parse()?;
-
             option = option.with_expand(expand);
-        };
+        }
 
         if let Some(operator_linebreak) = value.language.operator_linebreak {
-            let operator_linebreak = operator_linebreak.parse()?;
-
             option = option.with_operator_linebreak(operator_linebreak);
-        };
+        }
 
         Ok(option)
     }
+}
+
+fn deserialize_option_from_str<'de, D, T>(deserializer: D) -> Result<Option<T>, D::Error>
+where
+    D: Deserializer<'de>,
+    T: FromStr,
+    T::Err: std::fmt::Display,
+{
+    let s = String::deserialize(deserializer)?;
+    T::from_str(&s).map(Some).map_err(serde::de::Error::custom)
 }
 
 #[derive(Clone, Copy, Deserialize)]
