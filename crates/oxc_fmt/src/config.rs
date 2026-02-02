@@ -80,43 +80,43 @@ where
 #[derive(Default, Clone, Deserialize)]
 pub struct FormatOptions {
     /// The style for quotes. Defaults to double.
-    #[serde(deserialize_with = "deserialize_from_str")]
+    #[serde(alias = "singleQuote", deserialize_with = "deserialize_from_str")]
     pub quote_style: oxc_formatter::QuoteStyle,
 
     /// The style for JSX quotes. Defaults to double.
-    #[serde(deserialize_with = "deserialize_from_str")]
+    #[serde(alias = "jsxSingleQuote", deserialize_with = "deserialize_from_str")]
     pub jsx_quote_style: oxc_formatter::QuoteStyle,
 
     /// When properties in objects are quoted. Defaults to as-needed.
-    #[serde(deserialize_with = "deserialize_from_str")]
+    #[serde(alias = "quoteProps", deserialize_with = "deserialize_from_str")]
     pub quote_properties: oxc_formatter::QuoteProperties,
 
     /// Print trailing commas wherever possible in multi-line comma-separated syntactic structures. Defaults to "all".
-    #[serde(deserialize_with = "deserialize_from_str")]
+    #[serde(alias = "trailingComma", deserialize_with = "deserialize_from_str")]
     pub trailing_commas: oxc_formatter::TrailingCommas,
 
     /// Whether the formatter prints semicolons for all statements, class members, and type members or only when necessary because of [ASI](https://tc39.es/ecma262/multipage/ecmascript-language-lexical-grammar.html#sec-automatic-semicolon-insertion).
-    #[serde(deserialize_with = "deserialize_from_str")]
+    #[serde(alias = "semi", deserialize_with = "deserialize_from_str")]
     pub semicolons: oxc_formatter::Semicolons,
 
     /// Whether to add non-necessary parentheses to arrow functions. Defaults to "always".
-    #[serde(deserialize_with = "deserialize_from_str")]
+    #[serde(alias = "arrowParens", deserialize_with = "deserialize_from_str")]
     pub arrow_parentheses: oxc_formatter::ArrowParentheses,
 
     /// Whether to insert spaces around brackets in object literals. Defaults to true.
-    #[serde(deserialize_with = "deserialize_from_str")]
+    #[serde(alias = "bracketSpacing", deserialize_with = "deserialize_from_str")]
     pub bracket_spacing: oxc_formatter::BracketSpacing,
 
     /// Whether to hug the closing bracket of multiline HTML/JSX tags to the end of the last line, rather than being alone on the following line. Defaults to false.
-    #[serde(deserialize_with = "deserialize_from_str")]
+    #[serde(alias = "bracketSameLine", deserialize_with = "deserialize_from_str")]
     pub bracket_same_line: oxc_formatter::BracketSameLine,
 
     /// Attribute position style. By default auto.
-    #[serde(deserialize_with = "deserialize_from_str")]
+    #[serde(alias = "singleAttributePerLine", deserialize_with = "deserialize_from_str")]
     pub attribute_position: oxc_formatter::AttributePosition,
 
     /// Whether to expand object and array literals to multiple lines. Defaults to "auto".
-    #[serde(deserialize_with = "deserialize_from_str")]
+    #[serde(alias = "objectWrap", deserialize_with = "deserialize_from_str")]
     pub expand: oxc_formatter::Expand,
 
     /// Controls the position of operators in binary expressions. [**NOT SUPPORTED YET**]
@@ -124,7 +124,7 @@ pub struct FormatOptions {
     /// Accepted values are:
     /// - `"start"`: Places the operator at the beginning of the next line.
     /// - `"end"`: Places the operator at the end of the current line (default).
-    #[serde(deserialize_with = "deserialize_from_str")]
+    #[serde(alias = "experimentalOperatorPosition", deserialize_with = "deserialize_from_str")]
     pub experimental_operator_position: oxc_formatter::OperatorPosition,
 
     /// Try prettier's new ternary formatting before it becomes the default behavior. [**NOT SUPPORTED YET**]
@@ -132,10 +132,11 @@ pub struct FormatOptions {
     /// Valid options:
     /// - `true` - Use curious ternaries, with the question mark after the condition.
     /// - `false` - Retain the default behavior of ternaries; keep question marks on the same line as the consequent.
+    #[serde(alias = "experimentalTernaries")]
     pub experimental_ternaries: bool,
 
     /// Enable formatting for embedded languages (e.g., CSS, SQL, GraphQL) within template literals. Defaults to "auto".
-    #[serde(deserialize_with = "deserialize_from_str")]
+    #[serde(alias = "embeddedLanguageFormatting", deserialize_with = "deserialize_from_str")]
     pub embedded_language_formatting: oxc_formatter::EmbeddedLanguageFormatting,
 
     /// Sort import statements. By default disabled.
