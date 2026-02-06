@@ -13,17 +13,6 @@ use wasm_bindgen::prelude::*;
 use crate::config::OxFmtOptions;
 
 #[cfg(feature = "wasm-bindgen")]
-#[wasm_bindgen(typescript_custom_section)]
-const TS_Config: &'static str = r#"
-export interface Config extends LayoutConfig {
-	/**
-	 *  See {@link https://oxc.rs/docs/guide/usage/formatter/config.html}
-	 *  See {@link https://prettier.io/docs/options}
-	 */
-	[other: string]: any;
-}"#;
-
-#[cfg(feature = "wasm-bindgen")]
 #[wasm_bindgen]
 extern "C" {
     #[wasm_bindgen(typescript_type = "Config")]
@@ -42,9 +31,17 @@ export type Filename = `index.${Mod}${Lang}s${X}` | `index.d.${Mod}ts${X}` | (st
 export function format(code: string, filename: Filename, config?: Config): string;
 "#;
 
+/// Formats the given JavaScript/TypeScript code with the provided Configuration.
 #[cfg(feature = "wasm-bindgen")]
 #[wasm_bindgen(js_name = format, skip_typescript)]
-pub fn format_script(code: &str, filename: &str, config: Option<Config>) -> Result<String, String> {
+pub fn format_script(
+    #[wasm_bindgen(param_description = "The JavaScript/TypeScript code to format")] code: &str,
+    #[wasm_bindgen(
+        param_description = "The filename to determine the source type (e.g., .js, .ts, .jsx, .tsx)"
+    )]
+    filename: &str,
+    #[wasm_bindgen(param_description = "Optional formatter config")] config: Option<Config>,
+) -> Result<String, String> {
     let config = config
         .map(|x| serde_wasm_bindgen::from_value(x.clone()))
         .transpose()

@@ -11,6 +11,7 @@
 	"publish": {
 		"include": [
 			"oxc_fmt*",
+			"*.d.ts",
 			"README.md"
 		],
 		"exclude": [

@@ -33,18 +33,17 @@ struct Config {
     graphql: Option<graphql_fmt::config::GraphqlConfig>,
 }
 
-#[wasm_bindgen(typescript_custom_section)]
-const TS_Config: &'static str = r#"
-export interface Config extends LayoutConfig {
-	markup?: MarkupConfig;
-	script?: ScriptConfig;
-	style?: StyleConfig;
-	json?: JsonConfig;
-	graphql?: GraphqlConfig;
-}"#;
-
+/// Formats the given code based on the file extension with the provided Configuration.
+/// Supports JavaScript, TypeScript, JSX, TSX, CSS, SCSS, Sass, Less, HTML, Vue, Svelte, Astro, JSON, JSONC, GraphQL.
 #[wasm_bindgen]
-pub fn format(src: &str, filename: &str, config: Option<JSConfig>) -> Result<String, String> {
+pub fn format(
+    #[wasm_bindgen(param_description = "The code to format")] src: &str,
+    #[wasm_bindgen(
+        param_description = "The filename to determine the language (e.g., .js, .ts, .css, .html, .json, .graphql)"
+    )]
+    filename: &str,
+    #[wasm_bindgen(param_description = "Optional formatter config for different languages")] config: Option<JSConfig>,
+) -> Result<String, String> {
     let default_config: ConfigDefault = config
         .as_ref()
         .map(|x| serde_wasm_bindgen::from_value(x.into()))
@@ -106,7 +105,7 @@ pub fn format(src: &str, filename: &str, config: Option<JSConfig>) -> Result<Str
         }
         b"json" | b"jsonc" => json_fmt::format_json_with_config(src, json_config.into()),
         b"graphql" | b"gql" => graphql_fmt::format_graphql_with_config(src, graphql_config),
-        _ => Err(format!("unsupported file extension: {}", filename)),
+        _ => Err(format!("unsupported file extension: {filename}")),
     }
 }
 

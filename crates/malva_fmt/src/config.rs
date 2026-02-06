@@ -88,21 +88,25 @@ pub struct MalvaConfig {
 }
 
 impl MalvaConfig {
+    #[must_use]
     pub fn with_print_width(mut self, print_width: usize) -> Self {
         self.malva_layout = self.malva_layout.with_print_width(print_width);
         self
     }
 
+    #[must_use]
     pub fn with_quotes(mut self, quotes: malva::config::Quotes) -> Self {
         self.language.quotes = quotes;
         self
     }
 
+    #[must_use]
     pub fn with_single_line_top_level_declarations(mut self, value: bool) -> Self {
         self.language.single_line_top_level_declarations = value;
         self
     }
 
+    #[must_use]
     pub fn fill_empty_layout_with(mut self, layout: &LayoutConfig) -> Self {
         self.layout = self.layout.fill_empty_with(layout);
         self

@@ -85,11 +85,13 @@ pub struct GraphqlConfig {
 }
 
 impl GraphqlConfig {
+    #[must_use]
     pub fn with_print_width(mut self, print_width: usize) -> Self {
         self.graphql_layout = self.graphql_layout.with_print_width(print_width);
         self
     }
 
+    #[must_use]
     pub fn fill_empty_layout_with(mut self, layout: &LayoutConfig) -> Self {
         self.layout = self.layout.fill_empty_with(layout);
         self

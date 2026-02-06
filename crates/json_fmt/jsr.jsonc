@@ -11,6 +11,7 @@
 	"publish": {
 		"include": [
 			"json_fmt*",
+			"*.d.ts",
 			"README.md"
 		],
 		"exclude": [

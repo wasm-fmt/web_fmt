@@ -14,7 +14,8 @@
 	"homepage": "https://github.com/wasm-fmt/web_fmt/tree/main/crates/biome_fmt",
 	"types": "biome_fmt.d.ts",
 	"files": [
-		"biome_fmt*"
+		"biome_fmt*",
+		"*.d.ts"
 	],
 	"sideEffects": [
 		"./biome_fmt.js",

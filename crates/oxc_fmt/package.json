@@ -14,7 +14,8 @@
 	"homepage": "https://github.com/wasm-fmt/web_fmt/tree/main/crates/oxc_fmt",
 	"types": "oxc_fmt.d.ts",
 	"files": [
-		"oxc_fmt*"
+		"oxc_fmt*",
+		"*.d.ts"
 	],
 	"sideEffects": [
 		"./oxc_fmt.js",

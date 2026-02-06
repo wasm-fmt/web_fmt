@@ -6,25 +6,23 @@ pub use markup_fmt_core::{Hints, Language};
 use wasm_bindgen::prelude::*;
 
 #[cfg(feature = "wasm-bindgen")]
-#[wasm_bindgen(typescript_custom_section)]
-const TS_Config: &'static str = r#"
-export interface Config extends LayoutConfig {
-	/**
-	 *  See {@link https://github.com/g-plane/markup_fmt/blob/main/docs/config.md}
-	 */
-	[other: string]: any;
-}"#;
-
-#[cfg(feature = "wasm-bindgen")]
 #[wasm_bindgen]
 extern "C" {
     #[wasm_bindgen(typescript_type = "Config")]
     pub type Config;
 }
 
+/// Formats the given HTML/Vue/Svelte/Astro code with the provided Configuration.
 #[cfg(feature = "wasm-bindgen")]
 #[wasm_bindgen(js_name = format)]
-pub fn format_markup(src: &str, filename: &str, config: Option<Config>) -> Result<String, String> {
+pub fn format_markup(
+    #[wasm_bindgen(param_description = "The HTML/Vue/Svelte/Astro code to format")] src: &str,
+    #[wasm_bindgen(
+        param_description = "The filename to determine the template language (e.g., .html, .vue, .svelte, .astro)"
+    )]
+    filename: &str,
+    #[wasm_bindgen(param_description = "Optional formatter config")] config: Option<Config>,
+) -> Result<String, String> {
     let config: markup_fmt_core::config::FormatOptions = config
         .as_ref()
         .map(|x| serde_wasm_bindgen::from_value(x.into()))
@@ -58,12 +56,13 @@ pub struct FormatMarkup<'a, F = NoneFormatter> {
 }
 
 impl<'a> FormatMarkup<'a, NoneFormatter> {
+    #[must_use]
     pub fn new(src: &'a str, filename: &'a str) -> Self {
         Self { src, filename, config: Default::default(), embed_formatter: NoneFormatter }
     }
 
     /// Set formatter for embedded code (script, style, json, etc.).
-    /// The formatter receives source code and formatting hints (extension, print_width, etc.)
+    /// The formatter receives source code and formatting hints (extension, `print_width`, etc.)
     /// This transforms the builder to use the provided formatter.
     pub fn embed_formatter<F2: EmbeddedFormatter>(self, formatter: F2) -> FormatMarkup<'a, F2> {
         FormatMarkup {
@@ -75,14 +74,14 @@ impl<'a> FormatMarkup<'a, NoneFormatter> {
     }
 }
 
-impl<'a, F> FormatMarkup<'a, F> {
+impl<F> FormatMarkup<'_, F> {
     pub fn config(mut self, config: markup_fmt_core::config::FormatOptions) -> Self {
         self.config = config;
         self
     }
 }
 
-impl<'a, F: EmbeddedFormatter> FormatMarkup<'a, F> {
+impl<F: EmbeddedFormatter> FormatMarkup<'_, F> {
     pub fn format(self) -> Result<String, String> {
         let language = markup_fmt_core::detect_language(self.filename)
             .unwrap_or(markup_fmt_core::Language::Html);
@@ -91,7 +90,7 @@ impl<'a, F: EmbeddedFormatter> FormatMarkup<'a, F> {
         markup_fmt_core::format_text(src, language, &markup_config, |embed_src, hints| {
             format_embedded(embed_src, hints, &embed_formatter)
         })
-        .map_err(|e| format!("{:?}", e))
+        .map_err(|e| format!("{e:?}"))
     }
 }
 

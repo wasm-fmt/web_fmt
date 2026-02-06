@@ -78,15 +78,18 @@ impl From<MarkupLayoutOptions> for markup_fmt_core::config::LayoutOptions {
 }
 
 impl MarkupConfig {
+    #[must_use]
     pub fn with_line_width(mut self, line_width: u16) -> Self {
         self.markup_layout.print_width = Some(line_width as usize);
         self
     }
 
+    #[must_use]
     pub fn quotes(&self) -> markup_fmt_core::config::Quotes {
         self.language.quotes.clone()
     }
 
+    #[must_use]
     pub fn fill_empty_layout_with(mut self, layout: &LayoutConfig) -> Self {
         self.layout = self.layout.fill_empty_with(layout);
         self

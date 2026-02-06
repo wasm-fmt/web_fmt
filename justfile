@@ -40,7 +40,8 @@ test-all: test-rust
 [group('build')]
 build crate:
 	wasm-pack build --scope=wasm-fmt crates/{{crate}}
-	cp -R crates/{{crate}}/extra/. crates/{{crate}}/pkg/
+	cp -RL crates/{{crate}}/extra/. crates/{{crate}}/pkg/
+	rm -f crates/{{crate}}/pkg/doc.d.ts
 	node scripts/patch.mjs crates/{{crate}}
 
 [group('build')]
@@ -80,13 +81,20 @@ ready:
 	just check
 	just build-all
 	just test-all
-	cd crates/biome_fmt/pkg && npm pack --dry-run
-	cd crates/graphql_fmt/pkg && npm pack --dry-run
-	cd crates/json_fmt/pkg && npm pack --dry-run
-	cd crates/malva_fmt/pkg && npm pack --dry-run
-	cd crates/markup_fmt/pkg && npm pack --dry-run
-	cd crates/oxc_fmt/pkg && npm pack --dry-run
-	cd crates/web_fmt/pkg && npm pack --dry-run
+	just pack-dry-run-all
+
+pack-dry-run crate:
+	cd crates/{{crate}}/pkg && npm pack --dry-run
+	cd crates/{{crate}}/pkg && npx jsr publish --dry-run
+
+pack-dry-run-all:
+	just pack-dry-run biome_fmt
+	just pack-dry-run graphql_fmt
+	just pack-dry-run json_fmt
+	just pack-dry-run malva_fmt
+	just pack-dry-run markup_fmt
+	just pack-dry-run oxc_fmt
+	just pack-dry-run web_fmt
 
 # Bump version (major, minor, patch) or set specific version
 [group('release')]

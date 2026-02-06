@@ -15,9 +15,13 @@ extern "C" {
     pub type Config;
 }
 
+/// Formats the given JSON code with the provided Configuration.
 #[cfg(feature = "wasm-bindgen")]
 #[wasm_bindgen]
-pub fn format(src: &str, config: Option<Config>) -> Result<String, String> {
+pub fn format(
+    #[wasm_bindgen(param_description = "The JSON code to format")] src: &str,
+    #[wasm_bindgen(param_description = "Optional formatter config")] config: Option<Config>,
+) -> Result<String, String> {
     let config = config
         .map(|x| serde_wasm_bindgen::from_value(x.clone()))
         .transpose()

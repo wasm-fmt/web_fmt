@@ -1,8 +1,6 @@
 /**
  * WASM formatter for web development (HTML/CSS/JS/JSON/GraphQL).
  *
- * Detects file type by extension and formats accordingly.
- *
  * @example
  * ```ts
  * import { format } from "@wasm-fmt/web_fmt";
@@ -13,3 +11,10 @@
  *
  * @module
  */
+
+import type { Config } from "./options.d.ts";
+import type { Config as GraphqlConfig } from "./graphql_options.d.ts";
+import type { Config as JsonConfig } from "./json_options.d.ts";
+import type { Config as MarkupConfig } from "./markup_options.d.ts";
+import type { Config as ScriptConfig } from "./biome_options.d.ts";
+import type { Config as StyleConfig } from "./malva_options.d.ts";

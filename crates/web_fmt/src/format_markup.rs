@@ -12,17 +12,16 @@ extern "C" {
     pub type Config;
 }
 
-#[wasm_bindgen(typescript_custom_section)]
-const TS_Config: &'static str = r#"
-export interface MarkupConfig extends LayoutConfig {
-	/**
-	 *  See {@link https://github.com/g-plane/markup_fmt/blob/main/docs/config.md}
-	 */
-	[other: string]: any;
-}"#;
-
+/// Formats the given HTML/Vue/Svelte/Astro code with the provided Configuration.
 #[wasm_bindgen]
-pub fn format_markup(src: &str, filename: &str, config: Option<Config>) -> Result<String, String> {
+pub fn format_markup(
+    #[wasm_bindgen(param_description = "The HTML/Vue/Svelte/Astro code to format")] src: &str,
+    #[wasm_bindgen(
+        param_description = "The filename to determine the template language (e.g., .html, .vue, .svelte, .astro)"
+    )]
+    filename: &str,
+    #[wasm_bindgen(param_description = "Optional formatter config")] config: Option<Config>,
+) -> Result<String, String> {
     let markup_config: markup_fmt::config::MarkupConfig = config
         .as_ref()
         .map(|x| serde_wasm_bindgen::from_value(x.into()))

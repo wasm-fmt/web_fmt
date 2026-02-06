@@ -3,19 +3,6 @@ use std::str::FromStr;
 #[cfg(feature = "serde")]
 use serde::Deserialize;
 
-#[cfg(feature = "wasm-bindgen")]
-use wasm_bindgen::prelude::wasm_bindgen;
-
-#[cfg(feature = "wasm-bindgen")]
-#[wasm_bindgen(typescript_custom_section)]
-const TS_Config: &'static str = r#"
-interface LayoutConfig {
-	indentStyle?: "tab" | "space";
-	indentWidth?: number;
-	lineWidth?: number;
-	lineEnding?: "lf" | "crlf";
-}"#;
-
 #[cfg_attr(feature = "serde", derive(Deserialize))]
 #[derive(Clone, Default)]
 pub struct LayoutConfig {
@@ -30,6 +17,7 @@ pub struct LayoutConfig {
 }
 
 impl LayoutConfig {
+    #[must_use]
     pub fn fill_empty_with(mut self, other: &Self) -> Self {
         if self.indent_style.is_none() {
             self.indent_style = other.indent_style;
@@ -46,38 +34,46 @@ impl LayoutConfig {
         self
     }
 
+    #[must_use]
     pub fn with_indent_style(mut self, indent_style: IndentStyle) -> Self {
         self.indent_style = Some(indent_style);
         self
     }
 
+    #[must_use]
     pub fn with_indent_width(mut self, indent_width: u8) -> Self {
         self.indent_width = Some(indent_width);
         self
     }
 
+    #[must_use]
     pub fn with_line_width(mut self, line_width: u16) -> Self {
         self.line_width = Some(line_width);
         self
     }
 
+    #[must_use]
     pub fn with_line_ending(mut self, line_ending: LineEnding) -> Self {
         self.line_ending = Some(line_ending);
         self
     }
 
+    #[must_use]
     pub fn indent_style(&self) -> Option<IndentStyle> {
         self.indent_style
     }
 
+    #[must_use]
     pub fn indent_width(&self) -> Option<u8> {
         self.indent_width
     }
 
+    #[must_use]
     pub fn line_width(&self) -> Option<u16> {
         self.line_width
     }
 
+    #[must_use]
     pub fn line_ending(&self) -> Option<LineEnding> {
         self.line_ending
     }
@@ -93,6 +89,7 @@ pub enum IndentStyle {
 }
 
 impl IndentStyle {
+    #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
             IndentStyle::Tab => "tab",
@@ -100,10 +97,12 @@ impl IndentStyle {
         }
     }
 
+    #[must_use]
     pub fn use_tabs(&self) -> bool {
         matches!(self, IndentStyle::Tab)
     }
 
+    #[must_use]
     pub fn from_use_tabs(use_tabs: bool) -> Self {
         if use_tabs {
             IndentStyle::Tab
@@ -135,6 +134,7 @@ pub enum LineEnding {
 }
 
 impl LineEnding {
+    #[must_use]
     pub fn as_str(&self) -> &'static str {
         match self {
             LineEnding::Lf => "lf",

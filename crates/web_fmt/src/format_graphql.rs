@@ -7,17 +7,12 @@ extern "C" {
     pub type Config;
 }
 
-#[wasm_bindgen(typescript_custom_section)]
-const TS_Config: &'static str = r#"
-export interface GraphqlConfig extends LayoutConfig {
-	/**
-	 *  See {@link https://pretty-graphql.netlify.app/}
-	 */
-	[other: string]: any;
-}"#;
-
+/// Formats the given GraphQL code with the provided Configuration.
 #[wasm_bindgen]
-pub fn format_graphql(src: &str, config: Option<Config>) -> Result<String, String> {
+pub fn format_graphql(
+    #[wasm_bindgen(param_description = "The GraphQL code to format")] src: &str,
+    #[wasm_bindgen(param_description = "Optional formatter config")] config: Option<Config>,
+) -> Result<String, String> {
     let config = config
         .map(|x| serde_wasm_bindgen::from_value(x.clone()))
         .transpose()

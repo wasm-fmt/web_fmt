@@ -12,26 +12,6 @@ use common::LayoutConfig;
 use serde::{Deserialize, Deserializer};
 use std::str::FromStr;
 
-#[cfg(feature = "wasm-bindgen")]
-use wasm_bindgen::prelude::wasm_bindgen;
-
-#[cfg(feature = "wasm-bindgen")]
-#[wasm_bindgen(typescript_custom_section)]
-const TS_Config: &'static str = r#"
-export interface Config extends LayoutConfig {
-    quoteStyle?: "double" | "single";
-    jsxQuoteStyle?: "double" | "single";
-    quoteProperties?: "preserve" | "as-needed";
-    trailingComma?: "es5" | "all" | "none";
-    semicolons?: "always" | "as-needed";
-    arrowParentheses?: "always" | "as-needed";
-    bracketSpacing?: boolean;
-    bracketSameLine?: boolean;
-    attributePosition?: "auto" | "multiline";
-    expand?: "always" | "never" | "auto";
-    operatorLinebreak?: "before" | "after";
-}"#;
-
 #[derive(Deserialize, Default, Clone)]
 pub struct BiomeConfig {
     #[serde(flatten)]
@@ -91,16 +71,19 @@ pub struct LanguageOptions {
 }
 
 impl BiomeConfig {
+    #[must_use]
     pub fn with_source_type(mut self, source_type: JsFileSource) -> Self {
         self.source_type = Some(source_type);
         self
     }
 
+    #[must_use]
     pub fn with_line_width(mut self, line_width: u16) -> Self {
         self.layout = self.layout.with_line_width(line_width);
         self
     }
 
+    #[must_use]
     pub fn fill_empty_layout_with(mut self, layout: &LayoutConfig) -> Self {
         self.layout = self.layout.fill_empty_with(layout);
 
@@ -118,7 +101,7 @@ impl TryFrom<BiomeConfig> for JsFormatOptions {
 
         if let Some(indent_style) = value.layout.indent_style() {
             option = option.with_indent_style(indent_style.as_str().parse()?);
-        };
+        }
 
         if let Some(indent_width) = value.layout.indent_width() {
             let indent_width =
@@ -131,11 +114,11 @@ impl TryFrom<BiomeConfig> for JsFormatOptions {
                 line_width.try_into().map_err(|e: LineWidthFromIntError| e.to_string())?;
 
             option = option.with_line_width(line_width);
-        };
+        }
 
         if let Some(line_ending) = value.layout.line_ending() {
             option = option.with_line_ending(line_ending.as_str().parse()?);
-        };
+        }
 
         if let Some(quote_style) = value.language.quote_style {
             option = option.with_quote_style(quote_style);

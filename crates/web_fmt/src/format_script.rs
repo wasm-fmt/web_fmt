@@ -8,23 +8,17 @@ extern "C" {
     pub type Config;
 }
 
-#[cfg(feature = "script-biome")]
-#[wasm_bindgen(typescript_custom_section)]
-const TS_Config: &'static str = r#"
-export interface ScriptConfig extends LayoutConfig {
-	quote_style?: "double" | "single";
-	jsx_quote_style?: "double" | "single";
-	quote_properties?: "preserve" | "as-needed";
-	trailing_comma?: "es5" | "all" | "none";
-	semicolons?: "always" | "as-needed";
-	arrow_parentheses?: "always" | "as-needed";
-	bracket_spacing?: boolean;
-	bracket_same_line?: boolean;
-}"#;
-
+/// Formats the given JavaScript/TypeScript code with the provided Configuration.
 #[cfg(feature = "script-biome")]
 #[wasm_bindgen]
-pub fn format_script(src: &str, filename: &str, config: Option<Config>) -> Result<String, String> {
+pub fn format_script(
+    #[wasm_bindgen(param_description = "The JavaScript/TypeScript code to format")] src: &str,
+    #[wasm_bindgen(
+        param_description = "The filename to determine the source type (e.g., .js, .ts, .jsx, .tsx)"
+    )]
+    filename: &str,
+    #[wasm_bindgen(param_description = "Optional formatter config")] config: Option<Config>,
+) -> Result<String, String> {
     let config = config
         .map(|x| serde_wasm_bindgen::from_value(x.clone()))
         .transpose()

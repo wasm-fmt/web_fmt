@@ -95,10 +95,17 @@ impl From<biome_formatter::Printed> for PrintedRange {
     }
 }
 
-/// Format the source code.
+/// Formats the given JavaScript/TypeScript code with the provided Configuration.
 #[cfg(feature = "wasm-bindgen")]
 #[wasm_bindgen(skip_typescript)]
-pub fn format(src: &str, filename: &str, config: Option<Config>) -> Result<String, String> {
+pub fn format(
+    #[wasm_bindgen(param_description = "The JavaScript/TypeScript code to format")] src: &str,
+    #[wasm_bindgen(
+        param_description = "The filename to determine the source type (e.g., .js, .ts, .jsx, .tsx)"
+    )]
+    filename: &str,
+    #[wasm_bindgen(param_description = "Optional formatter config")] config: Option<Config>,
+) -> Result<String, String> {
     let config = config
         .map(|x| serde_wasm_bindgen::from_value(x.clone()))
         .transpose()
@@ -108,14 +115,18 @@ pub fn format(src: &str, filename: &str, config: Option<Config>) -> Result<Strin
     format_script_with_config(src, filename, config)
 }
 
-/// Format a range of the source code.
+/// Formats a range of the given JavaScript/TypeScript code with the provided Configuration.
 #[cfg(feature = "wasm-bindgen")]
 #[wasm_bindgen(js_name = formatRange, skip_typescript)]
 pub fn format_range(
-    src: &str,
+    #[wasm_bindgen(param_description = "The JavaScript/TypeScript code to format")] src: &str,
+    #[wasm_bindgen(param_description = "The text range to format (start and end byte offsets)")]
     range: JsTextRange,
+    #[wasm_bindgen(
+        param_description = "The filename to determine the source type (e.g., .js, .ts, .jsx, .tsx)"
+    )]
     filename: &str,
-    config: Option<Config>,
+    #[wasm_bindgen(param_description = "Optional formatter config")] config: Option<Config>,
 ) -> Result<JsValue, JsValue> {
     let text_range: TextRange = serde_wasm_bindgen::from_value(range.into())
         .map_err(|e| JsValue::from_str(&e.to_string()))?;
@@ -124,11 +135,11 @@ pub fn format_range(
         .map(|x| serde_wasm_bindgen::from_value(x.clone()))
         .transpose()
         .map_err(|op| op.to_string())
-        .map_err(|e| JsValue::from_str(&e.to_string()))?
+        .map_err(|e| JsValue::from_str(&e.clone()))?
         .unwrap_or_default();
 
     let printed_range = format_script_range_with_config(src, text_range, filename, config)
-        .map_err(|e| JsValue::from_str(&e.to_string()))?;
+        .map_err(|e| JsValue::from_str(&e.clone()))?;
 
     serde_wasm_bindgen::to_value(&printed_range).map_err(|e| JsValue::from_str(&e.to_string()))
 }
@@ -148,7 +159,7 @@ pub fn format_script_with_config(
     biome_format_node(option, &tree.syntax())
         .map_err(|e| e.to_string())?
         .print()
-        .map(|p| p.into_code())
+        .map(biome_formatter::Printed::into_code)
         .map_err(|e| e.to_string())
 }
 

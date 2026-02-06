@@ -14,7 +14,8 @@
 	"homepage": "https://github.com/wasm-fmt/web_fmt/tree/main/crates/markup_fmt",
 	"types": "markup_fmt.d.ts",
 	"files": [
-		"markup_fmt*"
+		"markup_fmt*",
+		"*.d.ts"
 	],
 	"sideEffects": [
 		"./markup_fmt.js",

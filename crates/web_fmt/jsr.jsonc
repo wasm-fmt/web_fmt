@@ -11,6 +11,7 @@
 	"publish": {
 		"include": [
 			"web_fmt*",
+			"*.d.ts",
 			"README.md"
 		],
 		"exclude": [

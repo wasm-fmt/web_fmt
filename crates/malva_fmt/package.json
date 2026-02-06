@@ -14,7 +14,8 @@
 	"homepage": "https://github.com/wasm-fmt/web_fmt/tree/main/crates/malva_fmt",
 	"types": "malva_fmt.d.ts",
 	"files": [
-		"malva_fmt*"
+		"malva_fmt*",
+		"*.d.ts"
 	],
 	"sideEffects": [
 		"./malva_fmt.js",

@@ -11,3 +11,5 @@
  *
  * @module
  */
+
+import type { Config } from "./options.d.ts";

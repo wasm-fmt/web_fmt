@@ -5,25 +5,19 @@ use config::GraphqlConfig;
 use wasm_bindgen::prelude::*;
 
 #[cfg(feature = "wasm-bindgen")]
-#[wasm_bindgen(typescript_custom_section)]
-const TS_Config: &'static str = r#"
-export interface Config extends LayoutConfig {
-	/**
-	 *  See {@link https://pretty-graphql.netlify.app/}
-	 */
-	[other: string]: any;
-}"#;
-
-#[cfg(feature = "wasm-bindgen")]
 #[wasm_bindgen]
 extern "C" {
     #[wasm_bindgen(typescript_type = "Config")]
     pub type Config;
 }
 
+/// Formats the given GraphQL code with the provided Configuration.
 #[cfg(feature = "wasm-bindgen")]
 #[wasm_bindgen(js_name = format)]
-pub fn format_graphql(src: &str, config: Option<Config>) -> Result<String, String> {
+pub fn format_graphql(
+    #[wasm_bindgen(param_description = "The GraphQL code to format")] src: &str,
+    #[wasm_bindgen(param_description = "Optional formatter config")] config: Option<Config>,
+) -> Result<String, String> {
     let config: config::GraphqlConfig = config
         .as_ref()
         .map(|x| serde_wasm_bindgen::from_value(x.into()))
