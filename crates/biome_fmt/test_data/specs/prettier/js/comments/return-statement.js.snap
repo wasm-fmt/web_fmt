@@ -82,9 +82,7 @@ function memberOutside() {
 function memberInAndOutWithCalls() {
 	return (
 		// Reason for a
-		aFunction
-			.b()
-			.c.d()
+		aFunction.b().c.d()
 	);
 }
 
