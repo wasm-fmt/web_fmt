@@ -67,7 +67,7 @@ dependencies = [
 [[package]]
 name = "biome_aria"
 version = "0.5.7"
-source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.13#2c5e505a175b88a8f489a5ce9372bf067a3097ba"
+source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.14#3a38d5c2a156f992c40792f163d6021466154f8d"
 dependencies = [
  "biome_aria_metadata",
 ]
@@ -75,7 +75,7 @@ dependencies = [
 [[package]]
 name = "biome_aria_metadata"
 version = "0.5.7"
-source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.13#2c5e505a175b88a8f489a5ce9372bf067a3097ba"
+source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.14#3a38d5c2a156f992c40792f163d6021466154f8d"
 dependencies = [
  "biome_deserialize",
  "biome_deserialize_macros",
@@ -91,7 +91,7 @@ dependencies = [
 [[package]]
 name = "biome_console"
 version = "0.5.7"
-source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.13#2c5e505a175b88a8f489a5ce9372bf067a3097ba"
+source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.14#3a38d5c2a156f992c40792f163d6021466154f8d"
 dependencies = [
  "biome_markup",
  "biome_text_size",
@@ -104,7 +104,7 @@ dependencies = [
 [[package]]
 name = "biome_deserialize"
 version = "0.6.0"
-source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.13#2c5e505a175b88a8f489a5ce9372bf067a3097ba"
+source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.14#3a38d5c2a156f992c40792f163d6021466154f8d"
 dependencies = [
  "biome_console",
  "biome_diagnostics",
@@ -117,7 +117,7 @@ dependencies = [
 [[package]]
 name = "biome_deserialize_macros"
 version = "0.6.0"
-source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.13#2c5e505a175b88a8f489a5ce9372bf067a3097ba"
+source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.14#3a38d5c2a156f992c40792f163d6021466154f8d"
 dependencies = [
  "biome_string_case",
  "proc-macro-error2",
@@ -129,7 +129,7 @@ dependencies = [
 [[package]]
 name = "biome_diagnostics"
 version = "0.5.7"
-source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.13#2c5e505a175b88a8f489a5ce9372bf067a3097ba"
+source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.14#3a38d5c2a156f992c40792f163d6021466154f8d"
 dependencies = [
  "backtrace",
  "biome_console",
@@ -149,7 +149,7 @@ dependencies = [
 [[package]]
 name = "biome_diagnostics_categories"
 version = "0.5.7"
-source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.13#2c5e505a175b88a8f489a5ce9372bf067a3097ba"
+source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.14#3a38d5c2a156f992c40792f163d6021466154f8d"
 dependencies = [
  "quote",
  "serde",
@@ -158,7 +158,7 @@ dependencies = [
 [[package]]
 name = "biome_diagnostics_macros"
 version = "0.5.7"
-source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.13#2c5e505a175b88a8f489a5ce9372bf067a3097ba"
+source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.14#3a38d5c2a156f992c40792f163d6021466154f8d"
 dependencies = [
  "proc-macro-error2",
  "proc-macro2",
@@ -184,7 +184,7 @@ dependencies = [
 [[package]]
 name = "biome_formatter"
 version = "0.5.7"
-source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.13#2c5e505a175b88a8f489a5ce9372bf067a3097ba"
+source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.14#3a38d5c2a156f992c40792f163d6021466154f8d"
 dependencies = [
  "biome_console",
  "biome_deserialize",
@@ -203,7 +203,7 @@ dependencies = [
 [[package]]
 name = "biome_js_factory"
 version = "0.5.7"
-source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.13#2c5e505a175b88a8f489a5ce9372bf067a3097ba"
+source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.14#3a38d5c2a156f992c40792f163d6021466154f8d"
 dependencies = [
  "biome_js_syntax",
  "biome_rowan",
@@ -212,7 +212,7 @@ dependencies = [
 [[package]]
 name = "biome_js_formatter"
 version = "0.5.7"
-source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.13#2c5e505a175b88a8f489a5ce9372bf067a3097ba"
+source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.14#3a38d5c2a156f992c40792f163d6021466154f8d"
 dependencies = [
  "biome_deserialize",
  "biome_deserialize_macros",
@@ -233,7 +233,7 @@ dependencies = [
 [[package]]
 name = "biome_js_parser"
 version = "0.5.7"
-source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.13#2c5e505a175b88a8f489a5ce9372bf067a3097ba"
+source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.14#3a38d5c2a156f992c40792f163d6021466154f8d"
 dependencies = [
  "biome_console",
  "biome_diagnostics",
@@ -254,7 +254,7 @@ dependencies = [
 [[package]]
 name = "biome_js_syntax"
 version = "0.5.7"
-source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.13#2c5e505a175b88a8f489a5ce9372bf067a3097ba"
+source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.14#3a38d5c2a156f992c40792f163d6021466154f8d"
 dependencies = [
  "biome_aria",
  "biome_aria_metadata",
@@ -268,7 +268,7 @@ dependencies = [
 [[package]]
 name = "biome_json_factory"
 version = "0.5.7"
-source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.13#2c5e505a175b88a8f489a5ce9372bf067a3097ba"
+source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.14#3a38d5c2a156f992c40792f163d6021466154f8d"
 dependencies = [
  "biome_json_syntax",
  "biome_rowan",
@@ -277,7 +277,7 @@ dependencies = [
 [[package]]
 name = "biome_json_formatter"
 version = "0.5.7"
-source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.13#2c5e505a175b88a8f489a5ce9372bf067a3097ba"
+source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.14#3a38d5c2a156f992c40792f163d6021466154f8d"
 dependencies = [
  "biome_deserialize",
  "biome_deserialize_macros",
@@ -292,7 +292,7 @@ dependencies = [
 [[package]]
 name = "biome_json_parser"
 version = "0.5.7"
-source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.13#2c5e505a175b88a8f489a5ce9372bf067a3097ba"
+source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.14#3a38d5c2a156f992c40792f163d6021466154f8d"
 dependencies = [
  "biome_console",
  "biome_diagnostics",
@@ -308,7 +308,7 @@ dependencies = [
 [[package]]
 name = "biome_json_syntax"
 version = "0.5.7"
-source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.13#2c5e505a175b88a8f489a5ce9372bf067a3097ba"
+source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.14#3a38d5c2a156f992c40792f163d6021466154f8d"
 dependencies = [
  "biome_rowan",
  "biome_string_case",
@@ -320,7 +320,7 @@ dependencies = [
 [[package]]
 name = "biome_markup"
 version = "0.5.7"
-source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.13#2c5e505a175b88a8f489a5ce9372bf067a3097ba"
+source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.14#3a38d5c2a156f992c40792f163d6021466154f8d"
 dependencies = [
  "proc-macro-error2",
  "proc-macro2",
@@ -330,7 +330,7 @@ dependencies = [
 [[package]]
 name = "biome_parser"
 version = "0.5.7"
-source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.13#2c5e505a175b88a8f489a5ce9372bf067a3097ba"
+source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.14#3a38d5c2a156f992c40792f163d6021466154f8d"
 dependencies = [
  "biome_console",
  "biome_diagnostics",
@@ -344,7 +344,7 @@ dependencies = [
 [[package]]
 name = "biome_rowan"
 version = "0.5.7"
-source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.13#2c5e505a175b88a8f489a5ce9372bf067a3097ba"
+source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.14#3a38d5c2a156f992c40792f163d6021466154f8d"
 dependencies = [
  "biome_text_edit",
  "biome_text_size",
@@ -356,7 +356,7 @@ dependencies = [
 [[package]]
 name = "biome_string_case"
 version = "0.5.7"
-source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.13#2c5e505a175b88a8f489a5ce9372bf067a3097ba"
+source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.14#3a38d5c2a156f992c40792f163d6021466154f8d"
 dependencies = [
  "biome_rowan",
 ]
@@ -364,7 +364,7 @@ dependencies = [
 [[package]]
 name = "biome_suppression"
 version = "0.5.7"
-source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.13#2c5e505a175b88a8f489a5ce9372bf067a3097ba"
+source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.14#3a38d5c2a156f992c40792f163d6021466154f8d"
 dependencies = [
  "biome_console",
  "biome_diagnostics",
@@ -374,7 +374,7 @@ dependencies = [
 [[package]]
 name = "biome_text_edit"
 version = "0.5.7"
-source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.13#2c5e505a175b88a8f489a5ce9372bf067a3097ba"
+source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.14#3a38d5c2a156f992c40792f163d6021466154f8d"
 dependencies = [
  "biome_text_size",
  "serde",
@@ -384,7 +384,7 @@ dependencies = [
 [[package]]
 name = "biome_text_size"
 version = "0.5.7"
-source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.13#2c5e505a175b88a8f489a5ce9372bf067a3097ba"
+source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.14#3a38d5c2a156f992c40792f163d6021466154f8d"
 dependencies = [
  "serde",
 ]
@@ -392,7 +392,7 @@ dependencies = [
 [[package]]
 name = "biome_unicode_table"
 version = "0.5.7"
-source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.13#2c5e505a175b88a8f489a5ce9372bf067a3097ba"
+source = "git+https://github.com/biomejs/biome?tag=%40biomejs%2Fbiome%402.3.14#3a38d5c2a156f992c40792f163d6021466154f8d"
 
 [[package]]
 name = "bitflags"
@@ -855,8 +855,8 @@ dependencies = [
 
 [[package]]
 name = "oxc_allocator"
-version = "0.111.0"
-source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.27.0#2b9d11542bf96e68b25fc33dc12d4e169e0945d4"
+version = "0.112.0"
+source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.28.0#fa0eeb766841ae9167a9a59f9031cf466298e4cf"
 dependencies = [
  "allocator-api2",
  "hashbrown 0.16.1",
@@ -866,8 +866,8 @@ dependencies = [
 
 [[package]]
 name = "oxc_ast"
-version = "0.111.0"
-source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.27.0#2b9d11542bf96e68b25fc33dc12d4e169e0945d4"
+version = "0.112.0"
+source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.28.0#fa0eeb766841ae9167a9a59f9031cf466298e4cf"
 dependencies = [
  "bitflags",
  "oxc_allocator",
@@ -882,8 +882,8 @@ dependencies = [
 
 [[package]]
 name = "oxc_ast_macros"
-version = "0.111.0"
-source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.27.0#2b9d11542bf96e68b25fc33dc12d4e169e0945d4"
+version = "0.112.0"
+source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.28.0#fa0eeb766841ae9167a9a59f9031cf466298e4cf"
 dependencies = [
  "phf",
  "proc-macro2",
@@ -893,13 +893,13 @@ dependencies = [
 
 [[package]]
 name = "oxc_data_structures"
-version = "0.111.0"
-source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.27.0#2b9d11542bf96e68b25fc33dc12d4e169e0945d4"
+version = "0.112.0"
+source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.28.0#fa0eeb766841ae9167a9a59f9031cf466298e4cf"
 
 [[package]]
 name = "oxc_diagnostics"
-version = "0.111.0"
-source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.27.0#2b9d11542bf96e68b25fc33dc12d4e169e0945d4"
+version = "0.112.0"
+source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.28.0#fa0eeb766841ae9167a9a59f9031cf466298e4cf"
 dependencies = [
  "cow-utils",
  "oxc-miette",
@@ -908,8 +908,8 @@ dependencies = [
 
 [[package]]
 name = "oxc_ecmascript"
-version = "0.111.0"
-source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.27.0#2b9d11542bf96e68b25fc33dc12d4e169e0945d4"
+version = "0.112.0"
+source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.28.0#fa0eeb766841ae9167a9a59f9031cf466298e4cf"
 dependencies = [
  "cow-utils",
  "num-bigint",
@@ -923,8 +923,8 @@ dependencies = [
 
 [[package]]
 name = "oxc_estree"
-version = "0.111.0"
-source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.27.0#2b9d11542bf96e68b25fc33dc12d4e169e0945d4"
+version = "0.112.0"
+source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.28.0#fa0eeb766841ae9167a9a59f9031cf466298e4cf"
 
 [[package]]
 name = "oxc_fmt"
@@ -942,8 +942,8 @@ dependencies = [
 
 [[package]]
 name = "oxc_formatter"
-version = "0.27.0"
-source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.27.0#2b9d11542bf96e68b25fc33dc12d4e169e0945d4"
+version = "0.28.0"
+source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.28.0#fa0eeb766841ae9167a9a59f9031cf466298e4cf"
 dependencies = [
  "cow-utils",
  "natord",
@@ -971,8 +971,8 @@ dependencies = [
 
 [[package]]
 name = "oxc_parser"
-version = "0.111.0"
-source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.27.0#2b9d11542bf96e68b25fc33dc12d4e169e0945d4"
+version = "0.112.0"
+source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.28.0#fa0eeb766841ae9167a9a59f9031cf466298e4cf"
 dependencies = [
  "bitflags",
  "cow-utils",
@@ -993,8 +993,8 @@ dependencies = [
 
 [[package]]
 name = "oxc_regular_expression"
-version = "0.111.0"
-source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.27.0#2b9d11542bf96e68b25fc33dc12d4e169e0945d4"
+version = "0.112.0"
+source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.28.0#fa0eeb766841ae9167a9a59f9031cf466298e4cf"
 dependencies = [
  "bitflags",
  "oxc_allocator",
@@ -1008,8 +1008,8 @@ dependencies = [
 
 [[package]]
 name = "oxc_span"
-version = "0.111.0"
-source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.27.0#2b9d11542bf96e68b25fc33dc12d4e169e0945d4"
+version = "0.112.0"
+source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.28.0#fa0eeb766841ae9167a9a59f9031cf466298e4cf"
 dependencies = [
  "compact_str",
  "oxc-miette",
@@ -1021,8 +1021,8 @@ dependencies = [
 
 [[package]]
 name = "oxc_str"
-version = "0.111.0"
-source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.27.0#2b9d11542bf96e68b25fc33dc12d4e169e0945d4"
+version = "0.112.0"
+source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.28.0#fa0eeb766841ae9167a9a59f9031cf466298e4cf"
 dependencies = [
  "compact_str",
  "oxc_allocator",
@@ -1031,8 +1031,8 @@ dependencies = [
 
 [[package]]
 name = "oxc_syntax"
-version = "0.111.0"
-source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.27.0#2b9d11542bf96e68b25fc33dc12d4e169e0945d4"
+version = "0.112.0"
+source = "git+https://github.com/oxc-project/oxc?tag=oxfmt_v0.28.0#fa0eeb766841ae9167a9a59f9031cf466298e4cf"
 dependencies = [
  "bitflags",
  "cow-utils",

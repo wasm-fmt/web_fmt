@@ -21,13 +21,13 @@ resolver = "2"
     markup_fmt  = { path = "crates/markup_fmt", version = "0.1.17", default-features = false }
     oxc_fmt     = { path = "crates/oxc_fmt", version = "0.1.17", default-features = false }
 
-    biome_formatter      = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.13" }
-    biome_js_formatter   = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.13" }
-    biome_js_parser      = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.13" }
-    biome_js_syntax      = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.13" }
-    biome_json_formatter = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.13" }
-    biome_json_parser    = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.13" }
-    biome_json_syntax    = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.13" }
+    biome_formatter      = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.14" }
+    biome_js_formatter   = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.14" }
+    biome_js_parser      = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.14" }
+    biome_js_syntax      = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.14" }
+    biome_json_formatter = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.14" }
+    biome_json_parser    = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.14" }
+    biome_json_syntax    = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.14" }
 
     malva = { version = "0.15.0", features = ["config_serde"] }
     markup_fmt_core = { package = "markup_fmt", version = "0.25.0", features = [
@@ -35,10 +35,10 @@ resolver = "2"
     ] }
 
     # OXC - experimental, using git dependency since oxc_formatter is not published
-    oxc_allocator = { git = "https://github.com/oxc-project/oxc", tag = "oxfmt_v0.27.0" }
-    oxc_formatter = { git = "https://github.com/oxc-project/oxc", tag = "oxfmt_v0.27.0" }
-    oxc_parser    = { git = "https://github.com/oxc-project/oxc", tag = "oxfmt_v0.27.0" }
-    oxc_span      = { git = "https://github.com/oxc-project/oxc", tag = "oxfmt_v0.27.0" }
+    oxc_allocator = { git = "https://github.com/oxc-project/oxc", tag = "oxfmt_v0.28.0" }
+    oxc_formatter = { git = "https://github.com/oxc-project/oxc", tag = "oxfmt_v0.28.0" }
+    oxc_parser    = { git = "https://github.com/oxc-project/oxc", tag = "oxfmt_v0.28.0" }
+    oxc_span      = { git = "https://github.com/oxc-project/oxc", tag = "oxfmt_v0.28.0" }
 
     serde              = "1.0"
     serde-wasm-bindgen = "0.6"
