@@ -45,4 +45,70 @@ export interface Config extends LayoutConfig {
 
 	/** Enable formatting for embedded languages (e.g., CSS, SQL, GraphQL) within template literals. Defaults to "auto". */
 	embeddedLanguageFormatting?: "auto" | "off";
+
+	/** Sort import statements. By default disabled. */
+	experimentalSortImports?: SortImportsOptions;
+
+	/** Enable Tailwind CSS class sorting in JSX class/className attributes. Defaults to None (disabled). */
+	experimentalTailwindcss?: TailwindcssOptions;
+}
+
+/** Options for sorting import statements. */
+export interface SortImportsOptions {
+	/** Partition imports by newlines. Default is `false`. */
+	partitionByNewline?: boolean;
+
+	/** Partition imports by comments. Default is `false`. */
+	partitionByComment?: boolean;
+
+	/** Sort side effects imports. Default is `false`. */
+	sortSideEffects?: boolean;
+
+	/** Sort order (asc or desc). Default is ascending ("asc"). */
+	order?: "asc" | "desc";
+
+	/** Ignore case when sorting. Default is `true`. */
+	ignoreCase?: boolean;
+
+	/** Whether to insert blank lines between different import groups. Default is `true`. */
+	newlinesBetween?: boolean;
+
+	/** Prefixes for internal imports. Defaults to `["~/", "@/"]`. */
+	internalPattern?: string[];
+
+	/** Groups configuration for organizing imports. */
+	groups?: string[][];
+
+	/** Define your own groups for matching very specific imports. */
+	customGroups?: CustomGroupDefinition[];
+}
+
+/** Custom group definition for sort imports. */
+export interface CustomGroupDefinition {
+	/** The name of the custom group. */
+	groupName: string;
+
+	/** Patterns to match import source names against. */
+	elementNamePattern: string[];
+}
+
+/** Options for Tailwind CSS class sorting. */
+export interface TailwindcssOptions {
+	/** Path to your Tailwind CSS configuration file (v3). Default: `"./tailwind.config.js"` */
+	config?: string;
+
+	/** Path to your Tailwind CSS stylesheet (v4). Example: `"./src/app.css"` */
+	stylesheet?: string;
+
+	/** List of custom function names that contain Tailwind CSS classes. Example: `["clsx", "cn", "cva", "tw"]` */
+	functions?: string[];
+
+	/** List of additional attributes to sort (beyond `class` and `className`). Example: `["myClassProp", ":class"]` */
+	attributes?: string[];
+
+	/** Preserve whitespace around classes. Default: `false` */
+	preserveWhitespace?: boolean;
+
+	/** Preserve duplicate classes. Default: `false` */
+	preserveDuplicates?: boolean;
 }

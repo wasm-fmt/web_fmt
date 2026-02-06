@@ -77,6 +77,142 @@ where
     T::from_str(&s).map_err(serde::de::Error::custom)
 }
 
+fn default_true() -> bool {
+    true
+}
+
+/// Local definition for SortImportsOptions to enable deserialization.
+/// This mirrors `oxc_formatter::SortImportsOptions`.
+#[derive(Deserialize, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct SortImportsOptionsDef {
+    #[serde(default)]
+    pub partition_by_newline: bool,
+    #[serde(default)]
+    pub partition_by_comment: bool,
+    #[serde(default)]
+    pub sort_side_effects: bool,
+    #[serde(default, deserialize_with = "deserialize_from_str")]
+    pub order: oxc_formatter::SortOrder,
+    #[serde(default = "default_true")]
+    pub ignore_case: bool,
+    #[serde(default = "default_true")]
+    pub newlines_between: bool,
+    #[serde(default = "oxc_formatter::default_internal_patterns")]
+    pub internal_pattern: Vec<String>,
+    #[serde(default = "oxc_formatter::default_groups")]
+    pub groups: Vec<Vec<String>>,
+    #[serde(default)]
+    pub custom_groups: Vec<CustomGroupDefinitionDef>,
+}
+
+impl Default for SortImportsOptionsDef {
+    fn default() -> Self {
+        Self {
+            partition_by_newline: false,
+            partition_by_comment: false,
+            sort_side_effects: false,
+            order: oxc_formatter::SortOrder::default(),
+            ignore_case: true,
+            newlines_between: true,
+            internal_pattern: oxc_formatter::default_internal_patterns(),
+            groups: oxc_formatter::default_groups(),
+            custom_groups: vec![],
+        }
+    }
+}
+
+impl From<SortImportsOptionsDef> for oxc_formatter::SortImportsOptions {
+    fn from(def: SortImportsOptionsDef) -> Self {
+        Self {
+            partition_by_newline: def.partition_by_newline,
+            partition_by_comment: def.partition_by_comment,
+            sort_side_effects: def.sort_side_effects,
+            order: def.order,
+            ignore_case: def.ignore_case,
+            newlines_between: def.newlines_between,
+            internal_pattern: def.internal_pattern,
+            groups: def.groups,
+            custom_groups: def
+                .custom_groups
+                .into_iter()
+                .map(|cg| oxc_formatter::CustomGroupDefinition {
+                    group_name: cg.group_name,
+                    element_name_pattern: cg.element_name_pattern,
+                })
+                .collect(),
+        }
+    }
+}
+
+#[derive(Deserialize, Default, Clone)]
+pub struct CustomGroupDefinitionDef {
+    pub group_name: String,
+    pub element_name_pattern: Vec<String>,
+}
+
+/// Local definition for TailwindcssOptions to enable deserialization.
+/// This mirrors `oxc_formatter::TailwindcssOptions`.
+#[derive(Deserialize, Default, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct TailwindcssOptionsDef {
+    pub config: Option<String>,
+    pub stylesheet: Option<String>,
+    #[serde(default)]
+    pub functions: Vec<String>,
+    #[serde(default)]
+    pub attributes: Vec<String>,
+    #[serde(default)]
+    pub preserve_whitespace: bool,
+    #[serde(default)]
+    pub preserve_duplicates: bool,
+}
+
+impl From<TailwindcssOptionsDef> for oxc_formatter::TailwindcssOptions {
+    fn from(def: TailwindcssOptionsDef) -> Self {
+        Self {
+            config: def.config,
+            stylesheet: def.stylesheet,
+            functions: def.functions,
+            attributes: def.attributes,
+            preserve_whitespace: def.preserve_whitespace,
+            preserve_duplicates: def.preserve_duplicates,
+        }
+    }
+}
+
+/// Custom deserialization module for SortImportsOptions
+mod sort_imports {
+    use super::*;
+    use serde::Deserialize;
+
+    pub fn deserialize<'de, D>(
+        deserializer: D,
+    ) -> Result<Option<oxc_formatter::SortImportsOptions>, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let def = Option::<SortImportsOptionsDef>::deserialize(deserializer)?;
+        Ok(def.map(Into::into))
+    }
+}
+
+/// Custom deserialization module for TailwindcssOptions
+mod tailwindcss {
+    use super::*;
+    use serde::Deserialize;
+
+    pub fn deserialize<'de, D>(
+        deserializer: D,
+    ) -> Result<Option<oxc_formatter::TailwindcssOptions>, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let def = Option::<TailwindcssOptionsDef>::deserialize(deserializer)?;
+        Ok(def.map(Into::into))
+    }
+}
+
 #[derive(Default, Clone, Deserialize)]
 pub struct FormatOptions {
     /// The style for quotes. Defaults to double.
@@ -140,12 +276,12 @@ pub struct FormatOptions {
     pub embedded_language_formatting: oxc_formatter::EmbeddedLanguageFormatting,
 
     /// Sort import statements. By default disabled.
-    #[serde(skip)]
+    #[serde(alias = "experimentalSortImports", deserialize_with = "sort_imports::deserialize")]
     pub experimental_sort_imports: Option<oxc_formatter::SortImportsOptions>,
 
     /// Enable Tailwind CSS class sorting in JSX class/className attributes.
     /// When enabled, class strings will be collected and passed to a callback for sorting.
     /// Defaults to None (disabled).
-    #[serde(skip)]
+    #[serde(alias = "experimentalTailwindcss", deserialize_with = "tailwindcss::deserialize")]
     pub experimental_tailwindcss: Option<oxc_formatter::TailwindcssOptions>,
 }
