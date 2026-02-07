@@ -60,6 +60,10 @@
 			"types": "./malva_fmt.d.ts",
 			"default": "./malva_fmt_vite.js"
 		},
+		"./web": {
+			"types": "./malva_fmt_web.d.ts",
+			"default": "./malva_fmt_web.js"
+		},
 		"./wasm": "./malva_fmt_bg.wasm",
 		"./package.json": "./package.json",
 		"./*": "./*"

@@ -60,6 +60,10 @@
 			"types": "./markup_fmt.d.ts",
 			"default": "./markup_fmt_vite.js"
 		},
+		"./web": {
+			"types": "./markup_fmt_web.d.ts",
+			"default": "./markup_fmt_web.js"
+		},
 		"./wasm": "./markup_fmt_bg.wasm",
 		"./package.json": "./package.json",
 		"./*": "./*"

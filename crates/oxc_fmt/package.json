@@ -58,6 +58,10 @@
 			"types": "./oxc_fmt.d.ts",
 			"default": "./oxc_fmt_vite.js"
 		},
+		"./web": {
+			"types": "./oxc_fmt_web.d.ts",
+			"default": "./oxc_fmt_web.js"
+		},
 		"./wasm": "./oxc_fmt_bg.wasm",
 		"./package.json": "./package.json",
 		"./*": "./*"

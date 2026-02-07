@@ -57,6 +57,10 @@
 			"types": "./graphql_fmt.d.ts",
 			"default": "./graphql_fmt_vite.js"
 		},
+		"./web": {
+			"types": "./graphql_fmt_web.d.ts",
+			"default": "./graphql_fmt_web.js"
+		},
 		"./wasm": "./graphql_fmt_bg.wasm",
 		"./package.json": "./package.json",
 		"./*": "./*"

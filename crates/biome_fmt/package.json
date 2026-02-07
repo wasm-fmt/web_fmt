@@ -58,6 +58,10 @@
 			"types": "./biome_fmt.d.ts",
 			"default": "./biome_fmt_vite.js"
 		},
+		"./web": {
+			"types": "./biome_fmt_web.d.ts",
+			"default": "./biome_fmt_web.js"
+		},
 		"./wasm": "./biome_fmt_bg.wasm",
 		"./package.json": "./package.json",
 		"./*": "./*"

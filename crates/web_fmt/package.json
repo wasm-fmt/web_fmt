@@ -58,6 +58,10 @@
 			"types": "./web_fmt.d.ts",
 			"default": "./web_fmt_vite.js"
 		},
+		"./web": {
+			"types": "./web_fmt_web.d.ts",
+			"default": "./web_fmt_web.js"
+		},
 		"./wasm": "./web_fmt_bg.wasm",
 		"./package.json": "./package.json",
 		"./*": "./*"
