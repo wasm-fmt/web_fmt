@@ -29,8 +29,8 @@ resolver = "2"
     biome_json_parser    = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.14" }
     biome_json_syntax    = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.14" }
 
-    malva = { version = "0.15.0", features = ["config_serde"] }
-    markup_fmt_core = { package = "markup_fmt", version = "0.25.0", features = [
+    malva = { version = "0.15.2", features = ["config_serde"] }
+    markup_fmt_core = { package = "markup_fmt", version = "0.25.3", features = [
         "config_serde",
     ] }
 
