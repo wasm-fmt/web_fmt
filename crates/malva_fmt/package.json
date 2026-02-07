@@ -5,7 +5,7 @@
 		"magic-akari <akari.ccino@gmail.com>"
 	],
 	"description": "Style/CSS/SASS/LESS formatter powered by WASM ported from malva",
-	"version": "0.2.1",
+	"version": "0.2.2",
 	"license": "MIT",
 	"repository": {
 		"type": "git",

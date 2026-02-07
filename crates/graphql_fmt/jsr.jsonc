@@ -1,6 +1,6 @@
 {
 	"name": "@fmt/graphql-fmt",
-	"version": "0.2.1",
+	"version": "0.2.2",
 	"exports": {
 		".": "./graphql_fmt.js",
 		"./esm": "./graphql_fmt_esm.js",
