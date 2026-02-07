@@ -52,15 +52,6 @@ export interface PrintedRange {
 	source_range: TextRange;
 }
 
-/**
- * Format the source code.
- */
-export function format(src: string, filename: Filename, config?: Config): string;
-
-/**
- * Format a range of the source code.
- */
-export function formatRange(src: string, range: TextRange, filename: Filename, config?: Config): PrintedRange;
 "#;
 
 #[derive(Serialize, Deserialize, Copy, Clone)]
@@ -97,10 +88,11 @@ impl From<biome_formatter::Printed> for PrintedRange {
 
 /// Formats the given JavaScript/TypeScript code with the provided Configuration.
 #[cfg(feature = "wasm-bindgen")]
-#[wasm_bindgen(skip_typescript)]
+#[wasm_bindgen]
 pub fn format(
     #[wasm_bindgen(param_description = "The JavaScript/TypeScript code to format")] src: &str,
     #[wasm_bindgen(
+        unchecked_param_type = "Filename",
         param_description = "The filename to determine the source type (e.g., .js, .ts, .jsx, .tsx)"
     )]
     filename: &str,
@@ -117,12 +109,13 @@ pub fn format(
 
 /// Formats a range of the given JavaScript/TypeScript code with the provided Configuration.
 #[cfg(feature = "wasm-bindgen")]
-#[wasm_bindgen(js_name = formatRange, skip_typescript)]
+#[wasm_bindgen(js_name = formatRange)]
 pub fn format_range(
     #[wasm_bindgen(param_description = "The JavaScript/TypeScript code to format")] src: &str,
     #[wasm_bindgen(param_description = "The text range to format (start and end byte offsets)")]
     range: JsTextRange,
     #[wasm_bindgen(
+        unchecked_param_type = "Filename",
         param_description = "The filename to determine the source type (e.g., .js, .ts, .jsx, .tsx)"
     )]
     filename: &str,

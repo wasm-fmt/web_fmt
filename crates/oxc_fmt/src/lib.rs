@@ -26,17 +26,16 @@ type Mod = "" | "m" | "c";
 type Lang = "j" | "t";
 type X = "" | "x";
 
-export type Filename = `index.${Mod}${Lang}s${X}` | `index.d.${Mod}ts${X}` | (string & {});
-
-export function format(code: string, filename: Filename, config?: Config): string;
+type Filename = `index.${Mod}${Lang}s${X}` | `index.d.${Mod}ts${X}` | (string & {});
 "#;
 
 /// Formats the given JavaScript/TypeScript code with the provided Configuration.
 #[cfg(feature = "wasm-bindgen")]
-#[wasm_bindgen(js_name = format, skip_typescript)]
+#[wasm_bindgen(js_name = format)]
 pub fn format_script(
     #[wasm_bindgen(param_description = "The JavaScript/TypeScript code to format")] code: &str,
     #[wasm_bindgen(
+        unchecked_param_type = "Filename",
         param_description = "The filename to determine the source type (e.g., .js, .ts, .jsx, .tsx)"
     )]
     filename: &str,
