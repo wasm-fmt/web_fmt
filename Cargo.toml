@@ -9,17 +9,17 @@ resolver = "2"
     license    = "MIT"
     readme     = "README.md"
     repository = "https://github.com/wasm-fmt/web_fmt"
-    version    = "0.2.2"
+    version    = "0.2.3"
 
 
     [workspace.dependencies]
-    biome_fmt   = { path = "crates/biome_fmt", version = "0.2.2", default-features = false }
-    common      = { path = "crates/common", version = "0.2.2", default-features = false }
-    graphql_fmt = { path = "crates/graphql_fmt", version = "0.2.2", default-features = false }
-    json_fmt    = { path = "crates/json_fmt", version = "0.2.2", default-features = false }
-    malva_fmt   = { path = "crates/malva_fmt", version = "0.2.2", default-features = false }
-    markup_fmt  = { path = "crates/markup_fmt", version = "0.2.2", default-features = false }
-    oxc_fmt     = { path = "crates/oxc_fmt", version = "0.2.2", default-features = false }
+    biome_fmt   = { path = "crates/biome_fmt", version = "0.2.3", default-features = false }
+    common      = { path = "crates/common", version = "0.2.3", default-features = false }
+    graphql_fmt = { path = "crates/graphql_fmt", version = "0.2.3", default-features = false }
+    json_fmt    = { path = "crates/json_fmt", version = "0.2.3", default-features = false }
+    malva_fmt   = { path = "crates/malva_fmt", version = "0.2.3", default-features = false }
+    markup_fmt  = { path = "crates/markup_fmt", version = "0.2.3", default-features = false }
+    oxc_fmt     = { path = "crates/oxc_fmt", version = "0.2.3", default-features = false }
 
     biome_formatter      = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.14" }
     biome_js_formatter   = { git = "https://github.com/biomejs/biome", tag = "@biomejs/biome@2.3.14" }

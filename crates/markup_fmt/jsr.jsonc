@@ -1,6 +1,6 @@
 {
 	"name": "@fmt/markup-fmt",
-	"version": "0.2.2",
+	"version": "0.2.3",
 	"exports": {
 		".": "./markup_fmt.js",
 		"./esm": "./markup_fmt_esm.js",
