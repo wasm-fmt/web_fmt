@@ -5,7 +5,7 @@
 		"magic-akari <akari.ccino@gmail.com>"
 	],
 	"description": "HTML/Vue/Svelte/Astro/Jinja/Twig formatter powered by WASM",
-	"version": "0.1.17",
+	"version": "0.2.0",
 	"license": "MIT",
 	"repository": {
 		"type": "git",

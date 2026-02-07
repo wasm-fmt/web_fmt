@@ -1,6 +1,6 @@
 {
 	"name": "@wasm-fmt/oxc-fmt",
-	"version": "0.1.17",
+	"version": "0.2.0",
 	"exports": {
 		".": "./oxc_fmt.js",
 		"./esm": "./oxc_fmt_esm.js",
