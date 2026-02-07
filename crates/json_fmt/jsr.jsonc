@@ -1,5 +1,5 @@
 {
-	"name": "@wasm-fmt/json-fmt",
+	"name": "@fmt/json-fmt",
 	"version": "0.2.0",
 	"exports": {
 		".": "./json_fmt.js",

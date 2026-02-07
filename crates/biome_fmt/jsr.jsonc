@@ -1,5 +1,5 @@
 {
-	"name": "@wasm-fmt/biome-fmt",
+	"name": "@fmt/biome-fmt",
 	"version": "0.2.0",
 	"exports": {
 		".": "./biome_fmt.js",

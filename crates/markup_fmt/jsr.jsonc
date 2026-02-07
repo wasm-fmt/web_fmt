@@ -1,5 +1,5 @@
 {
-	"name": "@wasm-fmt/markup-fmt",
+	"name": "@fmt/markup-fmt",
 	"version": "0.2.0",
 	"exports": {
 		".": "./markup_fmt.js",

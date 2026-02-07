@@ -1,5 +1,5 @@
 {
-	"name": "@wasm-fmt/malva-fmt",
+	"name": "@fmt/malva-fmt",
 	"version": "0.2.0",
 	"exports": {
 		".": "./malva_fmt.js",

@@ -1,5 +1,5 @@
 {
-	"name": "@wasm-fmt/web-fmt",
+	"name": "@fmt/web-fmt",
 	"version": "0.2.0",
 	"exports": {
 		".": "./web_fmt.js",

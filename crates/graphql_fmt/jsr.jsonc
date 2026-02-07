@@ -1,5 +1,5 @@
 {
-	"name": "@wasm-fmt/graphql-fmt",
+	"name": "@fmt/graphql-fmt",
 	"version": "0.2.0",
 	"exports": {
 		".": "./graphql_fmt.js",
