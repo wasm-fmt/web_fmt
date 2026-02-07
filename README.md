@@ -2,8 +2,6 @@
 
 ## web_fmt [![npm][npm-web_fmt]][npm-web_fmt-link] [![jsr.io][jsr-web_fmt]][jsr-web_fmt-link]
 
-**Recommended** - Supports internal inter-calls to handle all Web project file types uniformly
-
 - JavaScript and its variants (TypeScript, JSX, TSX)
 - CSS and its variants (SCSS, SASS, LESS)
 - HTML and other markup languages (Vue, Svelte, Astro, Jinja, Twig)
