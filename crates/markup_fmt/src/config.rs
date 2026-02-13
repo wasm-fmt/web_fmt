@@ -38,7 +38,7 @@ impl MarkupLayoutOptions {
             self.indent_width = other.indent_width;
         }
         if self.line_break.is_none() {
-            self.line_break = other.line_break.clone();
+            self.line_break = other.line_break;
         }
         self
     }
@@ -86,7 +86,7 @@ impl MarkupConfig {
 
     #[must_use]
     pub fn quotes(&self) -> markup_fmt_core::config::Quotes {
-        self.language.quotes.clone()
+        self.language.quotes
     }
 
     #[must_use]
