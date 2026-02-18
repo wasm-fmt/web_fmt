@@ -154,11 +154,16 @@ pub struct SortImportsOptionsDef {
     pub newlines_between: bool,
     #[serde(default = "oxc_formatter::default_internal_patterns")]
     pub internal_pattern: Vec<String>,
-    #[serde(default = "oxc_formatter::default_groups", deserialize_with = "groups::deserialize")]
-    pub groups: Vec<Vec<oxc_formatter::GroupEntry>>,
+    #[serde(default, deserialize_with = "groups::deserialize")]
+    pub groups: ParsedGroups,
     #[serde(default)]
     pub custom_groups: Vec<CustomGroupDefinitionDef>,
-    #[serde(default)]
+}
+
+/// Parsed groups result containing both groups and newline boundary overrides.
+#[derive(Debug, Default, Clone)]
+pub struct ParsedGroups {
+    pub groups: Vec<Vec<oxc_formatter::GroupEntry>>,
     pub newline_boundary_overrides: Vec<Option<bool>>,
 }
 
@@ -172,9 +177,11 @@ impl Default for SortImportsOptionsDef {
             ignore_case: true,
             newlines_between: true,
             internal_pattern: oxc_formatter::default_internal_patterns(),
-            groups: oxc_formatter::default_groups(),
+            groups: ParsedGroups {
+                groups: oxc_formatter::default_groups(),
+                newline_boundary_overrides: vec![],
+            },
             custom_groups: vec![],
-            newline_boundary_overrides: vec![],
         }
     }
 }
@@ -189,9 +196,9 @@ impl From<SortImportsOptionsDef> for oxc_formatter::SortImportsOptions {
             ignore_case: def.ignore_case,
             newlines_between: def.newlines_between,
             internal_pattern: def.internal_pattern,
-            groups: def.groups,
+            groups: def.groups.groups,
             custom_groups: def.custom_groups.into_iter().map(Into::into).collect(),
-            newline_boundary_overrides: def.newline_boundary_overrides,
+            newline_boundary_overrides: def.groups.newline_boundary_overrides,
         }
     }
 }
@@ -313,43 +320,62 @@ mod groups {
     use super::*;
     use serde::Deserialize;
 
-    /// Intermediate representation for group items that can be either a single string or an array of strings.
+    /// A marker object for overriding `newlinesBetween` at a specific group boundary.
+    #[derive(Deserialize)]
+    #[serde(rename_all = "camelCase")]
+    struct NewlinesBetweenMarker {
+        newlines_between: bool,
+    }
+
+    /// Intermediate representation for group items.
     #[derive(Deserialize)]
     #[serde(untagged)]
     enum GroupItem {
+        /// A `{ "newlinesBetween": bool }` marker object.
+        NewlinesBetween(NewlinesBetweenMarker),
+        /// A single group name string (e.g. `"value-builtin"`).
         Single(String),
+        /// Multiple group names treated as one group (e.g. `["value-builtin", "value-external"]`).
         Multiple(Vec<String>),
     }
 
-    impl IntoIterator for GroupItem {
-        type Item = String;
-        type IntoIter = std::vec::IntoIter<String>;
-
-        fn into_iter(self) -> Self::IntoIter {
-            match self {
-                GroupItem::Single(s) => vec![s].into_iter(),
-                GroupItem::Multiple(v) => v.into_iter(),
-            }
-        }
-    }
-
-    pub fn deserialize<'de, D>(
-        deserializer: D,
-    ) -> Result<Vec<Vec<oxc_formatter::GroupEntry>>, D::Error>
+    pub fn deserialize<'de, D>(deserializer: D) -> Result<ParsedGroups, D::Error>
     where
         D: Deserializer<'de>,
     {
         let items: Vec<GroupItem> = Vec::deserialize(deserializer)?;
 
-        items
-            .into_iter()
-            .map(|item| {
-                item.into_iter()
-                    .map(|s| parse_single::<oxc_formatter::GroupEntry>(&s))
-                    .collect::<Result<Vec<_>, _>>()
-            })
-            .collect::<Result<Vec<_>, _>>()
-            .map_err(serde::de::Error::custom)
+        let mut groups: Vec<Vec<oxc_formatter::GroupEntry>> = Vec::new();
+        let mut newline_boundary_overrides: Vec<Option<bool>> = Vec::new();
+        let mut pending_override: Option<bool> = None;
+
+        for item in items {
+            match item {
+                GroupItem::NewlinesBetween(marker) => {
+                    pending_override = Some(marker.newlines_between);
+                }
+                other => {
+                    if !groups.is_empty() {
+                        newline_boundary_overrides.push(pending_override.take());
+                    }
+                    let entries = match other {
+                        GroupItem::Single(s) => {
+                            vec![parse_single::<oxc_formatter::GroupEntry>(&s)
+                                .map_err(serde::de::Error::custom)?]
+                        }
+                        GroupItem::Multiple(v) => v
+                            .into_iter()
+                            .map(|s| parse_single::<oxc_formatter::GroupEntry>(&s))
+                            .collect::<Result<Vec<_>, _>>()
+                            .map_err(serde::de::Error::custom)?,
+                        GroupItem::NewlinesBetween(_) => unreachable!(),
+                    };
+                    groups.push(entries);
+                }
+            }
+        }
+
+        Ok(ParsedGroups { groups, newline_boundary_overrides })
     }
 }
 

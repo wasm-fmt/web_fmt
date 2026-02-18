@@ -76,12 +76,28 @@ export interface SortImportsOptions {
 	/** Prefixes for internal imports. Defaults to `["~/", "@/"]`. */
 	internalPattern?: string[];
 
-	/** Groups configuration for organizing imports. */
-	groups?: string[][];
+	/**
+	 * Groups configuration for organizing imports.
+	 * Each array element represents a group, and multiple group names in the same array are treated as one.
+	 * Accepts `string`, `string[]`, or `{ newlinesBetween: boolean }` marker objects.
+	 * Marker objects override the global `newlinesBetween` setting for the boundary between the adjacent groups.
+	 */
+	groups?: SortGroupItem[];
 
-	/** Define your own groups for matching very specific imports. */
+	/** Define custom groups for matching specific imports. */
 	customGroups?: CustomGroupDefinition[];
 }
+
+/** A group item in the sort imports configuration.
+ * Can be a single group name, an array of group names, or a newlinesBetween marker.
+ */
+export type SortGroupItem = string | string[] | { newlinesBetween: boolean };
+
+/** Import selector for custom group matching. */
+export type ImportSelector = "value" | "type" | "default" | "namespace" | "side-effect";
+
+/** Import modifier for custom group matching. */
+export type ImportModifier = "type" | "value" | "default" | "namespace" | "named" | "side-effect";
 
 /** Custom group definition for sort imports. */
 export interface CustomGroupDefinition {
@@ -90,6 +106,12 @@ export interface CustomGroupDefinition {
 
 	/** Patterns to match import source names against. */
 	elementNamePattern: string[];
+
+	/** Selector to filter imports by type. */
+	selector?: ImportSelector;
+
+	/** Modifiers to further filter imports. */
+	modifiers?: ImportModifier[];
 }
 
 /** Options for Tailwind CSS class sorting. */
