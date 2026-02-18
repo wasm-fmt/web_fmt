@@ -2,6 +2,60 @@ use common::LayoutConfig;
 use serde::{Deserialize, Deserializer};
 use std::str::FromStr;
 
+/// Trait for types that can be parsed from a string.
+/// This is used to provide a common interface for parsing types from oxc_formatter.
+pub trait Parseable: Sized {
+    /// Parse a value from a string.
+    /// Returns `None` if the string is not a valid representation.
+    fn parse_from_str(s: &str) -> Option<Self>;
+
+    /// Returns the name of the type for error messages.
+    fn type_name() -> &'static str;
+}
+
+impl Parseable for oxc_formatter::ImportSelector {
+    fn parse_from_str(s: &str) -> Option<Self> {
+        oxc_formatter::ImportSelector::parse(s)
+    }
+
+    fn type_name() -> &'static str {
+        "import selector"
+    }
+}
+
+impl Parseable for oxc_formatter::ImportModifier {
+    fn parse_from_str(s: &str) -> Option<Self> {
+        oxc_formatter::ImportModifier::parse(s)
+    }
+
+    fn type_name() -> &'static str {
+        "import modifier"
+    }
+}
+
+impl Parseable for oxc_formatter::GroupEntry {
+    fn parse_from_str(s: &str) -> Option<Self> {
+        Some(oxc_formatter::GroupEntry::parse(s))
+    }
+
+    fn type_name() -> &'static str {
+        "group entry"
+    }
+}
+
+/// Parse a single value using the Parseable trait.
+fn parse_single<T: Parseable>(s: &str) -> Result<T, String> {
+    T::parse_from_str(s).ok_or_else(|| format!("Invalid {}: {}", T::type_name(), s))
+}
+
+/// Parse an optional value using the Parseable trait.
+fn parse_optional<T: Parseable>(s: Option<String>) -> Result<Option<T>, String> {
+    match s {
+        Some(s) => parse_single(&s).map(Some),
+        None => Ok(None),
+    }
+}
+
 #[derive(Deserialize, Default, Clone)]
 pub struct OxFmtOptions {
     #[serde(flatten)]
@@ -100,10 +154,12 @@ pub struct SortImportsOptionsDef {
     pub newlines_between: bool,
     #[serde(default = "oxc_formatter::default_internal_patterns")]
     pub internal_pattern: Vec<String>,
-    #[serde(default = "oxc_formatter::default_groups")]
-    pub groups: Vec<Vec<String>>,
+    #[serde(default = "oxc_formatter::default_groups", deserialize_with = "groups::deserialize")]
+    pub groups: Vec<Vec<oxc_formatter::GroupEntry>>,
     #[serde(default)]
     pub custom_groups: Vec<CustomGroupDefinitionDef>,
+    #[serde(default)]
+    pub newline_boundary_overrides: Vec<Option<bool>>,
 }
 
 impl Default for SortImportsOptionsDef {
@@ -118,6 +174,7 @@ impl Default for SortImportsOptionsDef {
             internal_pattern: oxc_formatter::default_internal_patterns(),
             groups: oxc_formatter::default_groups(),
             custom_groups: vec![],
+            newline_boundary_overrides: vec![],
         }
     }
 }
@@ -133,22 +190,34 @@ impl From<SortImportsOptionsDef> for oxc_formatter::SortImportsOptions {
             newlines_between: def.newlines_between,
             internal_pattern: def.internal_pattern,
             groups: def.groups,
-            custom_groups: def
-                .custom_groups
-                .into_iter()
-                .map(|cg| oxc_formatter::CustomGroupDefinition {
-                    group_name: cg.group_name,
-                    element_name_pattern: cg.element_name_pattern,
-                })
-                .collect(),
+            custom_groups: def.custom_groups.into_iter().map(Into::into).collect(),
+            newline_boundary_overrides: def.newline_boundary_overrides,
         }
     }
 }
 
 #[derive(Deserialize, Default, Clone)]
+#[serde(rename_all = "camelCase")]
 pub struct CustomGroupDefinitionDef {
+    #[serde(default)]
     pub group_name: String,
+    #[serde(default)]
     pub element_name_pattern: Vec<String>,
+    #[serde(default, deserialize_with = "import_selector::deserialize")]
+    pub selector: Option<oxc_formatter::ImportSelector>,
+    #[serde(default, deserialize_with = "import_modifiers::deserialize")]
+    pub modifiers: Vec<oxc_formatter::ImportModifier>,
+}
+
+impl From<CustomGroupDefinitionDef> for oxc_formatter::CustomGroupDefinition {
+    fn from(def: CustomGroupDefinitionDef) -> Self {
+        Self {
+            group_name: def.group_name,
+            element_name_pattern: def.element_name_pattern,
+            selector: def.selector,
+            modifiers: def.modifiers,
+        }
+    }
 }
 
 /// Local definition for TailwindcssOptions to enable deserialization.
@@ -178,6 +247,109 @@ impl From<TailwindcssOptionsDef> for oxc_formatter::TailwindcssOptions {
             preserve_whitespace: def.preserve_whitespace,
             preserve_duplicates: def.preserve_duplicates,
         }
+    }
+}
+
+/// Custom deserialization module for ImportSelector
+mod import_selector {
+    use super::*;
+    use serde::Deserialize;
+
+    pub fn deserialize<'de, D>(
+        deserializer: D,
+    ) -> Result<Option<oxc_formatter::ImportSelector>, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let s = Option::<String>::deserialize(deserializer)?;
+        parse_optional::<oxc_formatter::ImportSelector>(s).map_err(serde::de::Error::custom)
+    }
+}
+
+/// Custom deserialization module for ImportModifier
+mod import_modifiers {
+    use super::*;
+    use serde::de::{SeqAccess, Visitor};
+    use std::fmt;
+
+    pub fn deserialize<'de, D>(
+        deserializer: D,
+    ) -> Result<Vec<oxc_formatter::ImportModifier>, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        struct ImportModifiersVisitor;
+
+        impl<'de> Visitor<'de> for ImportModifiersVisitor {
+            type Value = Vec<oxc_formatter::ImportModifier>;
+
+            fn expecting(&self, formatter: &mut fmt::Formatter) -> fmt::Result {
+                formatter.write_str("an array of import modifier strings")
+            }
+
+            fn visit_seq<A>(self, mut seq: A) -> Result<Self::Value, A::Error>
+            where
+                A: SeqAccess<'de>,
+            {
+                let mut items = Vec::new();
+
+                while let Some(name) = seq.next_element::<String>()? {
+                    match parse_single::<oxc_formatter::ImportModifier>(&name) {
+                        Ok(item) => items.push(item),
+                        Err(e) => return Err(serde::de::Error::custom(e)),
+                    }
+                }
+
+                Ok(items)
+            }
+        }
+
+        deserializer.deserialize_seq(ImportModifiersVisitor)
+    }
+}
+
+/// Custom deserialization module for groups
+mod groups {
+    use super::*;
+    use serde::Deserialize;
+
+    /// Intermediate representation for group items that can be either a single string or an array of strings.
+    #[derive(Deserialize)]
+    #[serde(untagged)]
+    enum GroupItem {
+        Single(String),
+        Multiple(Vec<String>),
+    }
+
+    impl IntoIterator for GroupItem {
+        type Item = String;
+        type IntoIter = std::vec::IntoIter<String>;
+
+        fn into_iter(self) -> Self::IntoIter {
+            match self {
+                GroupItem::Single(s) => vec![s].into_iter(),
+                GroupItem::Multiple(v) => v.into_iter(),
+            }
+        }
+    }
+
+    pub fn deserialize<'de, D>(
+        deserializer: D,
+    ) -> Result<Vec<Vec<oxc_formatter::GroupEntry>>, D::Error>
+    where
+        D: Deserializer<'de>,
+    {
+        let items: Vec<GroupItem> = Vec::deserialize(deserializer)?;
+
+        items
+            .into_iter()
+            .map(|item| {
+                item.into_iter()
+                    .map(|s| parse_single::<oxc_formatter::GroupEntry>(&s))
+                    .collect::<Result<Vec<_>, _>>()
+            })
+            .collect::<Result<Vec<_>, _>>()
+            .map_err(serde::de::Error::custom)
     }
 }
 
