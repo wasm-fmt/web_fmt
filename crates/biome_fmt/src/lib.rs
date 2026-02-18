@@ -149,7 +149,7 @@ pub fn format_script_with_config(
 
     let option = config.with_source_type(source_type).try_into()?;
 
-    biome_format_node(option, &tree.syntax())
+    biome_format_node(option, &tree.syntax(), false)
         .map_err(|e| e.to_string())?
         .print()
         .map(biome_formatter::Printed::into_code)
