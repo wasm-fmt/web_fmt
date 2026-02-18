@@ -1,7 +1,3 @@
-// Ensure script formatter feature is enabled
-#[cfg(not(feature = "script-biome"))]
-compile_error!("Feature `script-biome` must be enabled.");
-
 mod format_graphql;
 mod format_json;
 mod format_markup;
@@ -26,7 +22,6 @@ extern "C" {
 #[serde(rename_all = "snake_case")]
 struct Config {
     markup: Option<markup_fmt::config::MarkupConfig>,
-    #[cfg(feature = "script-biome")]
     script: Option<biome_fmt::BiomeConfig>,
     style: Option<malva_fmt::config::MalvaConfig>,
     json: Option<LayoutConfig>,
@@ -80,12 +75,7 @@ pub fn format(
 
     match extension.as_encoded_bytes() {
         b"js" | b"ts" | b"mjs" | b"cjs" | b"jsx" | b"tsx" | b"mjsx" | b"cjsx" | b"mtsx"
-        | b"ctsx" => {
-            #[cfg(feature = "script-biome")]
-            {
-                biome_fmt::format_script_with_config(src, filename, script_config)
-            }
-        }
+        | b"ctsx" => biome_fmt::format_script_with_config(src, filename, script_config),
         b"css" | b"scss" | b"sass" | b"less" => {
             malva_fmt::format_style_with_config(src, filename, style_config)
         }

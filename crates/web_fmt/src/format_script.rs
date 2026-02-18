@@ -1,7 +1,6 @@
 use common::LayoutConfig;
 use wasm_bindgen::prelude::*;
 
-#[cfg(feature = "script-biome")]
 #[wasm_bindgen]
 extern "C" {
     #[wasm_bindgen(typescript_type = "ScriptConfig")]
@@ -9,7 +8,6 @@ extern "C" {
 }
 
 /// Formats the given JavaScript/TypeScript code with the provided Configuration.
-#[cfg(feature = "script-biome")]
 #[wasm_bindgen]
 pub fn format_script(
     #[wasm_bindgen(param_description = "The JavaScript/TypeScript code to format")] src: &str,
@@ -28,7 +26,6 @@ pub fn format_script(
     biome_fmt::format_script_with_config(src, filename, config)
 }
 
-#[cfg(feature = "script-biome")]
 pub(crate) fn produce_script_config(
     config: Option<biome_fmt::BiomeConfig>,
     default_layout: &LayoutConfig,

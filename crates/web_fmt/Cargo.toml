@@ -18,14 +18,10 @@ version.workspace    = true
         "--enable-nontrapping-float-to-int",
     ]
 
-[features]
-default      = ["script-biome"]
-script-biome = ["dep:biome_fmt"]
-
 [dependencies]
 common = { workspace = true, features = ["serde", "wasm-bindgen"] }
 
-biome_fmt       = { workspace = true, default-features = false, optional = true }
+biome_fmt       = { workspace = true, default-features = false }
 graphql_fmt     = { path = "../graphql_fmt", default-features = false }
 json_fmt        = { workspace = true, default-features = false }
 malva           = { workspace = true, features = ["config_serde"] }
