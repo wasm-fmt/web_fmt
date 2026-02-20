@@ -5,7 +5,7 @@
 		"magic-akari <akari.ccino@gmail.com>"
 	],
 	"description": "JavaScript/TypeScript formatter powered by WASM ported from Biome",
-	"version": "0.2.3",
+	"version": "0.2.4",
 	"license": "MIT",
 	"repository": {
 		"type": "git",
