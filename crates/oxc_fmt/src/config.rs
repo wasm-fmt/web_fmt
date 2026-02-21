@@ -2,59 +2,9 @@ use common::LayoutConfig;
 use serde::{Deserialize, Deserializer};
 use std::str::FromStr;
 
-/// Trait for types that can be parsed from a string.
-/// This is used to provide a common interface for parsing types from oxc_formatter.
-pub trait Parseable: Sized {
-    /// Parse a value from a string.
-    /// Returns `None` if the string is not a valid representation.
-    fn parse_from_str(s: &str) -> Option<Self>;
-
-    /// Returns the name of the type for error messages.
-    fn type_name() -> &'static str;
-}
-
-impl Parseable for oxc_formatter::ImportSelector {
-    fn parse_from_str(s: &str) -> Option<Self> {
-        oxc_formatter::ImportSelector::parse(s)
-    }
-
-    fn type_name() -> &'static str {
-        "import selector"
-    }
-}
-
-impl Parseable for oxc_formatter::ImportModifier {
-    fn parse_from_str(s: &str) -> Option<Self> {
-        oxc_formatter::ImportModifier::parse(s)
-    }
-
-    fn type_name() -> &'static str {
-        "import modifier"
-    }
-}
-
-impl Parseable for oxc_formatter::GroupEntry {
-    fn parse_from_str(s: &str) -> Option<Self> {
-        Some(oxc_formatter::GroupEntry::parse(s))
-    }
-
-    fn type_name() -> &'static str {
-        "group entry"
-    }
-}
-
-/// Parse a single value using the Parseable trait.
-fn parse_single<T: Parseable>(s: &str) -> Result<T, String> {
-    T::parse_from_str(s).ok_or_else(|| format!("Invalid {}: {}", T::type_name(), s))
-}
-
-/// Parse an optional value using the Parseable trait.
-fn parse_optional<T: Parseable>(s: Option<String>) -> Result<Option<T>, String> {
-    match s {
-        Some(s) => parse_single(&s).map(Some),
-        None => Ok(None),
-    }
-}
+// =============================================================================
+// Main Options
+// =============================================================================
 
 #[derive(Deserialize, Default, Clone)]
 pub struct OxFmtOptions {
@@ -101,19 +51,45 @@ impl TryFrom<OxFmtOptions> for oxc_formatter::FormatOptions {
         }
 
         // Apply all other options from FormatOptions
-        options.quote_style = value.inner.quote_style;
-        options.jsx_quote_style = value.inner.jsx_quote_style;
-        options.quote_properties = value.inner.quote_properties;
-        options.trailing_commas = value.inner.trailing_commas;
-        options.semicolons = value.inner.semicolons;
-        options.arrow_parentheses = value.inner.arrow_parentheses;
-        options.bracket_spacing = value.inner.bracket_spacing;
-        options.bracket_same_line = value.inner.bracket_same_line;
-        options.attribute_position = value.inner.attribute_position;
-        options.expand = value.inner.expand;
-        options.experimental_operator_position = value.inner.experimental_operator_position;
-        options.experimental_ternaries = value.inner.experimental_ternaries;
-        options.embedded_language_formatting = value.inner.embedded_language_formatting;
+        if let Some(single_quote) = value.inner.single_quote {
+            options.quote_style = oxc_formatter::QuoteStyle::from_use_single(single_quote);
+        }
+        if let Some(jsx_single_quote) = value.inner.jsx_single_quote {
+            options.jsx_quote_style = oxc_formatter::QuoteStyle::from_use_single(jsx_single_quote);
+        }
+        if let Some(quote_properties) = value.inner.quote_properties {
+            options.quote_properties = quote_properties;
+        }
+        if let Some(trailing_commas) = value.inner.trailing_commas {
+            options.trailing_commas = trailing_commas;
+        }
+        if let Some(semicolons) = value.inner.semicolons {
+            options.semicolons = semicolons;
+        }
+        if let Some(arrow_parentheses) = value.inner.arrow_parentheses {
+            options.arrow_parentheses = arrow_parentheses;
+        }
+        if let Some(bracket_spacing) = value.inner.bracket_spacing {
+            options.bracket_spacing = bracket_spacing;
+        }
+        if let Some(bracket_same_line) = value.inner.bracket_same_line {
+            options.bracket_same_line = bracket_same_line;
+        }
+        if let Some(attribute_position) = value.inner.attribute_position {
+            options.attribute_position = attribute_position;
+        }
+        if let Some(expand) = value.inner.expand {
+            options.expand = expand;
+        }
+        if let Some(experimental_operator_position) = value.inner.experimental_operator_position {
+            options.experimental_operator_position = experimental_operator_position;
+        }
+        if let Some(experimental_ternaries) = value.inner.experimental_ternaries {
+            options.experimental_ternaries = experimental_ternaries;
+        }
+        if let Some(embedded_language_formatting) = value.inner.embedded_language_formatting {
+            options.embedded_language_formatting = embedded_language_formatting;
+        }
         options.experimental_sort_imports = value.inner.experimental_sort_imports;
         options.experimental_tailwindcss = value.inner.experimental_tailwindcss;
 
@@ -121,19 +97,114 @@ impl TryFrom<OxFmtOptions> for oxc_formatter::FormatOptions {
     }
 }
 
-fn deserialize_from_str<'de, D, T>(deserializer: D) -> Result<T, D::Error>
-where
-    D: Deserializer<'de>,
-    T: FromStr,
-    T::Err: std::fmt::Display,
-{
-    let s = String::deserialize(deserializer)?;
-    T::from_str(&s).map_err(serde::de::Error::custom)
+// =============================================================================
+// Format Options
+// =============================================================================
+
+#[derive(Default, Clone, Deserialize)]
+pub struct FormatOptions {
+    /// The style for quotes. Defaults to double.
+    #[serde(alias = "singleQuote")]
+    pub single_quote: Option<bool>,
+
+    /// The style for JSX quotes. Defaults to double.
+    #[serde(alias = "jsxSingleQuote")]
+    pub jsx_single_quote: Option<bool>,
+
+    /// When properties in objects are quoted. Defaults to as-needed.
+    #[serde(alias = "quoteProps", default, deserialize_with = "deserialize_optional_from_str")]
+    pub quote_properties: Option<oxc_formatter::QuoteProperties>,
+
+    /// Print trailing commas wherever possible in multi-line comma-separated syntactic structures. Defaults to "all".
+    #[serde(alias = "trailingComma", default, deserialize_with = "deserialize_optional_from_str")]
+    pub trailing_commas: Option<oxc_formatter::TrailingCommas>,
+
+    /// Whether the formatter prints semicolons for all statements, class members, and type members or only when necessary because of [ASI](https://tc39.es/ecma262/multipage/ecmascript-language-lexical-grammar.html#sec-automatic-semicolon-insertion).
+    #[serde(alias = "semi", default, deserialize_with = "deserialize_optional_from_str")]
+    pub semicolons: Option<oxc_formatter::Semicolons>,
+
+    /// Whether to add non-necessary parentheses to arrow functions. Defaults to "always".
+    #[serde(alias = "arrowParens", default, deserialize_with = "deserialize_optional_from_str")]
+    pub arrow_parentheses: Option<oxc_formatter::ArrowParentheses>,
+
+    /// Whether to insert spaces around brackets in object literals. Defaults to true.
+    #[serde(
+        alias = "bracketSpacing",
+        default,
+        deserialize_with = "deserialize_optional_via_def::<_, bool, _>"
+    )]
+    pub bracket_spacing: Option<oxc_formatter::BracketSpacing>,
+
+    /// Whether to hug the closing bracket of multiline HTML/JSX tags to the end of the last line, rather than being alone on the following line. Defaults to false.
+    #[serde(
+        alias = "bracketSameLine",
+        default,
+        deserialize_with = "deserialize_optional_via_def::<_, bool, _>"
+    )]
+    pub bracket_same_line: Option<oxc_formatter::BracketSameLine>,
+
+    /// Attribute position style. By default auto.
+    #[serde(
+        alias = "singleAttributePerLine",
+        default,
+        deserialize_with = "deserialize_optional_from_str"
+    )]
+    pub attribute_position: Option<oxc_formatter::AttributePosition>,
+
+    /// Whether to expand object and array literals to multiple lines. Defaults to "auto".
+    #[serde(alias = "objectWrap", default, deserialize_with = "deserialize_optional_from_str")]
+    pub expand: Option<oxc_formatter::Expand>,
+
+    /// Controls the position of operators in binary expressions. [**NOT SUPPORTED YET**]
+    ///
+    /// Accepted values are:
+    /// - `"start"`: Places the operator at the beginning of the next line.
+    /// - `"end"`: Places the operator at the end of the current line (default).
+    #[serde(
+        alias = "experimentalOperatorPosition",
+        default,
+        deserialize_with = "deserialize_optional_from_str"
+    )]
+    pub experimental_operator_position: Option<oxc_formatter::OperatorPosition>,
+
+    /// Try prettier's new ternary formatting before it becomes the default behavior. [**NOT SUPPORTED YET**]
+    ///
+    /// Valid options:
+    /// - `true` - Use curious ternaries, with the question mark after the condition.
+    /// - `false` - Retain the default behavior of ternaries; keep question marks on the same line as the consequent.
+    #[serde(alias = "experimentalTernaries")]
+    pub experimental_ternaries: Option<bool>,
+
+    /// Enable formatting for embedded languages (e.g., CSS, SQL, GraphQL) within template literals. Defaults to "auto".
+    #[serde(
+        alias = "embeddedLanguageFormatting",
+        default,
+        deserialize_with = "deserialize_optional_from_str"
+    )]
+    pub embedded_language_formatting: Option<oxc_formatter::EmbeddedLanguageFormatting>,
+
+    /// Sort import statements. By default disabled.
+    #[serde(
+        alias = "experimentalSortImports",
+        default,
+        deserialize_with = "deserialize_optional_via_def::<_, SortImportsOptionsDef, _>"
+    )]
+    pub experimental_sort_imports: Option<oxc_formatter::SortImportsOptions>,
+
+    /// Enable Tailwind CSS class sorting in JSX class/className attributes.
+    /// When enabled, class strings will be collected and passed to a callback for sorting.
+    /// Defaults to None (disabled).
+    #[serde(
+        alias = "experimentalTailwindcss",
+        default,
+        deserialize_with = "deserialize_optional_via_def::<_, TailwindcssOptionsDef, _>"
+    )]
+    pub experimental_tailwindcss: Option<oxc_formatter::TailwindcssOptions>,
 }
 
-fn default_true() -> bool {
-    true
-}
+// =============================================================================
+// Sort Imports Options
+// =============================================================================
 
 /// Local definition for SortImportsOptions to enable deserialization.
 /// This mirrors `oxc_formatter::SortImportsOptions`.
@@ -227,6 +298,10 @@ impl From<CustomGroupDefinitionDef> for oxc_formatter::CustomGroupDefinition {
     }
 }
 
+// =============================================================================
+// Tailwindcss Options
+// =============================================================================
+
 /// Local definition for TailwindcssOptions to enable deserialization.
 /// This mirrors `oxc_formatter::TailwindcssOptions`.
 #[derive(Deserialize, Default, Clone)]
@@ -257,10 +332,72 @@ impl From<TailwindcssOptionsDef> for oxc_formatter::TailwindcssOptions {
     }
 }
 
+// =============================================================================
+// Helper Traits
+// =============================================================================
+
+trait FromUseSingle {
+    fn from_use_single(value: bool) -> Self;
+}
+
+impl FromUseSingle for oxc_formatter::QuoteStyle {
+    fn from_use_single(value: bool) -> Self {
+        if value {
+            oxc_formatter::QuoteStyle::Single
+        } else {
+            oxc_formatter::QuoteStyle::Double
+        }
+    }
+}
+
+// =============================================================================
+// Helper Functions
+// =============================================================================
+
+fn default_true() -> bool {
+    true
+}
+
+fn deserialize_from_str<'de, D, T>(deserializer: D) -> Result<T, D::Error>
+where
+    D: Deserializer<'de>,
+    T: FromStr,
+    T::Err: std::fmt::Display,
+{
+    let s = String::deserialize(deserializer)?;
+    T::from_str(&s).map_err(serde::de::Error::custom)
+}
+
+/// Deserialize an optional value from a string using FromStr.
+fn deserialize_optional_from_str<'de, D, T>(deserializer: D) -> Result<Option<T>, D::Error>
+where
+    D: Deserializer<'de>,
+    T: FromStr,
+    T::Err: std::fmt::Display,
+{
+    Option::<String>::deserialize(deserializer)?
+        .map(|s| T::from_str(&s).map_err(serde::de::Error::custom))
+        .transpose()
+}
+
+/// Deserialize an optional value through an intermediate Def type that implements Into<T>.
+fn deserialize_optional_via_def<'de, D, Def, T>(deserializer: D) -> Result<Option<T>, D::Error>
+where
+    D: Deserializer<'de>,
+    Def: Deserialize<'de> + Into<T>,
+{
+    let def = Option::<Def>::deserialize(deserializer)?;
+    Ok(def.map(Into::into))
+}
+
+// =============================================================================
+// Custom Deserialization Modules
+// =============================================================================
+
 /// Custom deserialization module for ImportSelector
 mod import_selector {
-    use super::*;
     use serde::Deserialize;
+    use serde::Deserializer;
 
     pub fn deserialize<'de, D>(
         deserializer: D,
@@ -269,14 +406,19 @@ mod import_selector {
         D: Deserializer<'de>,
     {
         let s = Option::<String>::deserialize(deserializer)?;
-        parse_optional::<oxc_formatter::ImportSelector>(s).map_err(serde::de::Error::custom)
+        match s {
+            Some(s) => oxc_formatter::ImportSelector::parse(&s)
+                .map(Some)
+                .ok_or_else(|| serde::de::Error::custom(format!("Invalid import selector: {s}"))),
+            None => Ok(None),
+        }
     }
 }
 
 /// Custom deserialization module for ImportModifier
 mod import_modifiers {
-    use super::*;
     use serde::de::{SeqAccess, Visitor};
+    use serde::Deserializer;
     use std::fmt;
 
     pub fn deserialize<'de, D>(
@@ -301,9 +443,13 @@ mod import_modifiers {
                 let mut items = Vec::new();
 
                 while let Some(name) = seq.next_element::<String>()? {
-                    match parse_single::<oxc_formatter::ImportModifier>(&name) {
-                        Ok(item) => items.push(item),
-                        Err(e) => return Err(serde::de::Error::custom(e)),
+                    match oxc_formatter::ImportModifier::parse(&name) {
+                        Some(item) => items.push(item),
+                        None => {
+                            return Err(serde::de::Error::custom(format!(
+                                "Invalid import modifier: {name}"
+                            )));
+                        }
                     }
                 }
 
@@ -317,8 +463,10 @@ mod import_modifiers {
 
 /// Custom deserialization module for groups
 mod groups {
-    use super::*;
     use serde::Deserialize;
+    use serde::Deserializer;
+
+    use super::ParsedGroups;
 
     /// A marker object for overriding `newlinesBetween` at a specific group boundary.
     #[derive(Deserialize)]
@@ -360,14 +508,11 @@ mod groups {
                     }
                     let entries = match other {
                         GroupItem::Single(s) => {
-                            vec![parse_single::<oxc_formatter::GroupEntry>(&s)
-                                .map_err(serde::de::Error::custom)?]
+                            vec![oxc_formatter::GroupEntry::parse(&s)]
                         }
-                        GroupItem::Multiple(v) => v
-                            .into_iter()
-                            .map(|s| parse_single::<oxc_formatter::GroupEntry>(&s))
-                            .collect::<Result<Vec<_>, _>>()
-                            .map_err(serde::de::Error::custom)?,
+                        GroupItem::Multiple(v) => {
+                            v.into_iter().map(|s| oxc_formatter::GroupEntry::parse(&s)).collect()
+                        }
                         GroupItem::NewlinesBetween(_) => unreachable!(),
                     };
                     groups.push(entries);
@@ -377,109 +522,4 @@ mod groups {
 
         Ok(ParsedGroups { groups, newline_boundary_overrides })
     }
-}
-
-/// Custom deserialization module for SortImportsOptions
-mod sort_imports {
-    use super::*;
-    use serde::Deserialize;
-
-    pub fn deserialize<'de, D>(
-        deserializer: D,
-    ) -> Result<Option<oxc_formatter::SortImportsOptions>, D::Error>
-    where
-        D: Deserializer<'de>,
-    {
-        let def = Option::<SortImportsOptionsDef>::deserialize(deserializer)?;
-        Ok(def.map(Into::into))
-    }
-}
-
-/// Custom deserialization module for TailwindcssOptions
-mod tailwindcss {
-    use super::*;
-    use serde::Deserialize;
-
-    pub fn deserialize<'de, D>(
-        deserializer: D,
-    ) -> Result<Option<oxc_formatter::TailwindcssOptions>, D::Error>
-    where
-        D: Deserializer<'de>,
-    {
-        let def = Option::<TailwindcssOptionsDef>::deserialize(deserializer)?;
-        Ok(def.map(Into::into))
-    }
-}
-
-#[derive(Default, Clone, Deserialize)]
-pub struct FormatOptions {
-    /// The style for quotes. Defaults to double.
-    #[serde(alias = "singleQuote", deserialize_with = "deserialize_from_str")]
-    pub quote_style: oxc_formatter::QuoteStyle,
-
-    /// The style for JSX quotes. Defaults to double.
-    #[serde(alias = "jsxSingleQuote", deserialize_with = "deserialize_from_str")]
-    pub jsx_quote_style: oxc_formatter::QuoteStyle,
-
-    /// When properties in objects are quoted. Defaults to as-needed.
-    #[serde(alias = "quoteProps", deserialize_with = "deserialize_from_str")]
-    pub quote_properties: oxc_formatter::QuoteProperties,
-
-    /// Print trailing commas wherever possible in multi-line comma-separated syntactic structures. Defaults to "all".
-    #[serde(alias = "trailingComma", deserialize_with = "deserialize_from_str")]
-    pub trailing_commas: oxc_formatter::TrailingCommas,
-
-    /// Whether the formatter prints semicolons for all statements, class members, and type members or only when necessary because of [ASI](https://tc39.es/ecma262/multipage/ecmascript-language-lexical-grammar.html#sec-automatic-semicolon-insertion).
-    #[serde(alias = "semi", deserialize_with = "deserialize_from_str")]
-    pub semicolons: oxc_formatter::Semicolons,
-
-    /// Whether to add non-necessary parentheses to arrow functions. Defaults to "always".
-    #[serde(alias = "arrowParens", deserialize_with = "deserialize_from_str")]
-    pub arrow_parentheses: oxc_formatter::ArrowParentheses,
-
-    /// Whether to insert spaces around brackets in object literals. Defaults to true.
-    #[serde(alias = "bracketSpacing", deserialize_with = "deserialize_from_str")]
-    pub bracket_spacing: oxc_formatter::BracketSpacing,
-
-    /// Whether to hug the closing bracket of multiline HTML/JSX tags to the end of the last line, rather than being alone on the following line. Defaults to false.
-    #[serde(alias = "bracketSameLine", deserialize_with = "deserialize_from_str")]
-    pub bracket_same_line: oxc_formatter::BracketSameLine,
-
-    /// Attribute position style. By default auto.
-    #[serde(alias = "singleAttributePerLine", deserialize_with = "deserialize_from_str")]
-    pub attribute_position: oxc_formatter::AttributePosition,
-
-    /// Whether to expand object and array literals to multiple lines. Defaults to "auto".
-    #[serde(alias = "objectWrap", deserialize_with = "deserialize_from_str")]
-    pub expand: oxc_formatter::Expand,
-
-    /// Controls the position of operators in binary expressions. [**NOT SUPPORTED YET**]
-    ///
-    /// Accepted values are:
-    /// - `"start"`: Places the operator at the beginning of the next line.
-    /// - `"end"`: Places the operator at the end of the current line (default).
-    #[serde(alias = "experimentalOperatorPosition", deserialize_with = "deserialize_from_str")]
-    pub experimental_operator_position: oxc_formatter::OperatorPosition,
-
-    /// Try prettier's new ternary formatting before it becomes the default behavior. [**NOT SUPPORTED YET**]
-    ///
-    /// Valid options:
-    /// - `true` - Use curious ternaries, with the question mark after the condition.
-    /// - `false` - Retain the default behavior of ternaries; keep question marks on the same line as the consequent.
-    #[serde(alias = "experimentalTernaries")]
-    pub experimental_ternaries: bool,
-
-    /// Enable formatting for embedded languages (e.g., CSS, SQL, GraphQL) within template literals. Defaults to "auto".
-    #[serde(alias = "embeddedLanguageFormatting", deserialize_with = "deserialize_from_str")]
-    pub embedded_language_formatting: oxc_formatter::EmbeddedLanguageFormatting,
-
-    /// Sort import statements. By default disabled.
-    #[serde(alias = "experimentalSortImports", deserialize_with = "sort_imports::deserialize")]
-    pub experimental_sort_imports: Option<oxc_formatter::SortImportsOptions>,
-
-    /// Enable Tailwind CSS class sorting in JSX class/className attributes.
-    /// When enabled, class strings will be collected and passed to a callback for sorting.
-    /// Defaults to None (disabled).
-    #[serde(alias = "experimentalTailwindcss", deserialize_with = "tailwindcss::deserialize")]
-    pub experimental_tailwindcss: Option<oxc_formatter::TailwindcssOptions>,
 }
