@@ -1,6 +1,6 @@
 {
 	"name": "@fmt/biome-fmt",
-	"version": "0.2.4",
+	"version": "0.2.5",
 	"exports": {
 		".": "./biome_fmt.js",
 		"./esm": "./biome_fmt_esm.js",
