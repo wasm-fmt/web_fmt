@@ -90,8 +90,8 @@ impl TryFrom<OxFmtOptions> for oxc_formatter::FormatOptions {
         if let Some(embedded_language_formatting) = value.inner.embedded_language_formatting {
             options.embedded_language_formatting = embedded_language_formatting;
         }
-        options.experimental_sort_imports = value.inner.experimental_sort_imports;
-        options.experimental_tailwindcss = value.inner.experimental_tailwindcss;
+        options.sort_imports = value.inner.experimental_sort_imports;
+        options.sort_tailwindcss = value.inner.experimental_tailwindcss;
 
         Ok(options)
     }
@@ -199,7 +199,7 @@ pub struct FormatOptions {
         default,
         deserialize_with = "deserialize_optional_via_def::<_, TailwindcssOptionsDef, _>"
     )]
-    pub experimental_tailwindcss: Option<oxc_formatter::TailwindcssOptions>,
+    pub experimental_tailwindcss: Option<oxc_formatter::SortTailwindcssOptions>,
 }
 
 // =============================================================================
@@ -319,7 +319,7 @@ pub struct TailwindcssOptionsDef {
     pub preserve_duplicates: bool,
 }
 
-impl From<TailwindcssOptionsDef> for oxc_formatter::TailwindcssOptions {
+impl From<TailwindcssOptionsDef> for oxc_formatter::SortTailwindcssOptions {
     fn from(def: TailwindcssOptionsDef) -> Self {
         Self {
             config: def.config,
