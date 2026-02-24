@@ -90,8 +90,8 @@ impl TryFrom<OxFmtOptions> for oxc_formatter::FormatOptions {
         if let Some(embedded_language_formatting) = value.inner.embedded_language_formatting {
             options.embedded_language_formatting = embedded_language_formatting;
         }
-        options.sort_imports = value.inner.experimental_sort_imports;
-        options.sort_tailwindcss = value.inner.experimental_tailwindcss;
+        options.sort_imports = value.inner.sort_imports;
+        options.sort_tailwindcss = value.inner.sort_tailwindcss;
 
         Ok(options)
     }
@@ -185,21 +185,23 @@ pub struct FormatOptions {
 
     /// Sort import statements. By default disabled.
     #[serde(
+        alias = "sortImports",
         alias = "experimentalSortImports",
         default,
         deserialize_with = "deserialize_optional_via_def::<_, SortImportsOptionsDef, _>"
     )]
-    pub experimental_sort_imports: Option<oxc_formatter::SortImportsOptions>,
+    pub sort_imports: Option<oxc_formatter::SortImportsOptions>,
 
     /// Enable Tailwind CSS class sorting in JSX class/className attributes.
     /// When enabled, class strings will be collected and passed to a callback for sorting.
     /// Defaults to None (disabled).
     #[serde(
+        alias = "sortTailwindcss",
         alias = "experimentalTailwindcss",
         default,
         deserialize_with = "deserialize_optional_via_def::<_, TailwindcssOptionsDef, _>"
     )]
-    pub experimental_tailwindcss: Option<oxc_formatter::SortTailwindcssOptions>,
+    pub sort_tailwindcss: Option<oxc_formatter::SortTailwindcssOptions>,
 }
 
 // =============================================================================

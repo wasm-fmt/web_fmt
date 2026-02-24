@@ -47,10 +47,10 @@ export interface Config extends LayoutConfig {
 	embeddedLanguageFormatting?: "auto" | "off";
 
 	/** Sort import statements. By default disabled. */
-	experimentalSortImports?: SortImportsOptions;
+	sortImports?: SortImportsOptions;
 
 	/** Enable Tailwind CSS class sorting in JSX class/className attributes. Defaults to None (disabled). */
-	experimentalTailwindcss?: TailwindcssOptions;
+	sortTailwindcss?: SortTailwindcssOptions;
 }
 
 /** Options for sorting import statements. */
@@ -115,7 +115,7 @@ export interface CustomGroupDefinition {
 }
 
 /** Options for Tailwind CSS class sorting. */
-export interface TailwindcssOptions {
+export interface SortTailwindcssOptions {
 	/** Path to your Tailwind CSS configuration file (v3). Default: `"./tailwind.config.js"` */
 	config?: string;
 
