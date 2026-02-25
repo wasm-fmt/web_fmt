@@ -1,6 +1,6 @@
 {
 	"name": "@fmt/malva-fmt",
-	"version": "0.2.5",
+	"version": "0.2.6",
 	"exports": {
 		".": "./malva_fmt.js",
 		"./esm": "./malva_fmt_esm.js",

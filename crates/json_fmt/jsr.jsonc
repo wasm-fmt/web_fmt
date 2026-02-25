@@ -1,6 +1,6 @@
 {
 	"name": "@fmt/json-fmt",
-	"version": "0.2.5",
+	"version": "0.2.6",
 	"exports": {
 		".": "./json_fmt.js",
 		"./esm": "./json_fmt_esm.js",
