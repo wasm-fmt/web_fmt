@@ -53,7 +53,7 @@ jobs:
         needs: wasm-build
         steps:
             - uses: actions/checkout@v6
-            - uses: actions/download-artifact@v7
+            - uses: actions/download-artifact@v8
               with:
                   name: ${{ matrix.crate }}
                   path: crates/${{ matrix.crate }}
@@ -79,7 +79,7 @@ jobs:
         needs: wasm-build
         steps:
             - uses: actions/checkout@v6
-            - uses: actions/download-artifact@v7
+            - uses: actions/download-artifact@v8
               with:
                   name: ${{ matrix.crate }}
                   path: crates/${{ matrix.crate }}
@@ -102,7 +102,7 @@ jobs:
         needs: wasm-build
         steps:
             - uses: actions/checkout@v6
-            - uses: actions/download-artifact@v7
+            - uses: actions/download-artifact@v8
               with:
                   name: ${{ matrix.crate }}
                   path: crates/${{ matrix.crate }}
@@ -127,7 +127,7 @@ jobs:
         needs: wasm-build
         steps:
             - uses: actions/checkout@v6
-            - uses: actions/download-artifact@v7
+            - uses: actions/download-artifact@v8
               with:
                   name: ${{ matrix.crate }}
                   path: crates/${{ matrix.crate }}
