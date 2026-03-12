@@ -70,7 +70,7 @@ jobs:
               working-directory: crates/${{ matrix.crate }}/pkg
               run: npm pack
             - name: Upload ${{ matrix.crate }}
-              uses: actions/upload-artifact@v6
+              uses: actions/upload-artifact@v7
               with:
                   name: ${{ matrix.crate }}
                   path: |
@@ -82,7 +82,7 @@ jobs:
         needs: wasm-build
         steps:
             - uses: actions/checkout@v6
-            - uses: actions/download-artifact@v7
+            - uses: actions/download-artifact@v8
               with:
                   path: crates
             - uses: actions/setup-node@v6
@@ -95,7 +95,7 @@ jobs:
         needs: wasm-build
         steps:
             - uses: actions/checkout@v6
-            - uses: actions/download-artifact@v7
+            - uses: actions/download-artifact@v8
               with:
                   path: crates
             - uses: denoland/setup-deno@v2
@@ -109,7 +109,7 @@ jobs:
         continue-on-error: true
         steps:
             - uses: actions/checkout@v6
-            - uses: actions/download-artifact@v7
+            - uses: actions/download-artifact@v8
               with:
                   path: crates
             - uses: oven-sh/setup-bun@v2
