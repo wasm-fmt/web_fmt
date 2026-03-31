@@ -92,6 +92,7 @@ impl TryFrom<OxFmtOptions> for oxc_formatter::FormatOptions {
         }
         options.sort_imports = value.inner.sort_imports;
         options.sort_tailwindcss = value.inner.sort_tailwindcss;
+        options.jsdoc = value.inner.jsdoc;
 
         Ok(options)
     }
@@ -202,6 +203,12 @@ pub struct FormatOptions {
         deserialize_with = "deserialize_optional_via_def::<_, TailwindcssOptionsDef, _>"
     )]
     pub sort_tailwindcss: Option<oxc_formatter::SortTailwindcssOptions>,
+
+    /// Enable JSDoc comment formatting.
+    /// When enabled, JSDoc comments are normalized and reformatted.
+    /// Defaults to None (disabled).
+    #[serde(default, deserialize_with = "deserialize_jsdoc")]
+    pub jsdoc: Option<oxc_formatter::JsdocOptions>,
 }
 
 // =============================================================================
@@ -335,6 +342,66 @@ impl From<TailwindcssOptionsDef> for oxc_formatter::SortTailwindcssOptions {
 }
 
 // =============================================================================
+// JSDoc Options
+// =============================================================================
+
+/// Local definition for JsdocOptions to enable deserialization.
+/// This mirrors `oxc_formatter::JsdocOptions`.
+#[derive(Deserialize, Default, Clone)]
+#[serde(rename_all = "camelCase")]
+pub struct JsdocOptionsDef {
+    pub capitalize_descriptions: Option<bool>,
+    #[serde(default, deserialize_with = "deserialize_optional_comment_line_strategy")]
+    pub comment_line_strategy: Option<oxc_formatter::CommentLineStrategy>,
+    pub separate_tag_groups: Option<bool>,
+    pub separate_returns_from_param: Option<bool>,
+    pub bracket_spacing: Option<bool>,
+    pub description_with_dot: Option<bool>,
+    pub add_default_to_description: Option<bool>,
+    pub prefer_code_fences: Option<bool>,
+    #[serde(default, deserialize_with = "deserialize_optional_line_wrapping_style")]
+    pub line_wrapping_style: Option<oxc_formatter::LineWrappingStyle>,
+    pub description_tag: Option<bool>,
+    pub keep_unparsable_example_indent: Option<bool>,
+}
+
+#[derive(Deserialize, Clone)]
+#[serde(untagged)]
+enum JsdocOptionInput {
+    Bool(bool),
+    Object(JsdocOptionsDef),
+}
+
+impl From<JsdocOptionsDef> for oxc_formatter::JsdocOptions {
+    fn from(def: JsdocOptionsDef) -> Self {
+        let defaults = oxc_formatter::JsdocOptions::default();
+        Self {
+            capitalize_descriptions: def
+                .capitalize_descriptions
+                .unwrap_or(defaults.capitalize_descriptions),
+            comment_line_strategy: def
+                .comment_line_strategy
+                .unwrap_or(defaults.comment_line_strategy),
+            separate_tag_groups: def.separate_tag_groups.unwrap_or(defaults.separate_tag_groups),
+            separate_returns_from_param: def
+                .separate_returns_from_param
+                .unwrap_or(defaults.separate_returns_from_param),
+            bracket_spacing: def.bracket_spacing.unwrap_or(defaults.bracket_spacing),
+            description_with_dot: def.description_with_dot.unwrap_or(defaults.description_with_dot),
+            add_default_to_description: def
+                .add_default_to_description
+                .unwrap_or(defaults.add_default_to_description),
+            prefer_code_fences: def.prefer_code_fences.unwrap_or(defaults.prefer_code_fences),
+            line_wrapping_style: def.line_wrapping_style.unwrap_or(defaults.line_wrapping_style),
+            description_tag: def.description_tag.unwrap_or(defaults.description_tag),
+            keep_unparsable_example_indent: def
+                .keep_unparsable_example_indent
+                .unwrap_or(defaults.keep_unparsable_example_indent),
+        }
+    }
+}
+
+// =============================================================================
 // Helper Traits
 // =============================================================================
 
@@ -390,6 +457,54 @@ where
 {
     let def = Option::<Def>::deserialize(deserializer)?;
     Ok(def.map(Into::into))
+}
+
+fn deserialize_optional_comment_line_strategy<'de, D>(
+    deserializer: D,
+) -> Result<Option<oxc_formatter::CommentLineStrategy>, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    let value = Option::<String>::deserialize(deserializer)?;
+    value
+        .map(|s| match s.as_str() {
+            "singleLine" => Ok(oxc_formatter::CommentLineStrategy::SingleLine),
+            "multiline" => Ok(oxc_formatter::CommentLineStrategy::Multiline),
+            "keep" => Ok(oxc_formatter::CommentLineStrategy::Keep),
+            _ => Err(serde::de::Error::custom(format!("Invalid commentLineStrategy: {s}"))),
+        })
+        .transpose()
+}
+
+fn deserialize_optional_line_wrapping_style<'de, D>(
+    deserializer: D,
+) -> Result<Option<oxc_formatter::LineWrappingStyle>, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    let value = Option::<String>::deserialize(deserializer)?;
+    value
+        .map(|s| match s.as_str() {
+            "greedy" => Ok(oxc_formatter::LineWrappingStyle::Greedy),
+            "balance" => Ok(oxc_formatter::LineWrappingStyle::Balance),
+            _ => Err(serde::de::Error::custom(format!("Invalid lineWrappingStyle: {s}"))),
+        })
+        .transpose()
+}
+
+fn deserialize_jsdoc<'de, D>(
+    deserializer: D,
+) -> Result<Option<oxc_formatter::JsdocOptions>, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    let value = Option::<JsdocOptionInput>::deserialize(deserializer)?;
+    Ok(match value {
+        Some(JsdocOptionInput::Bool(true)) => Some(oxc_formatter::JsdocOptions::default()),
+        Some(JsdocOptionInput::Bool(false)) => None,
+        Some(JsdocOptionInput::Object(def)) => Some(def.into()),
+        None => None,
+    })
 }
 
 // =============================================================================

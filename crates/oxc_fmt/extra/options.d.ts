@@ -51,6 +51,9 @@ export interface Config extends LayoutConfig {
 
 	/** Enable Tailwind CSS class sorting in JSX class/className attributes. Defaults to None (disabled). */
 	sortTailwindcss?: SortTailwindcssOptions;
+
+	/** Enable JSDoc comment formatting. Pass `true` or an object to enable with defaults, or omit/set `false` to disable. Default: disabled. */
+	jsdoc?: boolean | JsdocOptions;
 }
 
 /** Options for sorting import statements. */
@@ -133,4 +136,51 @@ export interface SortTailwindcssOptions {
 
 	/** Preserve duplicate classes. Default: `false` */
 	preserveDuplicates?: boolean;
+}
+
+/** Options for JSDoc comment formatting. */
+export interface JsdocOptions {
+	/** Capitalize the first letter of tag descriptions. Default: `true` */
+	capitalizeDescriptions?: boolean;
+
+	/**
+	 * How to format comment blocks.
+	 * - `"singleLine"` - Convert to single-line JSDoc when possible.
+	 * - `"multiline"` - Always use multi-line format.
+	 * - `"keep"` - Preserve original formatting.
+	 * Default: `"singleLine"`.
+	 */
+	commentLineStrategy?: "singleLine" | "multiline" | "keep";
+
+	/** Add blank lines between different tag groups (e.g. between `@param` and `@returns`). Default: `false` */
+	separateTagGroups?: boolean;
+
+	/** Add a blank line between the last `@param` and `@returns`. Default: `false` */
+	separateReturnsFromParam?: boolean;
+
+	/** Add spaces inside JSDoc type braces: `{string}` -> `{ string }`. Default: `false` */
+	bracketSpacing?: boolean;
+
+	/** Add a trailing dot to the end of descriptions. Default: `false` */
+	descriptionWithDot?: boolean;
+
+	/** Append default values to `@param` descriptions (e.g. "Default is `value`"). Default: `true` */
+	addDefaultToDescription?: boolean;
+
+	/** Use fenced code blocks (three backticks) instead of 4-space indentation for code without a language tag. Default: `false` */
+	preferCodeFences?: boolean;
+
+	/**
+	 * Strategy for wrapping description lines at print width.
+	 * - `"greedy"` - Always re-wrap text to fit within print width.
+	 * - `"balance"` - Preserve original line breaks if all lines fit within print width.
+	 * Default: `"greedy"`.
+	 */
+	lineWrappingStyle?: "greedy" | "balance";
+
+	/** Emit `@description` tag instead of inline description. Default: `false` */
+	descriptionTag?: boolean;
+
+	/** Preserve indentation in unparsable `@example` code. Default: `false` */
+	keepUnparsableExampleIndent?: boolean;
 }
