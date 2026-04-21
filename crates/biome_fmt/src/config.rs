@@ -26,47 +26,47 @@ pub struct BiomeConfig {
 #[derive(Deserialize, Default, Clone)]
 pub struct LanguageOptions {
     /// The style for quotes. Defaults to double.
-    #[serde(alias = "quoteStyle", deserialize_with = "deserialize_option_from_str")]
+    #[serde(default, alias = "quoteStyle", deserialize_with = "deserialize_option_from_str")]
     quote_style: Option<QuoteStyle>,
 
     /// The style for JSX quotes. Defaults to double.
-    #[serde(alias = "jsxQuoteStyle", deserialize_with = "deserialize_option_from_str")]
+    #[serde(default, alias = "jsxQuoteStyle", deserialize_with = "deserialize_option_from_str")]
     jsx_quote_style: Option<QuoteStyle>,
 
     /// When properties in objects are quoted. Defaults to as-needed.
-    #[serde(alias = "quoteProperties", deserialize_with = "deserialize_option_from_str")]
+    #[serde(default, alias = "quoteProperties", deserialize_with = "deserialize_option_from_str")]
     quote_properties: Option<QuoteProperties>,
 
     /// Print trailing commas wherever possible in multi-line comma-separated syntactic structures. Defaults to "all".
-    #[serde(alias = "trailingComma", deserialize_with = "deserialize_option_from_str")]
+    #[serde(default, alias = "trailingComma", deserialize_with = "deserialize_option_from_str")]
     trailing_comma: Option<TrailingCommas>,
 
     /// Whether the formatter prints semicolons for all statements, class members, and type members or only when necessary because of [ASI](https://tc39.es/ecma262/multipage/ecmascript-language-lexical-grammar.html#sec-automatic-semicolon-insertion).
-    #[serde(deserialize_with = "deserialize_option_from_str")]
+    #[serde(default, deserialize_with = "deserialize_option_from_str")]
     semicolons: Option<Semicolons>,
 
     /// Whether to add non-necessary parentheses to arrow functions. Defaults to "always".
-    #[serde(alias = "arrowParentheses", deserialize_with = "deserialize_option_from_str")]
+    #[serde(default, alias = "arrowParentheses", deserialize_with = "deserialize_option_from_str")]
     arrow_parentheses: Option<ArrowParentheses>,
 
     /// Whether to insert spaces around brackets in object literals. Defaults to true.
-    #[serde(alias = "bracketSpacing", deserialize_with = "deserialize_option_from_str")]
+    #[serde(default, alias = "bracketSpacing", deserialize_with = "deserialize_option_from_str")]
     bracket_spacing: Option<BracketSpacing>,
 
     /// Whether to hug the closing bracket of multiline HTML/JSX tags to the end of the last line, rather than being alone on the following line. Defaults to false.
-    #[serde(alias = "bracketSameLine", deserialize_with = "deserialize_option_from_str")]
+    #[serde(default, alias = "bracketSameLine", deserialize_with = "deserialize_option_from_str")]
     bracket_same_line: Option<BracketSameLine>,
 
     /// Attribute position style. By default auto.
-    #[serde(alias = "attributePosition", deserialize_with = "deserialize_option_from_str")]
+    #[serde(default, alias = "attributePosition", deserialize_with = "deserialize_option_from_str")]
     attribute_position: Option<AttributePosition>,
 
     /// Whether to expand object and array literals to multiple lines. Defaults to "auto".
-    #[serde(deserialize_with = "deserialize_option_from_str")]
+    #[serde(default, deserialize_with = "deserialize_option_from_str")]
     expand: Option<Expand>,
 
     /// When formatting binary expressions, whether to break the line before or after the operator. Defaults to "after".
-    #[serde(alias = "operatorLinebreak", deserialize_with = "deserialize_option_from_str")]
+    #[serde(default, alias = "operatorLinebreak", deserialize_with = "deserialize_option_from_str")]
     operator_linebreak: Option<OperatorLinebreak>,
 }
 
@@ -174,8 +174,8 @@ where
     T: FromStr,
     T::Err: std::fmt::Display,
 {
-    let s = String::deserialize(deserializer)?;
-    T::from_str(&s).map(Some).map_err(serde::de::Error::custom)
+    let s = Option::<String>::deserialize(deserializer)?;
+    s.map(|value| T::from_str(&value).map_err(serde::de::Error::custom)).transpose()
 }
 
 #[derive(Clone, Copy, Deserialize)]
@@ -191,5 +191,25 @@ impl From<IndentStyle> for BiomeIndentStyle {
             IndentStyle::Tab => Self::Tab,
             IndentStyle::Space => Self::Space,
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::BiomeConfig;
+
+    #[test]
+    fn empty_object_deserializes_to_default_config() {
+        let config: BiomeConfig = serde_json::from_str("{}").unwrap();
+
+        assert!(config.language.quote_style.is_none());
+        assert!(config.language.jsx_quote_style.is_none());
+    }
+
+    #[test]
+    fn camel_case_options_still_deserialize() {
+        let config: BiomeConfig = serde_json::from_str(r#"{"quoteStyle":"single"}"#).unwrap();
+
+        assert!(config.language.quote_style.is_some());
     }
 }
