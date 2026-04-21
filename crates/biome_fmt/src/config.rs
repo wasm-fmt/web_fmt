@@ -58,7 +58,11 @@ pub struct LanguageOptions {
     bracket_same_line: Option<BracketSameLine>,
 
     /// Attribute position style. By default auto.
-    #[serde(default, alias = "attributePosition", deserialize_with = "deserialize_option_from_str")]
+    #[serde(
+        default,
+        alias = "attributePosition",
+        deserialize_with = "deserialize_option_from_str"
+    )]
     attribute_position: Option<AttributePosition>,
 
     /// Whether to expand object and array literals to multiple lines. Defaults to "auto".
@@ -66,7 +70,11 @@ pub struct LanguageOptions {
     expand: Option<Expand>,
 
     /// When formatting binary expressions, whether to break the line before or after the operator. Defaults to "after".
-    #[serde(default, alias = "operatorLinebreak", deserialize_with = "deserialize_option_from_str")]
+    #[serde(
+        default,
+        alias = "operatorLinebreak",
+        deserialize_with = "deserialize_option_from_str"
+    )]
     operator_linebreak: Option<OperatorLinebreak>,
 }
 
