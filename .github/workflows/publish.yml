@@ -135,7 +135,7 @@ jobs:
               working-directory: crates/${{ matrix.crate }}/pkg
               run: npm pack
             - name: Release
-              uses: softprops/action-gh-release@v2
+              uses: softprops/action-gh-release@v3
               with:
                   files: |
                       crates/*/pkg/*.tgz
