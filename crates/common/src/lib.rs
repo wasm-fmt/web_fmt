@@ -104,11 +104,7 @@ impl IndentStyle {
 
     #[must_use]
     pub fn from_use_tabs(use_tabs: bool) -> Self {
-        if use_tabs {
-            IndentStyle::Tab
-        } else {
-            IndentStyle::Space
-        }
+        if use_tabs { IndentStyle::Tab } else { IndentStyle::Space }
     }
 }
 

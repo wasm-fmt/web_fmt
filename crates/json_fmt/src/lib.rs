@@ -2,7 +2,7 @@ mod config;
 
 use biome_formatter::Printed;
 use biome_json_formatter::format_node;
-use biome_json_parser::{parse_json, JsonParserOptions};
+use biome_json_parser::{JsonParserOptions, parse_json};
 
 use config::JsonConfig;
 #[cfg(feature = "wasm-bindgen")]

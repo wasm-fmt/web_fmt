@@ -4,7 +4,7 @@ resolver = "2"
 
     [workspace.package]
     authors    = ["magic-akari <akari.ccino@gmail.com>"]
-    edition    = "2021"
+    edition    = "2024"
     homepage   = "https://github.com/wasm-fmt/web_fmt"
     license    = "MIT"
     readme     = "README.md"

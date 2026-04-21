@@ -3,7 +3,7 @@ mod config;
 pub use oxc_formatter::{EmbeddedFormatterCallback, ExternalCallbacks};
 
 use oxc_allocator::Allocator;
-use oxc_formatter::{get_parse_options, FormatOptions, Formatter};
+use oxc_formatter::{FormatOptions, Formatter, get_parse_options};
 use oxc_parser::Parser;
 use oxc_span::SourceType;
 

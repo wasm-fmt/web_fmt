@@ -411,11 +411,7 @@ trait FromUseSingle {
 
 impl FromUseSingle for oxc_formatter::QuoteStyle {
     fn from_use_single(value: bool) -> Self {
-        if value {
-            oxc_formatter::QuoteStyle::Single
-        } else {
-            oxc_formatter::QuoteStyle::Double
-        }
+        if value { oxc_formatter::QuoteStyle::Single } else { oxc_formatter::QuoteStyle::Double }
     }
 }
 
@@ -534,8 +530,8 @@ mod import_selector {
 
 /// Custom deserialization module for ImportModifier
 mod import_modifiers {
-    use serde::de::{SeqAccess, Visitor};
     use serde::Deserializer;
+    use serde::de::{SeqAccess, Visitor};
     use std::fmt;
 
     pub fn deserialize<'de, D>(

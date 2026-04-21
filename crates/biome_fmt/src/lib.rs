@@ -5,7 +5,7 @@ pub use config::IndentStyle;
 
 use biome_js_formatter::format_node as biome_format_node;
 use biome_js_formatter::format_range as biome_format_range;
-use biome_js_parser::{parse, JsParserOptions};
+use biome_js_parser::{JsParserOptions, parse};
 use biome_js_syntax::{
     JsFileSource, LanguageVariant, ModuleKind, TextRange as BiomeTextRange, TextSize,
 };
@@ -225,11 +225,7 @@ pub(crate) fn source_type_from_filename(mut filename: &str) -> JsFileSource {
     }
 
     let source = if t_flag {
-        if d_flag {
-            JsFileSource::d_ts()
-        } else {
-            JsFileSource::ts()
-        }
+        if d_flag { JsFileSource::d_ts() } else { JsFileSource::ts() }
     } else {
         JsFileSource::js_module()
     };
