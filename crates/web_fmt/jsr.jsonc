@@ -1,6 +1,6 @@
 {
 	"name": "@fmt/web-fmt",
-	"version": "0.2.8",
+	"version": "0.2.9",
 	"exports": {
 		".": "./web_fmt.js",
 		"./esm": "./web_fmt_esm.js",

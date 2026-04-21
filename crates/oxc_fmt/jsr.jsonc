@@ -1,6 +1,6 @@
 {
 	"name": "@fmt/oxc-fmt",
-	"version": "0.2.8",
+	"version": "0.2.9",
 	"exports": {
 		".": "./oxc_fmt.js",
 		"./esm": "./oxc_fmt_esm.js",
