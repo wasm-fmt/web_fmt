@@ -29,7 +29,7 @@ jobs:
             - name: Enable long paths on Windows
               if: runner.os == 'Windows'
               run: git config --global core.longpaths true
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@v7
             - uses: taiki-e/install-action@v2
               with:
                   tool: dprint,taplo,just
@@ -40,7 +40,7 @@ jobs:
         name: Audit
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@v7
             - uses: taiki-e/install-action@v2
               with:
                   tool: cargo-audit
@@ -60,7 +60,7 @@ jobs:
                     - "oxc_fmt"
                     - "web_fmt"
         steps:
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@v7
             - uses: taiki-e/install-action@v2
               with:
                   tool: wasm-pack,just
@@ -81,7 +81,7 @@ jobs:
         runs-on: ubuntu-latest
         needs: wasm-build
         steps:
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@v7
             - uses: actions/download-artifact@v8
               with:
                   path: crates
@@ -94,7 +94,7 @@ jobs:
         runs-on: ubuntu-latest
         needs: wasm-build
         steps:
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@v7
             - uses: actions/download-artifact@v8
               with:
                   path: crates
@@ -108,7 +108,7 @@ jobs:
         needs: wasm-build
         continue-on-error: true
         steps:
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@v7
             - uses: actions/download-artifact@v8
               with:
                   path: crates

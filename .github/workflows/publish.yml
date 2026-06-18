@@ -25,7 +25,7 @@ jobs:
                     - "oxc_fmt"
                     - "web_fmt"
         steps:
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@v7
             - uses: taiki-e/install-action@v2
               with:
                   tool: wasm-pack,just
@@ -52,7 +52,7 @@ jobs:
                 crate: *all_crates
         needs: wasm-build
         steps:
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@v7
             - uses: actions/download-artifact@v8
               with:
                   name: ${{ matrix.crate }}
@@ -78,7 +78,7 @@ jobs:
                 crate: *all_crates
         needs: wasm-build
         steps:
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@v7
             - uses: actions/download-artifact@v8
               with:
                   name: ${{ matrix.crate }}
@@ -101,7 +101,7 @@ jobs:
                 crate: *all_crates
         needs: wasm-build
         steps:
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@v7
             - uses: actions/download-artifact@v8
               with:
                   name: ${{ matrix.crate }}
@@ -126,7 +126,7 @@ jobs:
                 crate: *all_crates
         needs: wasm-build
         steps:
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@v7
             - uses: actions/download-artifact@v8
               with:
                   name: ${{ matrix.crate }}
