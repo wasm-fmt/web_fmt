@@ -85,7 +85,7 @@ jobs:
             - uses: actions/download-artifact@v8
               with:
                   path: crates
-            - uses: actions/setup-node@v6
+            - uses: actions/setup-node@v7
               with:
                   node-version-file: ".node-version"
             - run: node --test crates/**/test_node/*.mjs
