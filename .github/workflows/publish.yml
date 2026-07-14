@@ -57,7 +57,7 @@ jobs:
               with:
                   name: ${{ matrix.crate }}
                   path: crates/${{ matrix.crate }}
-            - uses: actions/setup-node@v6
+            - uses: actions/setup-node@v7
               with:
                   node-version-file: ".node-version"
                   registry-url: "https://registry.npmjs.org"
@@ -83,7 +83,7 @@ jobs:
               with:
                   name: ${{ matrix.crate }}
                   path: crates/${{ matrix.crate }}
-            - uses: actions/setup-node@v6
+            - uses: actions/setup-node@v7
               with:
                   node-version-file: ".node-version"
                   registry-url: "https://registry.npmjs.org"
@@ -106,7 +106,7 @@ jobs:
               with:
                   name: ${{ matrix.crate }}
                   path: crates/${{ matrix.crate }}
-            - uses: actions/setup-node@v6
+            - uses: actions/setup-node@v7
               with:
                   node-version-file: ".node-version"
                   registry-url: "https://npm.pkg.github.com"
