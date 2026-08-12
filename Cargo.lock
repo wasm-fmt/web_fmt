@@ -714,16 +714,16 @@ checksum = "32a66949e030da00e8c7d4434b251670a91556f4144941d37452769c25d58a53"
 
 [[package]]
 name = "malva"
-version = "0.15.3"
+version = "0.16.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7b5322f15714c4c20d0daa53813d648f5ef660556c728fdc10a79b8754bb046d"
+checksum = "ed54a855fc80dddeb3518c03d04a2bb06954955297ee514429935149e58eaa75"
 dependencies = [
  "aho-corasick",
  "itertools",
  "memchr",
  "raffia",
  "serde",
- "tiny_pretty",
+ "tiny_pretty 0.4.3",
 ]
 
 [[package]]
@@ -769,7 +769,7 @@ dependencies = [
  "itertools",
  "memchr",
  "serde",
- "tiny_pretty",
+ "tiny_pretty 0.2.1",
 ]
 
 [[package]]
@@ -1165,7 +1165,7 @@ dependencies = [
  "memchr",
  "rowan",
  "serde",
- "tiny_pretty",
+ "tiny_pretty 0.2.1",
 ]
 
 [[package]]
@@ -1495,6 +1495,12 @@ checksum = "650d82e943da333637be9f1567d33d605e76810a26464edfd7ae74f7ef181e95"
 dependencies = [
  "unicode-width 0.2.2",
 ]
+
+[[package]]
+name = "tiny_pretty"
+version = "0.4.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4c4c0dd4d9821b02f4a9848656f971304402049d80fb434d64a83890b2ade7d7"
 
 [[package]]
 name = "tinyvec"
