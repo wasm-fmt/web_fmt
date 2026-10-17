@@ -33,6 +33,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "683d7910e743518b0e34f1186f92494becacb047c7b6bf616c96772180fef923"
 
 [[package]]
+name = "anyhow"
+version = "1.0.104"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "330a5ed07fa54e4702c9d6c4174f74427fc0ef6e214bbd677ae50a5099946470"
+
+[[package]]
 name = "apollo-parser"
 version = "0.8.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -661,6 +667,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "itertools"
+version = "0.15.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "8b4baf93f58d4425749ca49a51c50ebab072c5df6994d08fed93541c331481dc"
+dependencies = [
+ "either",
+]
+
+[[package]]
 name = "itoa"
 version = "1.0.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -719,11 +734,11 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7b5322f15714c4c20d0daa53813d648f5ef660556c728fdc10a79b8754bb046d"
 dependencies = [
  "aho-corasick",
- "itertools",
+ "itertools 0.14.0",
  "memchr",
  "raffia",
  "serde",
- "tiny_pretty",
+ "tiny_pretty 0.2.1",
 ]
 
 [[package]]
@@ -752,7 +767,7 @@ name = "markup_fmt"
 version = "0.2.9"
 dependencies = [
  "common",
- "markup_fmt 0.27.1",
+ "markup_fmt 0.27.6",
  "serde",
  "serde-wasm-bindgen",
  "wasm-bindgen",
@@ -760,16 +775,18 @@ dependencies = [
 
 [[package]]
 name = "markup_fmt"
-version = "0.27.1"
+version = "0.27.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3fae5f4b43394d348e9820533e86a500ea31cf39b74318d74dd9e58e73aa3186"
+checksum = "df2c4bb9a66c59714ba02c074187491e30daaf99127dcb287ce2aa8fa0c1a9fe"
 dependencies = [
  "aho-corasick",
+ "anyhow",
  "css_dataset",
- "itertools",
+ "itertools 0.15.0",
  "memchr",
+ "regex",
  "serde",
- "tiny_pretty",
+ "tiny_pretty 0.4.4",
 ]
 
 [[package]]
@@ -1165,7 +1182,7 @@ dependencies = [
  "memchr",
  "rowan",
  "serde",
- "tiny_pretty",
+ "tiny_pretty 0.2.1",
 ]
 
 [[package]]
@@ -1251,10 +1268,33 @@ dependencies = [
 ]
 
 [[package]]
+name = "regex"
+version = "1.13.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2a0e75113e14dc5acb068cd0786884f214f1312650a3d36d269f5c4f3cdee8a2"
+dependencies = [
+ "aho-corasick",
+ "memchr",
+ "regex-automata",
+ "regex-syntax",
+]
+
+[[package]]
 name = "regex-automata"
 version = "0.4.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "6e1dd4122fc1595e8162618945476892eefca7b88c52820e74af6262213cae8f"
+dependencies = [
+ "aho-corasick",
+ "memchr",
+ "regex-syntax",
+]
+
+[[package]]
+name = "regex-syntax"
+version = "0.8.11"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d6f6ff9a378485b298a5286656da665ba74413d36db0979633275d2e708145d4"
 
 [[package]]
 name = "rowan"
@@ -1492,6 +1532,12 @@ name = "tiny_pretty"
 version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "650d82e943da333637be9f1567d33d605e76810a26464edfd7ae74f7ef181e95"
+
+[[package]]
+name = "tiny_pretty"
+version = "0.4.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f9075ffd5649e8e8de43dc4199e0b65a0a980bc3068df740d071facd987965d9"
 dependencies = [
  "unicode-width 0.2.2",
 ]
@@ -1661,7 +1707,7 @@ dependencies = [
  "malva",
  "malva_fmt",
  "markup_fmt 0.2.9",
- "markup_fmt 0.27.1",
+ "markup_fmt 0.27.6",
  "serde",
  "serde-wasm-bindgen",
  "serde_json",
