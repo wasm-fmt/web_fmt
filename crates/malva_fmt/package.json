@@ -57,7 +57,7 @@
 			"default": "./malva_fmt.js"
 		},
 		"./vite": {
-			"types": "./malva_fmt.d.ts",
+			"types": "./malva_fmt_vite.d.ts",
 			"default": "./malva_fmt_vite.js"
 		},
 		"./web": {

@@ -54,7 +54,7 @@
 			"default": "./json_fmt.js"
 		},
 		"./vite": {
-			"types": "./json_fmt.d.ts",
+			"types": "./json_fmt_vite.d.ts",
 			"default": "./json_fmt_vite.js"
 		},
 		"./web": {
