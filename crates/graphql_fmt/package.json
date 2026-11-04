@@ -54,7 +54,7 @@
 			"default": "./graphql_fmt.js"
 		},
 		"./vite": {
-			"types": "./graphql_fmt.d.ts",
+			"types": "./graphql_fmt_vite.d.ts",
 			"default": "./graphql_fmt_vite.js"
 		},
 		"./web": {

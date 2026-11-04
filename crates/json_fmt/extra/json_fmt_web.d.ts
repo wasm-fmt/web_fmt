@@ -41,4 +41,4 @@ export default function initAsync(init_input?: InitInput | Promise<InitInput>): 
  */
 export declare function initSync(module_or_buffer: SyncInitInput): InitOutput;
 
-export * from "./json_fmt.d.ts";
+export * from "./json_fmt.js";

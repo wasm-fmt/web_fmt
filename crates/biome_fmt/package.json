@@ -55,7 +55,7 @@
 			"default": "./biome_fmt.js"
 		},
 		"./vite": {
-			"types": "./biome_fmt.d.ts",
+			"types": "./biome_fmt_vite.d.ts",
 			"default": "./biome_fmt_vite.js"
 		},
 		"./web": {

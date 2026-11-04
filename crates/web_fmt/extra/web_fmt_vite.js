@@ -1,4 +1,4 @@
-/* @ts-self-types="./web_fmt_web.d.ts" */
+/* @ts-self-types="./web_fmt_vite.d.ts" */
 import init from "./web_fmt_bg.wasm?init";
 import * as import_bg from "./web_fmt_bg.js";
 const { __wbg_set_wasm, format, ...wasmImport } = import_bg;

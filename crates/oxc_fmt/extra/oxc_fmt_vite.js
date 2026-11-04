@@ -1,4 +1,4 @@
-/* @ts-self-types="./oxc_fmt_web.d.ts" */
+/* @ts-self-types="./oxc_fmt_vite.d.ts" */
 import init from "./oxc_fmt_bg.wasm?init";
 import * as import_bg from "./oxc_fmt_bg.js";
 const { __wbg_set_wasm, format, ...wasmImport } = import_bg;

@@ -55,7 +55,7 @@
 			"default": "./oxc_fmt.js"
 		},
 		"./vite": {
-			"types": "./oxc_fmt.d.ts",
+			"types": "./oxc_fmt_vite.d.ts",
 			"default": "./oxc_fmt_vite.js"
 		},
 		"./web": {

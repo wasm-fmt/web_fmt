@@ -57,7 +57,7 @@
 			"default": "./markup_fmt.js"
 		},
 		"./vite": {
-			"types": "./markup_fmt.d.ts",
+			"types": "./markup_fmt_vite.d.ts",
 			"default": "./markup_fmt_vite.js"
 		},
 		"./web": {
