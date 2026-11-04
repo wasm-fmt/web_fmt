@@ -5,3 +5,4 @@ export default function initAsync(): Promise<InitOutput>;
 
 export { initSync, type SyncInitInput } from "./web_fmt_web.js";
 export { format } from "./web_fmt.js";
+export type * from "./web_fmt.js";

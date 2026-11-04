@@ -5,3 +5,4 @@ export default function initAsync(): Promise<InitOutput>;
 
 export { initSync, type SyncInitInput } from "./graphql_fmt_web.js";
 export { format } from "./graphql_fmt.js";
+export type * from "./graphql_fmt.js";

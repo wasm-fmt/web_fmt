@@ -5,3 +5,4 @@ export default function initAsync(): Promise<InitOutput>;
 
 export { initSync, type SyncInitInput } from "./oxc_fmt_web.js";
 export { format } from "./oxc_fmt.js";
+export type * from "./oxc_fmt.js";
