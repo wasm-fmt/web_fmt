@@ -24,6 +24,7 @@ default = ["main"]
 main    = ["wasm-bindgen", "serde-wasm-bindgen", "common/wasm-bindgen"]
 
 [dependencies]
+anyhow      = { workspace = true }
 common      = { workspace = true, features = ["serde"] }
 markup_fmt_core = { workspace = true }
 

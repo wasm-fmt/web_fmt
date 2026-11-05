@@ -25,7 +25,7 @@ jobs:
                     - "oxc_fmt"
                     - "web_fmt"
         steps:
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@v7
             - uses: taiki-e/install-action@v2
               with:
                   tool: wasm-pack,just
@@ -52,12 +52,12 @@ jobs:
                 crate: *all_crates
         needs: wasm-build
         steps:
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@v7
             - uses: actions/download-artifact@v8
               with:
                   name: ${{ matrix.crate }}
                   path: crates/${{ matrix.crate }}
-            - uses: actions/setup-node@v6
+            - uses: actions/setup-node@v7
               with:
                   node-version-file: ".node-version"
                   registry-url: "https://registry.npmjs.org"
@@ -78,12 +78,12 @@ jobs:
                 crate: *all_crates
         needs: wasm-build
         steps:
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@v7
             - uses: actions/download-artifact@v8
               with:
                   name: ${{ matrix.crate }}
                   path: crates/${{ matrix.crate }}
-            - uses: actions/setup-node@v6
+            - uses: actions/setup-node@v7
               with:
                   node-version-file: ".node-version"
                   registry-url: "https://registry.npmjs.org"
@@ -101,12 +101,12 @@ jobs:
                 crate: *all_crates
         needs: wasm-build
         steps:
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@v7
             - uses: actions/download-artifact@v8
               with:
                   name: ${{ matrix.crate }}
                   path: crates/${{ matrix.crate }}
-            - uses: actions/setup-node@v6
+            - uses: actions/setup-node@v7
               with:
                   node-version-file: ".node-version"
                   registry-url: "https://npm.pkg.github.com"
@@ -126,7 +126,7 @@ jobs:
                 crate: *all_crates
         needs: wasm-build
         steps:
-            - uses: actions/checkout@v6
+            - uses: actions/checkout@v7
             - uses: actions/download-artifact@v8
               with:
                   name: ${{ matrix.crate }}
@@ -135,7 +135,7 @@ jobs:
               working-directory: crates/${{ matrix.crate }}/pkg
               run: npm pack
             - name: Release
-              uses: softprops/action-gh-release@v2
+              uses: softprops/action-gh-release@v3
               with:
                   files: |
                       crates/*/pkg/*.tgz

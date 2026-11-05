@@ -88,7 +88,7 @@ impl<F: EmbeddedFormatter> FormatMarkup<'_, F> {
         let Self { src, config: markup_config, embed_formatter, .. } = self;
 
         markup_fmt_core::format_text(src, language, &markup_config, |embed_src, hints| {
-            format_embedded(embed_src, hints, &embed_formatter)
+            format_embedded(embed_src, hints, &embed_formatter).map_err(anyhow::Error::msg)
         })
         .map_err(|e| format!("{e:?}"))
     }
