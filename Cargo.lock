@@ -665,15 +665,6 @@ dependencies = [
 
 [[package]]
 name = "itertools"
-version = "0.14.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2b192c782037fadd9cfa75548310488aabdbf3d2da73885b31bd0abd03351285"
-dependencies = [
- "either",
-]
-
-[[package]]
-name = "itertools"
 version = "0.15.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8b4baf93f58d4425749ca49a51c50ebab072c5df6994d08fed93541c331481dc"
@@ -735,12 +726,12 @@ checksum = "32a66949e030da00e8c7d4434b251670a91556f4144941d37452769c25d58a53"
 
 [[package]]
 name = "malva"
-version = "0.16.0"
+version = "0.16.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ed54a855fc80dddeb3518c03d04a2bb06954955297ee514429935149e58eaa75"
+checksum = "888b106b195d620934abe13b3aa3992048c166632e819c420858f8a9447c06d2"
 dependencies = [
  "aho-corasick",
- "itertools 0.14.0",
+ "itertools",
  "memchr",
  "raffia",
  "serde",
@@ -789,7 +780,7 @@ dependencies = [
  "aho-corasick",
  "anyhow",
  "css_dataset",
- "itertools 0.15.0",
+ "itertools",
  "memchr",
  "regex",
  "serde",
@@ -1243,9 +1234,9 @@ dependencies = [
 
 [[package]]
 name = "raffia"
-version = "0.12.2"
+version = "0.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "826278ad840a1f047475ac36c40569b953b0b5359b126d7a09058e2a42151f89"
+checksum = "0a83eb5987650fcfc3f2e912d3a718f19b8e87c0d980e12e36edf79fa0221d93"
 dependencies = [
  "raffia_macro",
  "serde",
